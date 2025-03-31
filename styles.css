@@ -218,23 +218,65 @@ section h2 {
   color: #ff5722;
 }
 
+.cart-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+button#btnLimparCarrinho {
+  flex: 1;
+  padding: 15px;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+button#btnLimparCarrinho:hover {
+  background-color: #d32f2f;
+}
+
 button#btnImprimir {
-  display: block;
-  width: 100%;
+  flex: 1;
   padding: 15px;
   background-color: #ff5722;
   color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  margin-top: 15px;
   font-size: 1rem;
   font-weight: 600;
   transition: background-color 0.3s;
 }
 
-button#btnImprimir:hover {
-  background-color: #e64a19;
+.btn-remove-item {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-remove-item:hover {
+  background-color: #d32f2f;
+}
+
+.cart-item-actions {
+  display: flex;
+  align-items: center;
 }
 
 @media (max-width: 768px) {

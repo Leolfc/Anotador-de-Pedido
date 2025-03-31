@@ -16,6 +16,7 @@ const adicionais = {
 const carrinho = {
   itens: {},
   total: 0,
+  contador: 0, // Contador para gerar IDs únicos para cada item adicionado
 };
 
 // Inicialização
@@ -44,6 +45,12 @@ document.addEventListener("DOMContentLoaded", function () {
   botoesRemover.forEach((botao) => {
     botao.addEventListener("click", removerItem);
   });
+
+  // Adicionar evento para o botão de limpar carrinho
+  const btnLimparCarrinho = document.getElementById("btnLimparCarrinho");
+  if (btnLimparCarrinho) {
+    btnLimparCarrinho.addEventListener("click", limparCarrinho);
+  }
 });
 
 // Função para adicionar um item ao carrinho
@@ -81,22 +88,21 @@ function adicionarItem(event) {
     }
   }
 
-  // Adicionar ou atualizar item no carrinho
-  const itemKey = `${id}${adicionalId ? "-" + adicionalId : ""}`;
+  // Gerar um ID único para este item específico
+  carrinho.contador++;
+  const itemUniqueKey = `item_${carrinho.contador}`;
 
-  if (carrinho.itens[itemKey]) {
-    carrinho.itens[itemKey].quantidade += 1;
-  } else {
-    carrinho.itens[itemKey] = {
-      id,
-      nome,
-      valor,
-      quantidade: 1,
-      adicionalId,
-      adicionalNome,
-      adicionalPreco,
-    };
-  }
+  // Adicionar novo item ao carrinho (cada adição é um item separado)
+  carrinho.itens[itemUniqueKey] = {
+    id,
+    nome,
+    valor,
+    quantidade: 1,
+    adicionalId,
+    adicionalNome,
+    adicionalPreco,
+    uniqueId: itemUniqueKey
+  };
 
   // Atualizar carrinho e total
   atualizarCarrinho();
@@ -140,18 +146,84 @@ function removerItem(event) {
       }
     }
 
-    // Remover ou atualizar item no carrinho
-    const itemKey = `${id}${adicionalId ? "-" + adicionalId : ""}`;
-
-    if (carrinho.itens[itemKey]) {
-      carrinho.itens[itemKey].quantidade -= 1;
-
-      if (carrinho.itens[itemKey].quantidade <= 0) {
-        delete carrinho.itens[itemKey];
+    // Encontrar e remover o último item adicionado que corresponda ao id e adicional
+    const itemsToRemove = [];
+    for (const key in carrinho.itens) {
+      const item = carrinho.itens[key];
+      if (item.id === id && item.adicionalId === adicionalId) {
+        itemsToRemove.push(key);
       }
     }
 
+    if (itemsToRemove.length > 0) {
+      // Remover o último item adicionado
+      delete carrinho.itens[itemsToRemove[itemsToRemove.length - 1]];
+    }
+
     // Atualizar carrinho e total
+    atualizarCarrinho();
+  }
+}
+
+// Função para limpar todo o carrinho
+function limparCarrinho() {
+  // Limpar todos os itens do carrinho
+  carrinho.itens = {};
+  carrinho.total = 0;
+  
+  // Resetar todas as quantidades na interface
+  const qtySpans = document.querySelectorAll(".item-qty");
+  qtySpans.forEach(span => {
+    span.textContent = "0";
+  });
+  
+  // Esconder todos os seletores de adicionais
+  const adicionaisSelectors = document.querySelectorAll(".adicional-selector");
+  adicionaisSelectors.forEach(selector => {
+    selector.style.display = "none";
+    const select = selector.querySelector("select");
+    if (select) {
+      select.selectedIndex = 0;
+    }
+  });
+  
+  // Atualizar a interface do carrinho
+  atualizarCarrinho();
+}
+
+// Função para remover um item específico do carrinho (pelo botão X no carrinho)
+function removerItemDoCarrinho(uniqueId) {
+  if (carrinho.itens[uniqueId]) {
+    const item = carrinho.itens[uniqueId];
+    const id = item.id;
+    
+    // Decrementar a quantidade exibida na interface
+    const itemDivs = document.querySelectorAll(`.item[data-id="${id}"]`);
+    itemDivs.forEach(itemDiv => {
+      const qtySpan = itemDiv.querySelector(".item-qty");
+      let quantidade = parseInt(qtySpan.textContent);
+      if (quantidade > 0) {
+        quantidade -= 1;
+        qtySpan.textContent = quantidade;
+        
+        // Esconder seletor de adicional se quantidade chegar a zero
+        if (quantidade === 0) {
+          const adicionalSelector = itemDiv.querySelector(".adicional-selector");
+          if (adicionalSelector) {
+            adicionalSelector.style.display = "none";
+            const select = adicionalSelector.querySelector("select");
+            if (select) {
+              select.selectedIndex = 0;
+            }
+          }
+        }
+      }
+    });
+    
+    // Remover item do carrinho
+    delete carrinho.itens[uniqueId];
+    
+    // Atualizar carrinho
     atualizarCarrinho();
   }
 }
@@ -170,34 +242,36 @@ function atualizarCarrinho() {
 
   for (const itemKey in carrinho.itens) {
     const item = carrinho.itens[itemKey];
-    if (item.quantidade > 0) {
-      temItens = true;
+    temItens = true;
 
-      // Calcular subtotal do item
-      const valorItem = item.valor;
-      const valorAdicional = item.adicionalPreco || 0;
-      const subtotal = (valorItem + valorAdicional) * item.quantidade;
+    // Calcular subtotal do item
+    const valorItem = item.valor;
+    const valorAdicional = item.adicionalPreco || 0;
+    const subtotal = (valorItem + valorAdicional) * item.quantidade;
 
-      // Adicionar ao total
-      total += subtotal;
+    // Adicionar ao total
+    total += subtotal;
 
-      // Criar elemento de item no carrinho
-      const divItem = document.createElement("div");
-      divItem.className = "cart-item";
+    // Criar elemento de item no carrinho
+    const divItem = document.createElement("div");
+    divItem.className = "cart-item";
+    divItem.dataset.uniqueId = item.uniqueId;
 
-      // Texto do item (com ou sem adicional)
-      let itemNome = `${item.quantidade}x ${item.nome}`;
-      if (item.adicionalNome) {
-        itemNome += `<br><small>+ ${item.adicionalNome}</small>`;
-      }
-
-      divItem.innerHTML = `
-        <div class="cart-item-name">${itemNome}</div>
-        <div class="cart-item-price">R$ ${subtotal.toFixed(2)}</div>
-      `;
-
-      itensCarrinho.appendChild(divItem);
+    // Texto do item (com ou sem adicional)
+    let itemNome = `${item.nome}`;
+    if (item.adicionalNome) {
+      itemNome += `<br><small>+ ${item.adicionalNome}</small>`;
     }
+
+    divItem.innerHTML = `
+      <div class="cart-item-name">${itemNome}</div>
+      <div class="cart-item-actions">
+        <div class="cart-item-price">R$ ${subtotal.toFixed(2)}</div>
+        <button type="button" class="btn-remove-item" onclick="removerItemDoCarrinho('${item.uniqueId}')">×</button>
+      </div>
+    `;
+
+    itensCarrinho.appendChild(divItem);
   }
 
   // Mostrar mensagem se não houver itens
@@ -224,36 +298,34 @@ document.addEventListener("change", function (event) {
     const quantidade = parseInt(itemDiv.querySelector(".item-qty").textContent);
 
     if (quantidade > 0) {
-      // Encontrar e remover item anterior
-      for (const itemKey in carrinho.itens) {
-        if (itemKey.startsWith(id + "-") || itemKey === id) {
-          delete carrinho.itens[itemKey];
-        }
-      }
-
-      // Adicionar novo item com o adicional selecionado
+      // Gerar um novo ID único para este item
+      carrinho.contador++;
+      const itemUniqueKey = `item_${carrinho.contador}`;
+      
+      // Adicionar o novo item com o adicional selecionado
       const adicionalId = event.target.value;
-      const itemKey = adicionalId ? `${id}-${adicionalId}` : id;
-
+      
       if (adicionalId) {
-        carrinho.itens[itemKey] = {
+        carrinho.itens[itemUniqueKey] = {
           id,
           nome,
           valor,
-          quantidade,
+          quantidade: 1,
           adicionalId,
           adicionalNome: adicionais[adicionalId].nome,
           adicionalPreco: adicionais[adicionalId].preco,
+          uniqueId: itemUniqueKey
         };
       } else {
-        carrinho.itens[id] = {
+        carrinho.itens[itemUniqueKey] = {
           id,
           nome,
           valor,
-          quantidade,
+          quantidade: 1,
           adicionalId: "",
           adicionalNome: "",
           adicionalPreco: 0,
+          uniqueId: itemUniqueKey
         };
       }
 
@@ -290,22 +362,20 @@ function imprimirPedido() {
   // Adicionar itens ao conteúdo
   for (const itemKey in carrinho.itens) {
     const item = carrinho.itens[itemKey];
-    if (item.quantidade > 0) {
-      const valorItem = item.valor;
-      const valorAdicional = item.adicionalPreco || 0;
-      const subtotal = (valorItem + valorAdicional) * item.quantidade;
+    const valorItem = item.valor;
+    const valorAdicional = item.adicionalPreco || 0;
+    const subtotal = (valorItem + valorAdicional) * item.quantidade;
 
-      conteudo += `<div class="item">`;
-      conteudo += `<div class="item-nome">${item.quantidade}x ${item.nome}`;
+    conteudo += `<div class="item">`;
+    conteudo += `<div class="item-nome">${item.nome}`;
 
-      if (item.adicionalNome) {
-        conteudo += `<div class="adicional">+ ${item.adicionalNome}</div>`;
-      }
-
-      conteudo += `</div>`;
-      conteudo += `<div class="item-preco">R$ ${subtotal.toFixed(2)}</div>`;
-      conteudo += `</div>`;
+    if (item.adicionalNome) {
+      conteudo += `<div class="adicional">+ ${item.adicionalNome}</div>`;
     }
+
+    conteudo += `</div>`;
+    conteudo += `<div class="item-preco">R$ ${subtotal.toFixed(2)}</div>`;
+    conteudo += `</div>`;
   }
 
   // Adicionar total e data
