@@ -18,6 +18,7 @@ const carrinho = {
   total: 0,
   contador: 0, // Contador para gerar IDs únicos para cada item adicionado
   itemAtual: null, // Referência para o item sendo editado atualmente
+  nomeCliente: "", // Nome do cliente para o pedido
 };
 
 // Inicialização
@@ -44,7 +45,133 @@ document.addEventListener("DOMContentLoaded", function () {
   if (btnLimparCarrinho) {
     btnLimparCarrinho.addEventListener("click", limparCarrinho);
   }
+
+  // Configurar pesquisa
+  configurarPesquisa();
+
+  // Adicionar evento para atualizar o nome do cliente
+  const nomeClienteInput = document.getElementById("nomeCliente");
+  if (nomeClienteInput) {
+    nomeClienteInput.addEventListener("input", function () {
+      carrinho.nomeCliente = this.value.trim();
+    });
+
+    // Verificar se há um nome salvo no localStorage
+    const nomeSalvo = localStorage.getItem("nomeCliente");
+    if (nomeSalvo) {
+      nomeClienteInput.value = nomeSalvo;
+      carrinho.nomeCliente = nomeSalvo;
+    }
+  }
 });
+
+// Configurar a funcionalidade de pesquisa
+function configurarPesquisa() {
+  const pesquisaInput = document.getElementById("pesquisaInput");
+  const btnPesquisar = document.getElementById("btnPesquisar");
+  const searchResultsCount = document.getElementById("searchResultsCount");
+
+  // Função para realizar a pesquisa
+  function realizarPesquisa() {
+    const termoPesquisa = pesquisaInput.value.trim().toLowerCase();
+
+    if (termoPesquisa.length < 2) {
+      // Remover destaques anteriores
+      document.querySelectorAll(".item").forEach((item) => {
+        item.classList.remove("destaque");
+        item.style.display = "";
+      });
+
+      // Mostrar todas as seções
+      document.querySelectorAll("section").forEach((section) => {
+        section.style.display = "";
+      });
+
+      searchResultsCount.textContent = "";
+      return;
+    }
+
+    let itensEncontrados = 0;
+    const sections = document.querySelectorAll("section");
+
+    // Para cada seção, verificar os itens
+    sections.forEach((section) => {
+      let itensVisiveis = 0;
+      const itens = section.querySelectorAll(".item");
+
+      itens.forEach((item) => {
+        const nomeItem = item
+          .querySelector(".item-name")
+          .textContent.toLowerCase();
+        const descricaoItem = item.querySelector(".item-desc")
+          ? item.querySelector(".item-desc").textContent.toLowerCase()
+          : "";
+
+        // Verificar se o termo de pesquisa está presente no nome ou na descrição
+        if (
+          nomeItem.includes(termoPesquisa) ||
+          descricaoItem.includes(termoPesquisa)
+        ) {
+          item.classList.add("destaque");
+          item.style.display = "";
+          itensVisiveis++;
+          itensEncontrados++;
+        } else {
+          item.classList.remove("destaque");
+          item.style.display = "none";
+        }
+      });
+
+      // Mostrar ou ocultar a seção dependendo se há itens visíveis
+      section.style.display = itensVisiveis > 0 ? "" : "none";
+    });
+
+    // Atualizar contador de resultados
+    if (itensEncontrados === 0) {
+      searchResultsCount.textContent = "Nenhum item encontrado";
+    } else {
+      searchResultsCount.textContent = `${itensEncontrados} ${
+        itensEncontrados === 1 ? "item encontrado" : "itens encontrados"
+      }`;
+    }
+
+    // Fazer scroll para o primeiro item encontrado
+    const primeiroEncontrado = document.querySelector(".destaque");
+    if (primeiroEncontrado) {
+      primeiroEncontrado.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }
+
+  // Vincular eventos
+  btnPesquisar.addEventListener("click", realizarPesquisa);
+
+  // Pesquisar ao pressionar Enter
+  pesquisaInput.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") {
+      realizarPesquisa();
+    } else if (e.key === "Escape") {
+      pesquisaInput.value = "";
+      realizarPesquisa();
+    } else if (pesquisaInput.value.trim().length >= 2) {
+      // Pesquisa automática enquanto digita (após 2 caracteres)
+      setTimeout(realizarPesquisa, 300);
+    }
+  });
+
+  // Adicionar evento de input para detectar quando o campo é limpo
+  pesquisaInput.addEventListener("input", () => {
+    // Se o campo estiver vazio, resetar a pesquisa imediatamente
+    if (pesquisaInput.value.trim() === "") {
+      realizarPesquisa();
+    }
+  });
+
+  // Limpar pesquisa ao clicar no X do input (somente em navegadores que suportam)
+  pesquisaInput.addEventListener("search", realizarPesquisa);
+}
 
 // Criar o modal de adicionais (uma única vez)
 function criarModalAdicionais() {
@@ -467,6 +594,8 @@ function limparCarrinho() {
 
     // Atualizar a interface do carrinho
     atualizarCarrinho();
+
+    // Não limpa o nome do cliente ao limpar o carrinho
   }
 }
 
@@ -597,6 +726,11 @@ function mostrarNotificacao(mensagem) {
 
 // Função para imprimir o pedido
 function imprimirPedido() {
+  // Salvar o nome do cliente para uso futuro
+  if (carrinho.nomeCliente) {
+    localStorage.setItem("nomeCliente", carrinho.nomeCliente);
+  }
+
   const printWindow = window.open("", "", "height=600,width=800");
 
   // Criar conteúdo HTML para impressão
@@ -609,6 +743,7 @@ function imprimirPedido() {
         body { font-family: 'Arial', sans-serif; padding: 20px; }
         h1 { color: #FF5722; text-align: center; margin-bottom: 20px; }
         h2 { color: #FF5722; margin-top: 30px; border-bottom: 1px solid #FF5722; padding-bottom: 5px; }
+        .cliente { font-size: 1.2em; font-weight: bold; margin-bottom: 20px; padding: 10px; background-color: #f8f8f8; border-left: 4px solid #FF5722; }
         .item { padding: 10px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
         .item-nome { font-weight: bold; }
         .adicional { font-size: 0.9em; color: #666; margin-left: 20px; }
@@ -618,6 +753,14 @@ function imprimirPedido() {
     </head>
     <body>
       <h1>Pedido Hamburgueria</h1>
+  `;
+
+  // Adicionar nome do cliente se existir
+  if (carrinho.nomeCliente) {
+    conteudo += `<div class="cliente">Cliente: ${carrinho.nomeCliente}</div>`;
+  }
+
+  conteudo += `
       <div class="pedido">
         <h2>Itens do Pedido</h2>
   `;

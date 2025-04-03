@@ -31,6 +31,76 @@ h1 {
   font-size: 2rem;
 }
 
+/* Estilos para campo de pesquisa */
+.search-container {
+  background-color: #fff;
+  padding: 15px;
+  margin: 0 auto;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-box {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.search-box:focus-within {
+  box-shadow: 0 4px 12px rgba(255, 87, 34, 0.2);
+}
+
+#pesquisaInput {
+  flex: 1;
+  border: 2px solid #eee;
+  border-right: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  outline: none;
+  border-radius: 50px 0 0 50px;
+  transition: all 0.3s ease;
+}
+
+#pesquisaInput:focus {
+  border-color: #ff5722;
+}
+
+#btnPesquisar {
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  padding: 0 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+#btnPesquisar:hover {
+  background-color: #e64a19;
+}
+
+.search-results {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.destaque {
+  background-color: rgba(255, 87, 34, 0.15);
+  border-left: 3px solid #ff5722;
+  border-radius: 3px;
+  transform: scale(1.02);
+  transition: all 0.3s ease;
+}
+
 /* Container principal */
 main {
   max-width: 1200px;
@@ -412,6 +482,30 @@ section h2 {
   font-size: 1.3rem;
 }
 
+/* Estilo para o campo de nome do cliente */
+.cliente-info {
+  margin-bottom: 15px;
+}
+
+#nomeCliente {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#nomeCliente:focus {
+  border-color: #ff5722;
+  box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2);
+  outline: none;
+}
+
+#nomeCliente::placeholder {
+  color: #aaa;
+}
+
 #itens-carrinho {
   margin-bottom: 20px;
   max-height: 300px;
@@ -556,6 +650,10 @@ button#btnImprimir {
   h1 {
     font-size: 1.8rem;
   }
+
+  .search-box {
+    max-width: 500px;
+  }
 }
 
 /* Tablets */
@@ -584,6 +682,14 @@ button#btnImprimir {
 
   section h2 {
     font-size: 1.2rem;
+  }
+
+  .search-box {
+    max-width: 100%;
+  }
+
+  #pesquisaInput {
+    padding: 10px 15px;
   }
 }
 
@@ -620,6 +726,24 @@ button#btnImprimir {
   .btn-increase {
     width: 36px;
     height: 36px;
+  }
+
+  .search-container {
+    padding: 10px;
+    margin-bottom: 5px;
+  }
+
+  #pesquisaInput {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+
+  #btnPesquisar {
+    padding: 0 15px;
+  }
+
+  .search-results {
+    font-size: 0.8rem;
   }
 
   .cart-buttons {
@@ -686,6 +810,15 @@ button#btnImprimir {
   button#btnImprimir {
     min-height: 44px;
     min-width: 44px;
+  }
+
+  #nomeCliente {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  .cliente-info {
+    margin-bottom: 12px;
   }
 }
 
