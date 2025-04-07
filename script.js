@@ -28,6 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Criar o modal de adicionais
   criarModalAdicionais();
 
+  // Adicionar botões de observação a todos os itens
+  adicionarBotoesObservacao();
+
   // Configurar eventos para os botões de adicionar e remover
   const botoesAdicionar = document.querySelectorAll(".btn-increase");
   const botoesRemover = document.querySelectorAll(".btn-decrease");
@@ -38,6 +41,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   botoesRemover.forEach((botao) => {
     botao.addEventListener("click", removerItem);
+  });
+
+  // Configurar eventos para os botões de observações
+  const botoesObservacao = document.querySelectorAll(".btn-observacao");
+  botoesObservacao.forEach((botao) => {
+    botao.addEventListener("click", mostrarCampoObservacao);
   });
 
   // Adicionar evento para o botão de limpar carrinho
@@ -64,6 +73,42 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+
+// Função para adicionar botões de observação a todos os itens
+function adicionarBotoesObservacao() {
+  const itens = document.querySelectorAll(".item");
+
+  itens.forEach((item) => {
+    // Verificar se já tem o botão de observação
+    if (!item.querySelector(".btn-observacao")) {
+      // Criar botão de observação
+      const btnObservacao = document.createElement("button");
+      btnObservacao.type = "button";
+      btnObservacao.className = "btn-observacao";
+      btnObservacao.textContent = "Adicionar observação";
+      btnObservacao.addEventListener("click", mostrarCampoObservacao);
+
+      // Criar campo de observação
+      const observacaoDiv = document.createElement("div");
+      observacaoDiv.className = "item-observacao";
+      observacaoDiv.style.display = "none";
+      observacaoDiv.innerHTML = `
+        <textarea placeholder="Ex: retirar tomate, sem cebola, etc." class="observacao-texto"></textarea>
+        <div class="observacao-botoes">
+          <button type="button" class="btn-confirmar-obs">Confirmar</button>
+          <button type="button" class="btn-cancelar-obs">Cancelar</button>
+        </div>
+      `;
+
+      // Adicionar após os controles de quantidade
+      const itemActions = item.querySelector(".item-actions");
+      if (itemActions) {
+        itemActions.insertAdjacentElement("afterend", btnObservacao);
+        btnObservacao.insertAdjacentElement("afterend", observacaoDiv);
+      }
+    }
+  });
+}
 
 // Configurar a funcionalidade de pesquisa
 function configurarPesquisa() {
@@ -263,6 +308,16 @@ function criarModalAdicionais() {
     adicionaisList.appendChild(adicionalItem);
   }
 
+  // Adicionar campo para observações
+  const observacoesDiv = document.createElement("div");
+  observacoesDiv.className = "observacoes-container";
+  observacoesDiv.innerHTML = `
+    <h4>Observações</h4>
+    <p class="observacao-exemplo">Ex: retirar tomate, sem cebola, etc.</p>
+    <textarea id="observacoes-pedido" placeholder="Alguma observação sobre o preparo?"></textarea>
+  `;
+  adicionaisContainer.appendChild(observacoesDiv);
+
   // Resumo dos adicionais selecionados
   const selecionadosDiv = document.createElement("div");
   selecionadosDiv.className = "adicionais-selecionados";
@@ -326,10 +381,68 @@ function atualizarResumoAdicionais() {
   }
 }
 
+// Função para mostrar pergunta sobre adicionais dentro do item
+function mostrarPerguntaAdicionais(
+  itemDiv,
+  id,
+  nome,
+  valor,
+  tipo,
+  observacao = ""
+) {
+  // Remover pergunta anterior se existir
+  const perguntaAnterior = itemDiv.querySelector(".pergunta-adicionais");
+  if (perguntaAnterior) {
+    perguntaAnterior.remove();
+  }
+
+  // Criar elemento da pergunta
+  const perguntaDiv = document.createElement("div");
+  perguntaDiv.className = "pergunta-adicionais";
+  perguntaDiv.innerHTML = `
+    <p>Deseja adicionar adicionais?</p>
+    <div class="pergunta-botoes">
+      <button type="button" class="btn-nao">Não</button>
+      <button type="button" class="btn-sim">Sim</button>
+    </div>
+  `;
+
+  // Adicionar após os controles de quantidade
+  const itemActions = itemDiv.querySelector(".item-actions");
+  itemActions.insertAdjacentElement("afterend", perguntaDiv);
+
+  // Adicionar eventos aos botões
+  const btnNao = perguntaDiv.querySelector(".btn-nao");
+  const btnSim = perguntaDiv.querySelector(".btn-sim");
+
+  btnNao.addEventListener("click", function () {
+    // Remover a pergunta
+    perguntaDiv.remove();
+
+    // Adicionar o item diretamente ao carrinho sem adicionais, mas com a observação se houver
+    adicionarItemAoCarrinho(id, nome, valor, tipo, [], observacao);
+  });
+
+  btnSim.addEventListener("click", function () {
+    // Remover a pergunta
+    perguntaDiv.remove();
+
+    // Mostrar o modal de adicionais
+    abrirModalAdicionais(itemDiv, id, nome, valor, tipo, observacao);
+  });
+
+  // Fazer scroll para a pergunta em telas pequenas
+  if (window.innerWidth <= 768) {
+    setTimeout(() => {
+      perguntaDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 100);
+  }
+}
+
 // Função para abrir o modal de adicionais
-function abrirModalAdicionais(itemDiv, id, nome, valor, tipo) {
+function abrirModalAdicionais(itemDiv, id, nome, valor, tipo, observacao = "") {
   // Guardar referência ao item atual
-  carrinho.itemAtual = { itemDiv, id, nome, valor, tipo };
+  carrinho.itemAtual = { itemDiv, id, nome, valor, tipo, observacao };
 
   // Resetar todas as quantidades de adicionais
   const modalOverlay = document.querySelector(".adicionais-modal-overlay");
@@ -337,6 +450,12 @@ function abrirModalAdicionais(itemDiv, id, nome, valor, tipo) {
   qtySpans.forEach((span) => {
     span.textContent = "0";
   });
+
+  // Preencher o campo de observações se existir
+  const observacoesInput = document.getElementById("observacoes-pedido");
+  if (observacoesInput) {
+    observacoesInput.value = observacao;
+  }
 
   // Esconder o resumo
   const selecionadosDiv = modalOverlay.querySelector(
@@ -372,7 +491,7 @@ function fecharModalAdicionais() {
 function confirmarAdicionais() {
   if (!carrinho.itemAtual) return;
 
-  const { id, nome, valor, tipo } = carrinho.itemAtual;
+  const { id, nome, valor, tipo, observacao } = carrinho.itemAtual;
 
   // Obter adicionais selecionados
   const modalOverlay = document.querySelector(".adicionais-modal-overlay");
@@ -394,62 +513,120 @@ function confirmarAdicionais() {
     }
   });
 
-  // Adicionar item ao carrinho com os adicionais selecionados
-  adicionarItemAoCarrinho(id, nome, valor, tipo, adicionaisSelecionados);
+  // Obter observações atualizadas do pedido
+  const observacoesInput = document.getElementById("observacoes-pedido");
+  const observacaoAtualizada = observacoesInput
+    ? observacoesInput.value.trim()
+    : observacao;
+
+  // Atualizar o atributo data-observacao do item se for diferente
+  if (observacaoAtualizada !== observacao && carrinho.itemAtual.itemDiv) {
+    if (observacaoAtualizada) {
+      carrinho.itemAtual.itemDiv.dataset.observacao = observacaoAtualizada;
+
+      // Atualizar também o botão de observação
+      const btnObservacao =
+        carrinho.itemAtual.itemDiv.querySelector(".btn-observacao");
+      if (btnObservacao) {
+        btnObservacao.textContent = "Observação adicionada ✓";
+        btnObservacao.style.backgroundColor = "#e8f5e9";
+        btnObservacao.style.borderColor = "#a5d6a7";
+        btnObservacao.style.color = "#388e3c";
+      }
+    } else {
+      delete carrinho.itemAtual.itemDiv.dataset.observacao;
+
+      // Resetar o botão de observação
+      const btnObservacao =
+        carrinho.itemAtual.itemDiv.querySelector(".btn-observacao");
+      if (btnObservacao) {
+        btnObservacao.textContent = "Adicionar observação";
+        btnObservacao.style.backgroundColor = "";
+        btnObservacao.style.borderColor = "";
+        btnObservacao.style.color = "";
+      }
+    }
+  }
+
+  // Adicionar item ao carrinho com os adicionais selecionados e observações
+  adicionarItemAoCarrinho(
+    id,
+    nome,
+    valor,
+    tipo,
+    adicionaisSelecionados,
+    observacaoAtualizada
+  );
 
   // Fechar o modal
   fecharModalAdicionais();
 }
 
-// Função para mostrar pergunta sobre adicionais dentro do item
-function mostrarPerguntaAdicionais(itemDiv, id, nome, valor, tipo) {
-  // Remover pergunta anterior se existir
-  const perguntaAnterior = itemDiv.querySelector(".pergunta-adicionais");
-  if (perguntaAnterior) {
-    perguntaAnterior.remove();
+// Função para mostrar o campo de observação do item
+function mostrarCampoObservacao(event) {
+  const itemDiv = event.target.closest(".item");
+  const observacaoDiv = itemDiv.querySelector(".item-observacao");
+
+  if (observacaoDiv) {
+    // Mostrar o campo de observação
+    observacaoDiv.style.display = "block";
+    const textarea = observacaoDiv.querySelector("textarea");
+    textarea.focus();
+
+    // Configurar os botões do campo de observação
+    const btnConfirmar = observacaoDiv.querySelector(".btn-confirmar-obs");
+    const btnCancelar = observacaoDiv.querySelector(".btn-cancelar-obs");
+
+    // Remover eventos anteriores para evitar duplicação
+    btnConfirmar.removeEventListener("click", confirmarObservacao);
+    btnCancelar.removeEventListener("click", cancelarObservacao);
+
+    // Adicionar novos eventos
+    btnConfirmar.addEventListener("click", confirmarObservacao);
+    btnCancelar.addEventListener("click", cancelarObservacao);
+  }
+}
+
+// Função para confirmar uma observação
+function confirmarObservacao(event) {
+  const itemDiv = event.target.closest(".item");
+  const observacaoDiv = itemDiv.querySelector(".item-observacao");
+  const textarea = observacaoDiv.querySelector("textarea");
+  const btnObservacao = itemDiv.querySelector(".btn-observacao");
+
+  const observacao = textarea.value.trim();
+
+  // Se houver uma observação, alterar o texto do botão
+  if (observacao) {
+    btnObservacao.textContent = "Observação adicionada ✓";
+    btnObservacao.style.backgroundColor = "#e8f5e9";
+    btnObservacao.style.borderColor = "#a5d6a7";
+    btnObservacao.style.color = "#388e3c";
+
+    // Armazenar a observação no atributo data para uso posterior
+    itemDiv.dataset.observacao = observacao;
+  } else {
+    // Se não houver observação, resetar o botão
+    btnObservacao.textContent = "Adicionar observação";
+    btnObservacao.style.backgroundColor = "";
+    btnObservacao.style.borderColor = "";
+    btnObservacao.style.color = "";
+
+    // Remover o atributo data
+    delete itemDiv.dataset.observacao;
   }
 
-  // Criar elemento da pergunta
-  const perguntaDiv = document.createElement("div");
-  perguntaDiv.className = "pergunta-adicionais";
-  perguntaDiv.innerHTML = `
-    <p>Deseja adicionar adicionais?</p>
-    <div class="pergunta-botoes">
-      <button type="button" class="btn-nao">Não</button>
-      <button type="button" class="btn-sim">Sim</button>
-    </div>
-  `;
+  // Ocultar o campo de observação
+  observacaoDiv.style.display = "none";
+}
 
-  // Adicionar após os controles de quantidade
-  const itemActions = itemDiv.querySelector(".item-actions");
-  itemActions.insertAdjacentElement("afterend", perguntaDiv);
+// Função para cancelar uma observação
+function cancelarObservacao(event) {
+  const itemDiv = event.target.closest(".item");
+  const observacaoDiv = itemDiv.querySelector(".item-observacao");
 
-  // Adicionar eventos aos botões
-  const btnNao = perguntaDiv.querySelector(".btn-nao");
-  const btnSim = perguntaDiv.querySelector(".btn-sim");
-
-  btnNao.addEventListener("click", function () {
-    // Remover a pergunta
-    perguntaDiv.remove();
-
-    // Adicionar o item diretamente ao carrinho sem adicionais
-    adicionarItemAoCarrinho(id, nome, valor, tipo);
-  });
-
-  btnSim.addEventListener("click", function () {
-    // Remover a pergunta
-    perguntaDiv.remove();
-
-    // Mostrar o modal de adicionais
-    abrirModalAdicionais(itemDiv, id, nome, valor, tipo);
-  });
-
-  // Fazer scroll para a pergunta em telas pequenas
-  if (window.innerWidth <= 768) {
-    setTimeout(() => {
-      perguntaDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }, 100);
-  }
+  // Ocultar o campo de observação sem salvar
+  observacaoDiv.style.display = "none";
 }
 
 // Função para adicionar um item ao carrinho
@@ -459,6 +636,7 @@ function adicionarItem(event) {
   const nome = itemDiv.dataset.nome;
   const valor = parseFloat(itemDiv.dataset.valor);
   const tipo = itemDiv.dataset.tipo;
+  const observacao = itemDiv.dataset.observacao || "";
 
   // Atualizar quantidade na interface
   const qtySpan = itemDiv.querySelector(".item-qty");
@@ -468,17 +646,24 @@ function adicionarItem(event) {
   // Se for hambúrguer, perguntar se deseja adicionar adicionais
   if (tipo === "hamburguer") {
     // Mostrar a pergunta sobre adicionais dentro do item
-    mostrarPerguntaAdicionais(itemDiv, id, nome, valor, tipo);
+    mostrarPerguntaAdicionais(itemDiv, id, nome, valor, tipo, observacao);
     return;
   }
 
   // Para itens que não são hambúrgueres, adicionar diretamente ao carrinho
-  adicionarItemAoCarrinho(id, nome, valor, tipo);
+  adicionarItemAoCarrinho(id, nome, valor, tipo, [], observacao);
 }
 
-// Função para adicionar um item ao carrinho (com ou sem adicionais)
-function adicionarItemAoCarrinho(id, nome, valor, tipo, adicionaisList = []) {
-  console.log("Adicionando ao carrinho:", nome, adicionaisList);
+// Função para adicionar um item ao carrinho (com ou sem adicionais, e com observações)
+function adicionarItemAoCarrinho(
+  id,
+  nome,
+  valor,
+  tipo,
+  adicionaisList = [],
+  observacoes = ""
+) {
+  console.log("Adicionando ao carrinho:", nome, adicionaisList, observacoes);
 
   // Gerar um ID único para este item específico
   carrinho.contador++;
@@ -499,6 +684,7 @@ function adicionarItemAoCarrinho(id, nome, valor, tipo, adicionaisList = []) {
     quantidade: 1,
     adicionais: adicionaisList,
     adicionaisTotal,
+    observacoes,
     uniqueId: itemUniqueKey,
   };
 
@@ -638,6 +824,7 @@ function atualizarCarrinho() {
     // Texto do item (com ou sem adicional)
     let itemNome = `${item.nome}`;
     let adicionaisHtml = "";
+    let observacoesHtml = "";
 
     if (item.adicionais && item.adicionais.length > 0) {
       adicionaisHtml = '<div class="adicionais-list">';
@@ -667,10 +854,16 @@ function atualizarCarrinho() {
       adicionaisHtml += "</div>";
     }
 
+    // Adicionar observações se existirem
+    if (item.observacoes) {
+      observacoesHtml = `<div class="observacoes-list"><small class="observacao">Obs: ${item.observacoes}</small></div>`;
+    }
+
     divItem.innerHTML = `
       <div class="cart-item-name">
         ${itemNome}
         ${adicionaisHtml}
+        ${observacoesHtml}
       </div>
       <div class="cart-item-actions">
         <div class="cart-item-price">R$ ${subtotal.toFixed(2)}</div>
@@ -747,6 +940,7 @@ function imprimirPedido() {
         .item { padding: 10px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
         .item-nome { font-weight: bold; }
         .adicional { font-size: 0.9em; color: #666; margin-left: 20px; }
+        .observacao { font-size: 0.9em; color: #1e88e5; margin-left: 20px; font-style: italic; }
         .total { margin-top: 30px; font-weight: bold; text-align: right; font-size: 1.2em; }
         .data { margin-top: 40px; font-size: 0.8em; color: #666; text-align: center; }
       </style>
@@ -797,6 +991,11 @@ function imprimirPedido() {
           info.nome
         } (R$ ${(info.preco * info.quantidade).toFixed(2)})</div>`;
       }
+    }
+
+    // Adicionar observações se existirem
+    if (item.observacoes) {
+      conteudo += `<div class="observacao">Obs: ${item.observacoes}</div>`;
     }
 
     conteudo += `</div>`;
