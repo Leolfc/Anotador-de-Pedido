@@ -3,6 +3,7 @@ const adicionais = {
   hamburguer160g: { nome: "Hambúrguer 160g", preco: 8.5 },
   picles: { nome: "Picles", preco: 7.0 },
   queijoCheddar: { nome: "Queijo Cheddar", preco: 4.0 },
+  queijoMussarela: { nome: "Queijo Mussarela", preco: 3.0 },
   bacon: { nome: "Bacon", preco: 8.0 },
   cebolaCaramelizada: { nome: "Cebola Caramelizada", preco: 7.0 },
   alfaceAmericana: { nome: "Alface Americana", preco: 2.0 },
@@ -79,6 +80,14 @@ function adicionarBotoesObservacao() {
   const itens = document.querySelectorAll(".item");
 
   itens.forEach((item) => {
+    // Verificar o tipo do item
+    const tipoItem = item.dataset.tipo;
+
+    // Não adicionar botão de observação para porções e bebidas
+    if (tipoItem === "porcao" || tipoItem === "bebida") {
+      return;
+    }
+
     // Verificar se já tem o botão de observação
     if (!item.querySelector(".btn-observacao")) {
       // Criar botão de observação
