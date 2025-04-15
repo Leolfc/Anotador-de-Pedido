@@ -409,7 +409,7 @@ function mostrarPerguntaAdicionais(
   const perguntaDiv = document.createElement("div");
   perguntaDiv.className = "pergunta-adicionais";
   perguntaDiv.innerHTML = `
-    <p>Deseja adicionar adicionais?</p>
+    <p>Deseja adicionais?</p>
     <div class="pergunta-botoes">
       <button type="button" class="btn-nao">Não</button>
       <button type="button" class="btn-sim">Sim</button>
