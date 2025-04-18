@@ -93,6 +93,9 @@ document.addEventListener("DOMContentLoaded", function () {
       carrinho.enderecoCliente = enderecoSalvo;
     }
   }
+
+  // Adicionar evento para alternar entre modo claro e escuro
+  configurarAlternadorTema();
 });
 
 // Função para adicionar botões de observação a todos os itens
@@ -356,8 +359,30 @@ function criarModalAdicionais() {
     <h4>Observações</h4>
     <p class="observacao-exemplo">Ex: retirar tomate, sem cebola, etc.</p>
     <textarea id="observacoes-pedido" placeholder="Alguma observação sobre o preparo?"></textarea>
+    
+    <div class="opcoes-rapidas">
+      <button type="button" class="opcao-rapida" data-texto="Sem tomate">Sem tomate</button>
+      <button type="button" class="opcao-rapida" data-texto="Sem cebola">Sem cebola</button>
+      <button type="button" class="opcao-rapida" data-texto="Sem alface">Sem alface</button>
+      <button type="button" class="opcao-rapida" data-texto="Sem molho">Sem molho</button>
+      <button type="button" class="opcao-rapida" data-texto="Bem passado">Bem passado</button>
+      <button type="button" class="opcao-rapida" data-texto="Ao ponto">Ao ponto</button>
+      <button type="button" class="opcao-rapida" data-texto="Mal passado">Mal passado</button>
+    </div>
   `;
   adicionaisContainer.appendChild(observacoesDiv);
+
+  // Adicionar eventos para as opções rápidas de observação
+  observacoesDiv.querySelectorAll(".opcao-rapida").forEach((opcao) => {
+    opcao.addEventListener("click", function () {
+      const texto = this.dataset.texto;
+      const textarea = document.getElementById("observacoes-pedido");
+      textarea.value += textarea.value ? ", " + texto : texto;
+      // Destacar visualmente o botão selecionado
+      this.classList.add("selecionado");
+      setTimeout(() => this.classList.remove("selecionado"), 500);
+    });
+  });
 
   // Resumo dos adicionais selecionados
   const selecionadosDiv = document.createElement("div");
@@ -392,20 +417,27 @@ function atualizarResumoAdicionais() {
   // Verificar se há adicionais selecionados
   let temSelecionados = false;
   let totalAdicionais = 0;
+  let totalItens = 0;
 
   qtySpans.forEach((span) => {
     const quantidade = parseInt(span.textContent);
     if (quantidade > 0) {
       temSelecionados = true;
+      totalItens += quantidade;
       const adicionalId = span.dataset.id;
       const adicional = adicionais[adicionalId];
       const subtotal = adicional.preco * quantidade;
       totalAdicionais += subtotal;
 
+      // Criar item da lista com uma apresentação mais destacada
       const li = document.createElement("li");
-      li.textContent = `${quantidade}x ${adicional.nome} (R$ ${subtotal.toFixed(
-        2
-      )})`;
+      li.innerHTML = `
+        <div class="adicional-resumo">
+          <span class="adicional-resumo-quantidade">${quantidade}x</span>
+          <span class="adicional-resumo-nome">${adicional.nome}</span>
+          <span class="adicional-resumo-preco">R$ ${subtotal.toFixed(2)}</span>
+        </div>
+      `;
       selecionadosLista.appendChild(li);
     }
   });
@@ -413,11 +445,26 @@ function atualizarResumoAdicionais() {
   // Mostrar ou esconder o resumo
   selecionadosDiv.style.display = temSelecionados ? "block" : "none";
 
-  // Adicionar total dos adicionais
+  // Adicionar total dos adicionais de forma mais destacada
   if (temSelecionados) {
+    // Atualizar título para mostrar quantidade
+    selecionadosDiv.querySelector(
+      "p"
+    ).textContent = `Adicionais selecionados (${totalItens} ${
+      totalItens === 1 ? "item" : "itens"
+    }):`;
+
+    // Adicionar total com destaque
     const totalLi = document.createElement("li");
     totalLi.className = "adicionais-total";
-    totalLi.textContent = `Total adicionais: R$ ${totalAdicionais.toFixed(2)}`;
+    totalLi.innerHTML = `
+      <div class="adicional-resumo-total">
+        <span>Valor total dos adicionais:</span>
+        <span class="adicional-resumo-valor">R$ ${totalAdicionais.toFixed(
+          2
+        )}</span>
+      </div>
+    `;
     selecionadosLista.appendChild(totalLi);
   }
 }
@@ -441,7 +488,7 @@ function mostrarPerguntaAdicionais(
   const perguntaDiv = document.createElement("div");
   perguntaDiv.className = "pergunta-adicionais";
   perguntaDiv.innerHTML = `
-    <p>Deseja adicionar adicionais ou observação?</p>
+    <p>Deseja adicionais ou alguma observação?</p>
     <div class="pergunta-botoes">
       <button type="button" class="btn-nao">Sem adicionais/observações</button>
       <button type="button" class="btn-sim">Adicionar adicionais/observações</button>
@@ -881,9 +928,13 @@ function atualizarCarrinho() {
 
       // Gerar HTML para cada adicional com sua contagem
       for (const [id, info] of Object.entries(adicionaisContagem)) {
-        adicionaisHtml += `<small>${info.quantidade}x ${info.nome} (R$ ${(
-          info.preco * info.quantidade
-        ).toFixed(2)})</small>`;
+        adicionaisHtml += `<small class="adicional-item">
+          <span class="adicional-badge">${info.quantidade}x</span> 
+          ${info.nome} 
+          <span class="adicional-preco">(R$ ${(
+            info.preco * info.quantidade
+          ).toFixed(2)})</span>
+        </small>`;
       }
 
       adicionaisHtml += "</div>";
@@ -891,7 +942,9 @@ function atualizarCarrinho() {
 
     // Adicionar observações se existirem
     if (item.observacoes) {
-      observacoesHtml = `<div class="observacoes-list"><small class="observacao">Obs: ${item.observacoes}</small></div>`;
+      observacoesHtml = `<div class="observacoes-list">
+        <small class="observacao"><span class="observacao-badge">Obs:</span> ${item.observacoes}</small>
+      </div>`;
     }
 
     divItem.innerHTML = `
@@ -1062,4 +1115,47 @@ function imprimirPedido() {
   printWindow.document.write(conteudo);
   printWindow.document.close();
   printWindow.print();
+}
+
+// Função para alternar entre modo claro e escuro
+function configurarAlternadorTema() {
+  const botaoTema = document.getElementById("theme-toggle-btn");
+  const body = document.body;
+
+  // Verifica se há uma preferência salva no localStorage
+  const temaAtual = localStorage.getItem("tema");
+
+  // Aplica o tema salvo ou detecta a preferência do sistema
+  if (temaAtual === "dark") {
+    body.classList.add("dark-mode");
+    botaoTema.textContent = "☀️ Modo Claro";
+  } else if (temaAtual === "light") {
+    body.classList.remove("dark-mode");
+    botaoTema.textContent = "🌙 Modo Escuro";
+  } else {
+    // Verifica preferência do sistema
+    const prefereEscuro = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    if (prefereEscuro) {
+      body.classList.add("dark-mode");
+      botaoTema.textContent = "☀️ Modo Claro";
+      localStorage.setItem("tema", "dark");
+    } else {
+      localStorage.setItem("tema", "light");
+    }
+  }
+
+  // Adiciona evento de clique ao botão para alternar o tema
+  botaoTema.addEventListener("click", function () {
+    if (body.classList.contains("dark-mode")) {
+      body.classList.remove("dark-mode");
+      botaoTema.textContent = "🌙 Modo Escuro";
+      localStorage.setItem("tema", "light");
+    } else {
+      body.classList.add("dark-mode");
+      botaoTema.textContent = "☀️ Modo Claro";
+      localStorage.setItem("tema", "dark");
+    }
+  });
 }

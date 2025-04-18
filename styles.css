@@ -5,18 +5,55 @@
   padding: 0;
 }
 
+:root {
+  /* Variáveis de cores - Modo Claro */
+  --bg-color: #f5f5f5;
+  --text-color: #333;
+  --header-bg: #ff6b01;
+  --header-text: #fff;
+  --card-bg: #fff;
+  --card-border: #ddd;
+  --button-primary: #ff6b01;
+  --button-hover: #e05a00;
+  --button-text: #fff;
+  --container-bg: #fff;
+  --input-bg: #fff;
+  --input-border: #ddd;
+  --item-hover: #f9f9f9;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Modo Escuro */
+.dark-mode {
+  --bg-color: #121212;
+  --text-color: #f0f0f0;
+  --header-bg: #ff6b01;
+  --header-text: #fff;
+  --card-bg: #1e1e1e;
+  --card-border: #333;
+  --button-primary: #ff6b01;
+  --button-hover: #e05a00;
+  --button-text: #fff;
+  --container-bg: #1e1e1e;
+  --input-bg: #2c2c2c;
+  --input-border: #444;
+  --item-hover: #2a2a2a;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #f8f9fa;
-  color: #333;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   overflow-x: hidden;
   padding-bottom: 80px; /* Espaço para notificações */
+  transition: background-color 0.3s, color 0.3s;
 }
 
 /* Estilos do cabeçalho */
 header {
-  background-color: #ff5722;
-  color: #fff;
+  background-color: var(--header-bg);
+  color: var(--header-text);
   padding: 15px 10px;
   text-align: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -110,17 +147,18 @@ main {
 
 .container {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 2fr 1fr;
   gap: 20px;
+  width: 100%;
 }
 
 /* Contêiner de menu e carrinho */
 .menu-container,
 .cart-container {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  padding: 15px;
+  background-color: var(--container-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px var(--shadow-color);
+  padding: 20px;
 }
 
 .cart-container {
@@ -158,16 +196,17 @@ section h2 {
 /* Estilo dos itens individuais */
 .item {
   padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid var(--card-border);
   border-radius: 8px;
-  border: 1px solid #eee;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  transition: box-shadow 0.2s;
+  background-color: var(--card-bg);
+  transition: all 0.2s;
 }
 
 .item:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--shadow-color);
+  background-color: var(--item-hover);
 }
 
 .item-info {
@@ -1039,6 +1078,29 @@ button#btnImprimir {
     padding: 8px;
     font-size: 0.85rem;
   }
+
+  /* Ajustes para os novos elementos de adicionais e observações */
+  .opcoes-rapidas {
+    gap: 6px;
+  }
+
+  .opcao-rapida {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  .adicional-resumo {
+    padding: 6px 8px;
+  }
+
+  .adicional-resumo-quantidade {
+    flex: 0 0 30px;
+  }
+
+  .adicional-resumo-nome,
+  .adicional-resumo-preco {
+    font-size: 0.9rem;
+  }
 }
 
 /* Smartphones pequenos */
@@ -1142,19 +1204,201 @@ button#btnImprimir {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 10px 0;
+  margin: 10px 0 15px;
 }
 
 .opcao-rapida {
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 5px 10px;
-  font-size: 12px;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: var(--text-color);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .opcao-rapida:hover {
-  background-color: #e0e0e0;
+  background-color: #ffebee;
+  border-color: #ff5722;
+  color: #ff5722;
+}
+
+.opcao-rapida.selecionado {
+  background-color: #ff5722;
+  border-color: #ff5722;
+  color: white;
+  animation: pulse 0.5s;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Estilização do resumo dos adicionais */
+.adicionais-selecionados {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #fff9f2;
+  border-radius: 10px;
+  border: 1px dashed #ff5722;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.adicionais-selecionados p {
+  margin: 0 0 12px 0;
+  font-weight: 600;
+  color: #ff5722;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+.adicionais-selecionados ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.adicionais-selecionados li {
+  margin-bottom: 8px;
+}
+
+.adicional-resumo {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.adicional-resumo-quantidade {
+  flex: 0 0 40px;
+  font-weight: 600;
+  color: #ff5722;
+}
+
+.adicional-resumo-nome {
+  flex: 1;
+  font-weight: 500;
+}
+
+.adicional-resumo-preco {
+  font-weight: 600;
+  color: #ff5722;
+}
+
+.adicional-resumo-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #ffccbc;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.adicional-resumo-valor {
+  color: #ff5722;
+  font-size: 1.1rem;
+}
+
+/* Estilos gerais usando variáveis */
+input,
+textarea {
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-color);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+button {
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.theme-toggle {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+#theme-toggle-btn {
+  background-color: var(--button-primary);
+  color: var(--button-text);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+#theme-toggle-btn:hover {
+  background-color: var(--button-hover);
+}
+
+/* Estilos para adicionais e observações no carrinho */
+.adicionais-list small {
+  display: block;
+  color: #666;
+  font-size: 0.85rem;
+  padding-left: 5px;
+  border-left: 2px solid #ff5722;
+  margin-top: 5px;
+}
+
+.adicional-item {
+  display: flex;
+  align-items: center;
+  padding: 3px 0;
+}
+
+.adicional-badge {
+  background-color: #ffebee;
+  color: #e53935;
+  border-radius: 12px;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-right: 5px;
+  min-width: 24px;
+  text-align: center;
+}
+
+.adicional-preco {
+  margin-left: auto;
+  color: #ff5722;
+  font-weight: 500;
+}
+
+.observacoes-list .observacao {
+  display: block;
+  color: #555;
+  font-size: 0.85rem;
+  padding-left: 5px;
+  border-left: 2px solid #1e88e5;
+  font-style: italic;
+  margin-top: 8px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.observacao-badge {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  border-radius: 12px;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-right: 5px;
 }
