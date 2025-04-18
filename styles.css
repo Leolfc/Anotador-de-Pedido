@@ -192,36 +192,58 @@ section h2 {
 .item-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 10px;
+  gap: 12px;
+  margin-top: 15px;
 }
 
 .btn-decrease,
 .btn-increase {
-  width: 40px;
+  min-width: 120px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 8px;
   border: none;
-  font-size: 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .btn-decrease {
-  background-color: #f8f9fa;
+  background-color: #fff;
   color: #ff5722;
+  border: 2px solid #ff5722;
+  box-shadow: 0 2px 4px rgba(255, 87, 34, 0.1);
+}
+
+.btn-decrease:hover {
+  background-color: #fff5f2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 87, 34, 0.2);
 }
 
 .btn-increase {
-  background-color: #ff5722;
+  background: linear-gradient(45deg, #ff5722, #ff7043);
   color: white;
+  box-shadow: 0 2px 4px rgba(255, 87, 34, 0.2);
+}
+
+.btn-increase:hover {
+  background: linear-gradient(45deg, #f4511e, #ff5722);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
 }
 
 .item-qty {
   font-weight: 600;
   font-size: 1.1rem;
+  color: #333;
+  min-width: 30px;
+  text-align: center;
 }
 
 /* Botão de observações no item */
@@ -295,13 +317,14 @@ section h2 {
 
 /* Pergunta sobre adicionais */
 .pergunta-adicionais {
-  margin: 10px 0;
-  padding: 12px;
+  margin: 15px 0;
+  padding: 18px;
   background-color: #fff9f2;
   border: 1px solid #ffccbc;
-  border-radius: 6px;
+  border-radius: 12px;
   text-align: center;
   animation: fadeIn 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 @keyframes fadeIn {
@@ -316,35 +339,70 @@ section h2 {
 }
 
 .pergunta-adicionais p {
-  margin: 0 0 10px 0;
+  margin: 0 0 18px 0;
   color: #ff5722;
   font-weight: 600;
+  font-size: 1.1rem;
 }
 
 .pergunta-botoes {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
-.pergunta-botoes .btn-sim,
-.pergunta-botoes .btn-nao {
-  padding: 10px 20px;
+.pergunta-botoes button {
+  padding: 14px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  min-height: 44px;
-}
-
-.pergunta-botoes .btn-sim {
-  background-color: #ff5722;
-  color: white;
+  min-height: 54px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .pergunta-botoes .btn-nao {
   background-color: #f0f0f0;
   color: #333;
+  border: 2px solid #e0e0e0;
+}
+
+.pergunta-botoes .btn-nao:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pergunta-botoes .btn-sim {
+  background: linear-gradient(45deg, #ff5722, #ff7043);
+  color: white;
+  box-shadow: 0 4px 10px rgba(255, 87, 34, 0.25);
+}
+
+.pergunta-botoes .btn-sim:hover {
+  background: linear-gradient(45deg, #f4511e, #ff5722);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255, 87, 34, 0.3);
+}
+
+.pergunta-botoes .btn-sim::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff' width='24px' height='24px'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.8;
+  transition: all 0.2s ease;
 }
 
 /* NOVO PAINEL DE ADICIONAIS - VERSÃO MODAL PARA CELULARES */
@@ -575,6 +633,27 @@ section h2 {
   color: #aaa;
 }
 
+#enderecoCliente {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  font-family: inherit;
+  resize: none;
+}
+
+#enderecoCliente:focus {
+  border-color: #ff5722;
+  box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2);
+  outline: none;
+}
+
+#enderecoCliente::placeholder {
+  color: #aaa;
+}
+
 #itens-carrinho {
   margin-bottom: 20px;
   max-height: 300px;
@@ -793,8 +872,13 @@ button#btnImprimir {
 
   .btn-decrease,
   .btn-increase {
-    width: 36px;
+    min-width: 100px;
     height: 36px;
+    font-size: 0.85rem;
+  }
+
+  .item-actions {
+    gap: 8px;
   }
 
   .btn-observacao {
@@ -855,13 +939,27 @@ button#btnImprimir {
   }
 
   /* Ajustes na pergunta de adicionais */
-  .pergunta-botoes {
-    flex-direction: column;
+  .pergunta-adicionais {
+    padding: 15px 12px;
+    margin: 12px 0;
+    border-radius: 10px;
   }
 
-  .pergunta-botoes .btn-sim,
-  .pergunta-botoes .btn-nao {
-    width: 100%;
+  .pergunta-adicionais p {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+
+  .pergunta-botoes button {
+    font-size: 0.9rem;
+    padding: 12px 15px;
+    min-height: 48px;
+  }
+
+  .pergunta-botoes .btn-sim::after {
+    width: 16px;
+    height: 16px;
+    right: 12px;
   }
 
   /* Modal de adicionais mais compacto */
@@ -870,6 +968,11 @@ button#btnImprimir {
     border-radius: 10px;
     margin: 0;
     max-height: 80vh;
+  }
+
+  .adicionais-container h3 {
+    font-size: 1rem;
+    padding-right: 35px;
   }
 
   .btn-close-adicionais {
@@ -903,9 +1006,19 @@ button#btnImprimir {
     min-width: 44px;
   }
 
-  #nomeCliente {
+  .btn-confirmar-adicionais {
+    font-size: 0.95rem;
+    padding: 14px 10px;
+  }
+
+  #nomeCliente,
+  #enderecoCliente {
     padding: 8px 12px;
     font-size: 0.9rem;
+  }
+
+  #enderecoCliente {
+    height: 60px;
   }
 
   .cliente-info {
@@ -947,6 +1060,13 @@ button#btnImprimir {
 
   .adicional-preco {
     margin-top: 5px;
+  }
+
+  .btn-decrease,
+  .btn-increase {
+    min-width: 90px;
+    height: 34px;
+    font-size: 0.8rem;
   }
 }
 
@@ -1008,4 +1128,33 @@ button#btnImprimir {
   display: flex;
   align-items: center;
   white-space: nowrap;
+}
+
+/* Adicionar estilos para os novos botões com texto */
+.btn-texto {
+  min-width: 80px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+/* Estilos para as opções rápidas de observação */
+.opcoes-rapidas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.opcao-rapida {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.opcao-rapida:hover {
+  background-color: #e0e0e0;
 }

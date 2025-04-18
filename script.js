@@ -20,6 +20,7 @@ const carrinho = {
   contador: 0, // Contador para gerar IDs únicos para cada item adicionado
   itemAtual: null, // Referência para o item sendo editado atualmente
   nomeCliente: "", // Nome do cliente para o pedido
+  enderecoCliente: "", // Endereço do cliente para o pedido
 };
 
 // Inicialização
@@ -37,10 +38,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const botoesRemover = document.querySelectorAll(".btn-decrease");
 
   botoesAdicionar.forEach((botao) => {
+    botao.textContent = "Adicionar";
+    botao.classList.add("btn-texto");
     botao.addEventListener("click", adicionarItem);
   });
 
   botoesRemover.forEach((botao) => {
+    botao.textContent = "Remover";
+    botao.classList.add("btn-texto");
     botao.addEventListener("click", removerItem);
   });
 
@@ -73,6 +78,21 @@ document.addEventListener("DOMContentLoaded", function () {
       carrinho.nomeCliente = nomeSalvo;
     }
   }
+
+  // Adicionar evento para atualizar o endereço do cliente
+  const enderecoClienteInput = document.getElementById("enderecoCliente");
+  if (enderecoClienteInput) {
+    enderecoClienteInput.addEventListener("input", function () {
+      carrinho.enderecoCliente = this.value.trim();
+    });
+
+    // Verificar se há um endereço salvo no localStorage
+    const enderecoSalvo = localStorage.getItem("enderecoCliente");
+    if (enderecoSalvo) {
+      enderecoClienteInput.value = enderecoSalvo;
+      carrinho.enderecoCliente = enderecoSalvo;
+    }
+  }
 });
 
 // Função para adicionar botões de observação a todos os itens
@@ -80,29 +100,22 @@ function adicionarBotoesObservacao() {
   const itens = document.querySelectorAll(".item");
 
   itens.forEach((item) => {
-    // Verificar o tipo do item
-    const tipoItem = item.dataset.tipo;
-
-    // Não adicionar botão de observação para porções e bebidas
-    if (tipoItem === "porcao" || tipoItem === "bebida") {
-      return;
-    }
-
-    // Verificar se já tem o botão de observação
-    if (!item.querySelector(".btn-observacao")) {
-      // Criar botão de observação
-      const btnObservacao = document.createElement("button");
-      btnObservacao.type = "button";
-      btnObservacao.className = "btn-observacao";
-      btnObservacao.textContent = "Adicionar observação";
-      btnObservacao.addEventListener("click", mostrarCampoObservacao);
-
-      // Criar campo de observação
+    // Verificar se já tem o campo de observação (mantemos o campo mas removemos os botões visíveis)
+    if (!item.querySelector(".item-observacao")) {
+      // Criar campo de observação com opções predefinidas (mas oculto)
       const observacaoDiv = document.createElement("div");
       observacaoDiv.className = "item-observacao";
       observacaoDiv.style.display = "none";
       observacaoDiv.innerHTML = `
         <textarea placeholder="Ex: retirar tomate, sem cebola, etc." class="observacao-texto"></textarea>
+        
+        <div class="opcoes-rapidas">
+          <button type="button" class="opcao-rapida" data-texto="Sem tomate">Sem tomate</button>
+          <button type="button" class="opcao-rapida" data-texto="Sem cebola">Sem cebola</button>
+          <button type="button" class="opcao-rapida" data-texto="Sem alface">Sem alface</button>
+          <button type="button" class="opcao-rapida" data-texto="Sem molho">Sem molho</button>
+        </div>
+        
         <div class="observacao-botoes">
           <button type="button" class="btn-confirmar-obs">Confirmar</button>
           <button type="button" class="btn-cancelar-obs">Cancelar</button>
@@ -112,8 +125,27 @@ function adicionarBotoesObservacao() {
       // Adicionar após os controles de quantidade
       const itemActions = item.querySelector(".item-actions");
       if (itemActions) {
+        // Adicionamos apenas o campo de observação, sem o botão visível
+        itemActions.insertAdjacentElement("afterend", observacaoDiv);
+      }
+
+      // Adicionar evento para as opções rápidas
+      observacaoDiv.querySelectorAll(".opcao-rapida").forEach((opcao) => {
+        opcao.addEventListener("click", function () {
+          const texto = this.dataset.texto;
+          const textarea = observacaoDiv.querySelector("textarea");
+          textarea.value += textarea.value ? ", " + texto : texto;
+        });
+      });
+
+      // Criar botão de observação invisível para referência
+      const btnObservacao = document.createElement("button");
+      btnObservacao.type = "button";
+      btnObservacao.className = "btn-observacao";
+      btnObservacao.style.display = "none";
+      btnObservacao.textContent = "Adicionar observação";
+      if (itemActions) {
         itemActions.insertAdjacentElement("afterend", btnObservacao);
-        btnObservacao.insertAdjacentElement("afterend", observacaoDiv);
       }
     }
   });
@@ -409,10 +441,10 @@ function mostrarPerguntaAdicionais(
   const perguntaDiv = document.createElement("div");
   perguntaDiv.className = "pergunta-adicionais";
   perguntaDiv.innerHTML = `
-    <p>Deseja adicionais?</p>
+    <p>Deseja adicionar adicionais ou observação?</p>
     <div class="pergunta-botoes">
-      <button type="button" class="btn-nao">Não</button>
-      <button type="button" class="btn-sim">Sim</button>
+      <button type="button" class="btn-nao">Sem adicionais/observações</button>
+      <button type="button" class="btn-sim">Adicionar adicionais/observações</button>
     </div>
   `;
 
@@ -472,10 +504,24 @@ function abrirModalAdicionais(itemDiv, id, nome, valor, tipo, observacao = "") {
   );
   selecionadosDiv.style.display = "none";
 
-  // Atualizar o título do modal
+  // Atualizar o título do modal para destacar que pode adicionar adicionais e observações
   modalOverlay.querySelector(
     "h3"
-  ).textContent = `Escolha adicionais para: ${nome}`;
+  ).textContent = `Adicionais e Observações: ${nome}`;
+
+  // Atualizar o texto na seção de observações
+  const observacoesContainer = modalOverlay.querySelector(
+    ".observacoes-container h4"
+  );
+  if (observacoesContainer) {
+    observacoesContainer.textContent = "Deseja adicionar alguma observação?";
+  }
+
+  // Atualizar texto do botão confirmar
+  const btnConfirmar = modalOverlay.querySelector(".btn-confirmar-adicionais");
+  if (btnConfirmar) {
+    btnConfirmar.textContent = "Confirmar e Adicionar ao Carrinho";
+  }
 
   // Mostrar o modal
   modalOverlay.classList.add("show");
@@ -532,28 +578,8 @@ function confirmarAdicionais() {
   if (observacaoAtualizada !== observacao && carrinho.itemAtual.itemDiv) {
     if (observacaoAtualizada) {
       carrinho.itemAtual.itemDiv.dataset.observacao = observacaoAtualizada;
-
-      // Atualizar também o botão de observação
-      const btnObservacao =
-        carrinho.itemAtual.itemDiv.querySelector(".btn-observacao");
-      if (btnObservacao) {
-        btnObservacao.textContent = "Observação adicionada ✓";
-        btnObservacao.style.backgroundColor = "#e8f5e9";
-        btnObservacao.style.borderColor = "#a5d6a7";
-        btnObservacao.style.color = "#388e3c";
-      }
     } else {
       delete carrinho.itemAtual.itemDiv.dataset.observacao;
-
-      // Resetar o botão de observação
-      const btnObservacao =
-        carrinho.itemAtual.itemDiv.querySelector(".btn-observacao");
-      if (btnObservacao) {
-        btnObservacao.textContent = "Adicionar observação";
-        btnObservacao.style.backgroundColor = "";
-        btnObservacao.style.borderColor = "";
-        btnObservacao.style.color = "";
-      }
     }
   }
 
@@ -933,6 +959,11 @@ function imprimirPedido() {
     localStorage.setItem("nomeCliente", carrinho.nomeCliente);
   }
 
+  // Salvar o endereço do cliente para uso futuro
+  if (carrinho.enderecoCliente) {
+    localStorage.setItem("enderecoCliente", carrinho.enderecoCliente);
+  }
+
   const printWindow = window.open("", "", "height=600,width=800");
 
   // Criar conteúdo HTML para impressão
@@ -946,6 +977,7 @@ function imprimirPedido() {
         h1 { color: #FF5722; text-align: center; margin-bottom: 20px; }
         h2 { color: #FF5722; margin-top: 30px; border-bottom: 1px solid #FF5722; padding-bottom: 5px; }
         .cliente { font-size: 1.2em; font-weight: bold; margin-bottom: 20px; padding: 10px; background-color: #f8f8f8; border-left: 4px solid #FF5722; }
+        .endereco { font-size: 1.1em; margin-bottom: 20px; padding: 10px; background-color: #f8f8f8; border-left: 4px solid #4CAF50; }
         .item { padding: 10px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
         .item-nome { font-weight: bold; }
         .adicional { font-size: 0.9em; color: #666; margin-left: 20px; }
@@ -961,6 +993,11 @@ function imprimirPedido() {
   // Adicionar nome do cliente se existir
   if (carrinho.nomeCliente) {
     conteudo += `<div class="cliente">Cliente: ${carrinho.nomeCliente}</div>`;
+  }
+
+  // Adicionar endereço do cliente se existir
+  if (carrinho.enderecoCliente) {
+    conteudo += `<div class="endereco">Endereço: ${carrinho.enderecoCliente}</div>`;
   }
 
   conteudo += `
