@@ -1496,129 +1496,205 @@ function configurarBotoesFlutuantes() {
   }
 }
 
-// Função para configurar o botão de finalizar pedido via WhatsApp
+// Configurar botão de imprimir pedido
 function configurarBotaoWhatsApp() {
-  const btnWhatsApp = document.getElementById("btnFinalizarWhatsapp");
-  if (!btnWhatsApp) {
-    console.error("Botão de WhatsApp não encontrado");
-    return;
+  const btnImprimir = document.getElementById("btnImprimirPedido");
+  if (btnImprimir) {
+    btnImprimir.addEventListener("click", imprimirPedido);
   }
-
-  btnWhatsApp.addEventListener("click", function () {
-    enviarPedidoWhatsApp();
-  });
 }
 
-// Função para enviar o pedido via WhatsApp
-function enviarPedidoWhatsApp() {
-  // Verificar se o carrinho tem itens
+// Função para imprimir o pedido
+function imprimirPedido() {
+  // Verificar se há itens no carrinho
   if (Object.keys(carrinho.itens).length === 0) {
     mostrarNotificacao(
-      "Adicione itens ao carrinho antes de finalizar o pedido"
+      "Adicione itens ao carrinho antes de imprimir o pedido."
     );
     return;
   }
 
-  // Verificar se o nome do cliente foi preenchido
+  // Verificar informações do cliente
   if (!carrinho.nomeCliente) {
-    mostrarNotificacao("Por favor, informe seu nome");
-    const nomeCliente = document.getElementById("nomeCliente");
-    if (nomeCliente) {
-      nomeCliente.focus();
-    }
+    mostrarNotificacao("Por favor, informe o nome do cliente.");
     return;
   }
 
-  // Verificar se o endereço foi preenchido
-  if (!carrinho.enderecoCliente) {
-    mostrarNotificacao("Por favor, informe seu endereço de entrega");
-    const enderecoCliente = document.getElementById("enderecoCliente");
-    if (enderecoCliente) {
-      enderecoCliente.focus();
-    }
-    return;
-  }
+  // Criar uma nova janela para impressão
+  const janelaImpressao = window.open("", "", "width=800,height=600");
 
-  // Verificar se a forma de pagamento foi selecionada
-  if (!carrinho.formaPagamento) {
-    mostrarNotificacao("Por favor, selecione uma forma de pagamento");
-    const formaPagamento = document.getElementById("formaPagamento");
-    if (formaPagamento) {
-      formaPagamento.focus();
-    }
-    return;
-  }
+  // Criar o conteúdo HTML da impressão
+  const conteudoHTML = gerarHTMLImpressao();
 
-  // Número do WhatsApp da hamburgueria
-  const numeroWhatsApp = "5543996114268";
+  // Escrever o conteúdo na nova janela
+  janelaImpressao.document.write(conteudoHTML);
 
-  // Construir a mensagem
-  let mensagem = `*NOVO PEDIDO - SPACE BURGUER*\n\n`;
-  mensagem += `*Cliente:* ${carrinho.nomeCliente}\n`;
-  mensagem += `*Endereço de Entrega:* ${carrinho.enderecoCliente}\n`;
-  mensagem += `*Forma de Pagamento:* ${carrinho.formaPagamento}\n\n`;
-  mensagem += `*ITENS DO PEDIDO:*\n`;
+  // Adicionar evento para fechar a janela após a impressão
+  janelaImpressao.document.close();
+  janelaImpressao.focus();
 
-  // Adicionar cada item do carrinho
-  let contador = 1;
-  for (const itemId in carrinho.itens) {
-    const item = carrinho.itens[itemId];
-    const valorItem = item.valor;
-    const valorAdicionais = item.adicionaisTotal || 0;
-    const subtotal = valorItem + valorAdicionais;
+  // Aguardar carregamento da página e então imprimir
+  janelaImpressao.onload = function () {
+    janelaImpressao.print();
+    // Opcionalmente, feche a janela após a impressão
+    // janelaImpressao.close();
+  };
+}
 
-    mensagem += `${contador}. *${item.nome}* - R$ ${valorItem.toFixed(2)}\n`;
+// Gerar HTML para impressão do pedido
+function gerarHTMLImpressao() {
+  // Obter a data e hora atual
+  const dataHora = new Date();
+  const dataFormatada = dataHora.toLocaleDateString("pt-BR");
+  const horaFormatada = dataHora.toLocaleTimeString("pt-BR");
 
-    // Adicionar observações se houver
-    if (item.observacoes) {
-      mensagem += `   _Obs: ${item.observacoes}_\n`;
-    }
-
-    // Adicionar adicionais se houver
-    if (item.adicionais && item.adicionais.length > 0) {
-      // Criar um mapa para contar ocorrências de cada adicional
-      const adicionaisContagem = {};
-
-      item.adicionais.forEach((adicional) => {
-        if (!adicionaisContagem[adicional.id]) {
-          adicionaisContagem[adicional.id] = {
-            nome: adicional.nome,
-            preco: adicional.preco,
-            quantidade: 1,
-          };
-        } else {
-          adicionaisContagem[adicional.id].quantidade++;
+  // Iniciar o HTML com os estilos básicos
+  let html = `
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+      <meta charset="UTF-8">
+      <title>Pedido - Space Burguer</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 20px;
         }
-      });
+        .cabecalho {
+          text-align: center;
+          margin-bottom: 20px;
+          border-bottom: 1px solid #ccc;
+          padding-bottom: 10px;
+        }
+        .info-cliente {
+          margin-bottom: 20px;
+        }
+        .info-cliente p {
+          margin: 5px 0;
+        }
+        .itens-pedido {
+          width: 100%;
+          border-collapse: collapse;
+          margin-bottom: 20px;
+        }
+        .itens-pedido th, .itens-pedido td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+        }
+        .itens-pedido th {
+          background-color: #f2f2f2;
+        }
+        .adicionais {
+          font-size: 0.85em;
+          color: #666;
+          margin-top: 3px;
+        }
+        .observacao {
+          font-style: italic;
+          color: #666;
+          font-size: 0.85em;
+        }
+        .total {
+          text-align: right;
+          font-weight: bold;
+          margin-top: 20px;
+          font-size: 1.2em;
+        }
+        @media print {
+          .no-print {
+            display: none;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="cabecalho">
+        <h1>Space Burguer</h1>
+        <p>Pedido #${Math.floor(Math.random() * 1000)}</p>
+        <p>${dataFormatada} - ${horaFormatada}</p>
+      </div>
+      
+      <div class="info-cliente">
+        <p><strong>Cliente:</strong> ${carrinho.nomeCliente}</p>
+        ${
+          carrinho.enderecoCliente
+            ? `<p><strong>Endereço:</strong> ${carrinho.enderecoCliente}</p>`
+            : ""
+        }
+        ${
+          carrinho.formaPagamento
+            ? `<p><strong>Forma de Pagamento:</strong> ${carrinho.formaPagamento}</p>`
+            : ""
+        }
+      </div>
+      
+      <table class="itens-pedido">
+        <thead>
+          <tr>
+            <th>Qtd</th>
+            <th>Item</th>
+            <th>Preço Unit.</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+  `;
 
-      // Adicionar os adicionais à mensagem
-      mensagem += `   *Adicionais:*\n`;
-      for (const [id, info] of Object.entries(adicionaisContagem)) {
-        mensagem += `   - ${info.quantidade}x ${info.nome} (R$ ${(
-          info.preco * info.quantidade
-        ).toFixed(2)})\n`;
-      }
+  // Adicionar cada item ao HTML
+  Object.values(carrinho.itens).forEach((item) => {
+    const subtotal = item.quantidade * item.valor;
 
-      // Adicionar o subtotal do item com adicionais
-      mensagem += `   *Subtotal:* R$ ${subtotal.toFixed(2)}\n`;
-    }
+    html += `
+      <tr>
+        <td>${item.quantidade}</td>
+        <td>
+          ${item.nome}
+          ${
+            item.adicionais && item.adicionais.length > 0
+              ? `<div class="adicionais">
+              <strong>Adicionais:</strong> ${item.adicionais
+                .map(
+                  (adicional) =>
+                    `${adicional.quantidade}x ${
+                      adicional.nome
+                    } (R$ ${adicional.preco.toFixed(2).replace(".", ",")})`
+                )
+                .join(", ")}
+            </div>`
+              : ""
+          }
+          ${
+            item.observacoes
+              ? `<div class="observacao">
+              <strong>Obs:</strong> ${item.observacoes}
+            </div>`
+              : ""
+          }
+        </td>
+        <td>R$ ${item.valor.toFixed(2).replace(".", ",")}</td>
+        <td>R$ ${subtotal.toFixed(2).replace(".", ",")}</td>
+      </tr>
+    `;
+  });
 
-    contador++;
-  }
+  // Fechar a tabela e adicionar o total
+  html += `
+        </tbody>
+      </table>
+      
+      <div class="total">
+        <p>Total: R$ ${carrinho.total.toFixed(2).replace(".", ",")}</p>
+      </div>
+      
+      <div class="no-print" style="margin-top: 30px; text-align: center;">
+        <button onclick="window.print()">Imprimir</button>
+        <button onclick="window.close()">Fechar</button>
+      </div>
+    </body>
+    </html>
+  `;
 
-  // Adicionar o total do pedido
-  mensagem += `\n*TOTAL DO PEDIDO: R$ ${carrinho.total.toFixed(2)}*\n\n`;
-  mensagem += `Obrigado pelo seu pedido! Estamos processando e entraremos em contato em breve.`;
-
-  // Codificar a mensagem para URL
-  const mensagemCodificada = encodeURIComponent(mensagem);
-
-  // Criar o link do WhatsApp
-  const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
-
-  // Redirecionar para o WhatsApp
-  window.open(urlWhatsApp, "_blank");
-
-  // Mostrar notificação de sucesso
-  mostrarNotificacao("Redirecionando para o WhatsApp...");
+  return html;
 }

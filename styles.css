@@ -1603,6 +1603,51 @@ button {
   box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
 }
 
+/* Estilo para o botão de imprimir pedido */
+.btn-imprimir-pedido {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  background-color: #3498db;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-imprimir-pedido::before {
+  content: "🖨️ ";
+}
+
+.btn-imprimir-pedido:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.dark-mode .btn-imprimir-pedido {
+  background-color: #2980b9;
+}
+
+.dark-mode .btn-imprimir-pedido:hover {
+  background-color: #1c638d;
+}
+
+@media (max-width: 576px) {
+  .btn-imprimir-pedido {
+    min-height: 50px;
+    font-size: 0.9rem;
+  }
+}
+
 .dark-mode .btn-finalizar-whatsapp {
   background-color: #128c7e;
 }
