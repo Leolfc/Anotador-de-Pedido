@@ -1299,13 +1299,23 @@ function atualizarCarrinho() {
       </div>
       <div class="cart-item-actions">
         <div class="cart-item-price">R$ ${subtotal.toFixed(2)}</div>
-        <button type="button" class="btn-remove-item" onclick="removerItemDoCarrinho('${
+        <button type="button" class="btn-remove-item" data-item-id="${
           item.uniqueId
-        }')">×</button>
+        }">×</button>
       </div>
     `;
 
     itensCarrinho.appendChild(divItem);
+
+    // Adicionar event listener ao botão de remover
+    const btnRemover = divItem.querySelector(
+      `.btn-remove-item[data-item-id="${item.uniqueId}"]`
+    );
+    if (btnRemover) {
+      btnRemover.addEventListener("click", function () {
+        removerItemDoCarrinho(item.uniqueId);
+      });
+    }
   }
 
   // Mostrar mensagem se não houver itens
