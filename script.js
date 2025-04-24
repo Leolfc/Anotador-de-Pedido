@@ -1557,151 +1557,394 @@ function gerarHTMLImpressao() {
   const dataHora = new Date();
   const dataFormatada = dataHora.toLocaleDateString("pt-BR");
   const horaFormatada = dataHora.toLocaleTimeString("pt-BR");
+  const numeroPedido = Math.floor(Math.random() * 9000) + 1000; // Gera número entre 1000-9999
 
-  // Iniciar o HTML com os estilos básicos
+  // Iniciar o HTML com os estilos melhorados
   let html = `
     <!DOCTYPE html>
     <html lang="pt-BR">
     <head>
       <meta charset="UTF-8">
-      <title>Pedido - Space Burguer</title>
+      <title>Pedido #${numeroPedido} - Space Burguer</title>
       <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
         body {
-          font-family: Arial, sans-serif;
+          font-family: 'Poppins', sans-serif;
           margin: 0;
-          padding: 20px;
+          padding: 0;
+          background-color: #f8f9fa;
+          color: #333;
         }
+        
+        .container {
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: white;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
         .cabecalho {
           text-align: center;
-          margin-bottom: 20px;
-          border-bottom: 1px solid #ccc;
-          padding-bottom: 10px;
+          padding: 20px;
+          margin-bottom: 30px;
+          background: linear-gradient(45deg, #ff5722, #ff7043);
+          color: white;
+          border-radius: 8px;
+          position: relative;
         }
-        .info-cliente {
-          margin-bottom: 20px;
+        
+        .cabecalho h1 {
+          margin: 0;
+          font-size: 28px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
         }
-        .info-cliente p {
+        
+        .cabecalho p {
           margin: 5px 0;
+          font-size: 16px;
         }
+        
+        .cabecalho .num-pedido {
+          font-size: 22px;
+          font-weight: 700;
+          margin-top: 10px;
+          color: #fff;
+          background-color: rgba(0,0,0,0.2);
+          display: inline-block;
+          padding: 5px 15px;
+          border-radius: 20px;
+        }
+        
+        .logotipo {
+          font-size: 40px;
+          margin-bottom: 10px;
+        }
+        
+        .info-cliente {
+          background-color: #f8f9fa;
+          border-left: 4px solid #ff5722;
+          padding: 15px;
+          margin-bottom: 30px;
+          border-radius: 4px;
+        }
+        
+        .info-cliente p {
+          margin: 8px 0;
+          font-size: 15px;
+        }
+        
+        .info-cliente strong {
+          color: #ff5722;
+        }
+        
+        .secao-titulo {
+          font-size: 18px;
+          margin: 20px 0 15px 0;
+          padding-bottom: 8px;
+          border-bottom: 2px solid #ff5722;
+          color: #ff5722;
+          font-weight: 600;
+        }
+        
         .itens-pedido {
           width: 100%;
           border-collapse: collapse;
-          margin-bottom: 20px;
+          margin-bottom: 30px;
+          box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+          border-radius: 8px;
+          overflow: hidden;
         }
-        .itens-pedido th, .itens-pedido td {
-          border: 1px solid #ddd;
-          padding: 8px;
-          text-align: left;
-        }
+        
         .itens-pedido th {
-          background-color: #f2f2f2;
+          background-color: #ff5722;
+          color: white;
+          padding: 12px 15px;
+          text-align: left;
+          font-weight: 600;
+          font-size: 15px;
         }
+        
+        .itens-pedido td {
+          padding: 12px 15px;
+          border-bottom: 1px solid #eee;
+          vertical-align: top;
+        }
+        
+        .itens-pedido tr:last-child td {
+          border-bottom: none;
+        }
+        
+        .itens-pedido tr:nth-child(even) {
+          background-color: #f9f9f9;
+        }
+        
+        .itens-pedido tr:hover {
+          background-color: #f5f5f5;
+        }
+        
+        .col-qtd {
+          text-align: center;
+          width: 60px;
+          font-weight: 600;
+          font-size: 16px;
+        }
+        
+        .col-preco {
+          width: 100px;
+          text-align: right;
+          font-weight: 500;
+        }
+        
+        .col-subtotal {
+          width: 120px;
+          text-align: right;
+          font-weight: 600;
+          color: #ff5722;
+        }
+        
+        .item-nome {
+          font-weight: 600;
+          font-size: 16px;
+          color: #333;
+        }
+        
         .adicionais {
-          font-size: 0.85em;
-          color: #666;
-          margin-top: 3px;
+          margin-top: 6px;
+          padding: 8px;
+          background-color: #fff9f2;
+          border-left: 3px solid #ff9800;
+          border-radius: 4px;
+          font-size: 14px;
+          color: #555;
         }
+        
         .observacao {
+          margin-top: 6px;
+          padding: 8px;
+          background-color: #f1f8e9;
+          border-left: 3px solid #8bc34a;
+          border-radius: 4px;
+          font-style: italic;
+          color: #555;
+          font-size: 14px;
+        }
+        
+        .total-section {
+          margin-top: 20px;
+          text-align: right;
+          padding: 15px;
+          background-color: #f8f9fa;
+          border-radius: 8px;
+        }
+        
+        .total-valor {
+          font-size: 24px;
+          font-weight: 700;
+          color: #ff5722;
+          margin-top: 5px;
+        }
+        
+        .metodo-pagamento {
+          margin-top: 5px;
           font-style: italic;
           color: #666;
-          font-size: 0.85em;
         }
-        .total {
-          text-align: right;
-          font-weight: bold;
+        
+        .rodape {
+          margin-top: 40px;
+          text-align: center;
+          font-size: 14px;
+          color: #777;
+          padding-top: 15px;
+          border-top: 1px dashed #ddd;
+        }
+        
+        .agradecimento {
           margin-top: 20px;
-          font-size: 1.2em;
+          text-align: center;
+          padding: 15px;
+          background-color: #f9f9f9;
+          border-radius: 8px;
+          font-weight: 500;
+          color: #333;
         }
+        
+        .botoes-acao {
+          margin-top: 30px;
+          text-align: center;
+        }
+        
+        .btn {
+          padding: 10px 20px;
+          margin: 0 10px;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        
+        .btn-imprimir {
+          background-color: #4caf50;
+          color: white;
+        }
+        
+        .btn-fechar {
+          background-color: #f44336;
+          color: white;
+        }
+        
+        .btn:hover {
+          opacity: 0.9;
+          transform: translateY(-2px);
+        }
+        
         @media print {
           .no-print {
             display: none;
+          }
+          
+          body {
+            background-color: white;
+          }
+          
+          .container {
+            box-shadow: none;
+            padding: 0;
           }
         }
       </style>
     </head>
     <body>
-      <div class="cabecalho">
-        <h1>Space Burguer</h1>
-        <p>Pedido #${Math.floor(Math.random() * 1000)}</p>
-        <p>${dataFormatada} - ${horaFormatada}</p>
-      </div>
-      
-      <div class="info-cliente">
-        <p><strong>Cliente:</strong> ${carrinho.nomeCliente}</p>
-        ${
-          carrinho.enderecoCliente
-            ? `<p><strong>Endereço:</strong> ${carrinho.enderecoCliente}</p>`
-            : ""
-        }
-        ${
-          carrinho.formaPagamento
-            ? `<p><strong>Forma de Pagamento:</strong> ${carrinho.formaPagamento}</p>`
-            : ""
-        }
-      </div>
-      
-      <table class="itens-pedido">
-        <thead>
-          <tr>
-            <th>Qtd</th>
-            <th>Item</th>
-            <th>Preço Unit.</th>
-            <th>Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
+      <div class="container">
+        <div class="cabecalho">
+          <div class="logotipo">🚀</div>
+          <h1>Space Burguer</h1>
+          <p>${dataFormatada} • ${horaFormatada}</p>
+          <div class="num-pedido">Pedido #${numeroPedido}</div>
+        </div>
+        
+        <div class="info-cliente">
+          <p><strong>Cliente:</strong> ${carrinho.nomeCliente}</p>
+          ${
+            carrinho.enderecoCliente
+              ? `<p><strong>Endereço:</strong> ${carrinho.enderecoCliente}</p>`
+              : ""
+          }
+          ${
+            carrinho.formaPagamento
+              ? `<p><strong>Forma de Pagamento:</strong> ${carrinho.formaPagamento}</p>`
+              : ""
+          }
+        </div>
+        
+        <div class="secao-titulo">Itens do pedido</div>
+        
+        <table class="itens-pedido">
+          <thead>
+            <tr>
+              <th class="col-qtd">Qtd</th>
+              <th>Item</th>
+              <th class="col-preco">Preço</th>
+              <th class="col-subtotal">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
   `;
 
   // Adicionar cada item ao HTML
   Object.values(carrinho.itens).forEach((item) => {
-    const subtotal = item.quantidade * item.valor;
+    const valorUnitario = parseFloat(item.valor).toFixed(2).replace(".", ",");
+    const subtotal = (item.quantidade * item.valor)
+      .toFixed(2)
+      .replace(".", ",");
+
+    // Calcular valor dos adicionais se houver
+    let adicionaisHtml = "";
+    if (item.adicionais && item.adicionais.length > 0) {
+      // Criar um mapa para contar ocorrências de cada adicional
+      const adicionaisContagem = {};
+
+      item.adicionais.forEach((adicional) => {
+        if (!adicionaisContagem[adicional.id]) {
+          adicionaisContagem[adicional.id] = {
+            nome: adicional.nome,
+            preco: adicional.preco,
+            quantidade: 1,
+          };
+        } else {
+          adicionaisContagem[adicional.id].quantidade++;
+        }
+      });
+
+      // Gerar HTML para adicionais
+      adicionaisHtml = `<div class="adicionais">
+        <strong>Adicionais:</strong><br>`;
+
+      for (const [id, info] of Object.entries(adicionaisContagem)) {
+        const precoAdicionalTotal = (info.preco * info.quantidade)
+          .toFixed(2)
+          .replace(".", ",");
+        adicionaisHtml += `• ${info.quantidade}x ${info.nome} <span style="float:right">R$ ${precoAdicionalTotal}</span><br>`;
+      }
+
+      adicionaisHtml += `</div>`;
+    }
 
     html += `
       <tr>
-        <td>${item.quantidade}</td>
+        <td class="col-qtd">${item.quantidade}x</td>
         <td>
-          ${item.nome}
-          ${
-            item.adicionais && item.adicionais.length > 0
-              ? `<div class="adicionais">
-              <strong>Adicionais:</strong> ${item.adicionais
-                .map(
-                  (adicional) =>
-                    `${adicional.quantidade}x ${
-                      adicional.nome
-                    } (R$ ${adicional.preco.toFixed(2).replace(".", ",")})`
-                )
-                .join(", ")}
-            </div>`
-              : ""
-          }
+          <div class="item-nome">${item.nome}</div>
+          ${adicionaisHtml}
           ${
             item.observacoes
               ? `<div class="observacao">
-              <strong>Obs:</strong> ${item.observacoes}
-            </div>`
+                  <strong>Observação:</strong> ${item.observacoes}
+                </div>`
               : ""
           }
         </td>
-        <td>R$ ${item.valor.toFixed(2).replace(".", ",")}</td>
-        <td>R$ ${subtotal.toFixed(2).replace(".", ",")}</td>
+        <td class="col-preco">R$ ${valorUnitario}</td>
+        <td class="col-subtotal">R$ ${subtotal}</td>
       </tr>
     `;
   });
 
   // Fechar a tabela e adicionar o total
+  const totalFormatado = carrinho.total.toFixed(2).replace(".", ",");
+
   html += `
         </tbody>
       </table>
       
-      <div class="total">
-        <p>Total: R$ ${carrinho.total.toFixed(2).replace(".", ",")}</p>
+      <div class="total-section">
+        <div>Valor Total</div>
+        <div class="total-valor">R$ ${totalFormatado}</div>
+        ${
+          carrinho.formaPagamento
+            ? `<div class="metodo-pagamento">Pagamento via ${carrinho.formaPagamento}</div>`
+            : ""
+        }
       </div>
       
-      <div class="no-print" style="margin-top: 30px; text-align: center;">
-        <button onclick="window.print()">Imprimir</button>
-        <button onclick="window.close()">Fechar</button>
+      <div class="agradecimento">
+        Space Burguer
       </div>
+      
+      <div class="rodape">
+        Space Burguer
+      </div>
+      
+      <div class="botoes-acao no-print">
+        <button class="btn btn-imprimir" onclick="window.print()">Imprimir Pedido</button>
+        <button class="btn btn-fechar" onclick="window.close()">Fechar</button>
+      </div>
+    </div>
     </body>
     </html>
   `;
