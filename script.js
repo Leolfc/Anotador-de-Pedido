@@ -1575,65 +1575,64 @@ function gerarHTMLImpressao() {
           padding: 0;
           background-color: #f8f9fa;
           color: #333;
+          font-size: 12px;
         }
         
         .container {
-          max-width: 800px;
+          max-width: 80mm;
           margin: 0 auto;
-          padding: 20px;
+          padding: 8px;
           background-color: white;
-          box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         
         .cabecalho {
           text-align: center;
-          padding: 20px;
-          margin-bottom: 30px;
+          padding: 10px;
+          margin-bottom: 15px;
           background: linear-gradient(45deg, #ff5722, #ff7043);
           color: white;
-          border-radius: 8px;
-          position: relative;
+          border-radius: 4px;
         }
         
         .cabecalho h1 {
           margin: 0;
-          font-size: 28px;
+          font-size: 18px;
           letter-spacing: 1px;
           text-transform: uppercase;
         }
         
         .cabecalho p {
-          margin: 5px 0;
-          font-size: 16px;
+          margin: 3px 0;
+          font-size: 12px;
         }
         
         .cabecalho .num-pedido {
-          font-size: 22px;
+          font-size: 15px;
           font-weight: 700;
-          margin-top: 10px;
+          margin-top: 5px;
           color: #fff;
           background-color: rgba(0,0,0,0.2);
           display: inline-block;
-          padding: 5px 15px;
-          border-radius: 20px;
+          padding: 3px 10px;
+          border-radius: 12px;
         }
         
         .logotipo {
-          font-size: 40px;
-          margin-bottom: 10px;
+          font-size: 24px;
+          margin-bottom: 5px;
         }
         
         .info-cliente {
           background-color: #f8f9fa;
-          border-left: 4px solid #ff5722;
-          padding: 15px;
-          margin-bottom: 30px;
-          border-radius: 4px;
+          border-left: 3px solid #ff5722;
+          padding: 8px;
+          margin-bottom: 15px;
+          border-radius: 3px;
+          font-size: 11px;
         }
         
         .info-cliente p {
-          margin: 8px 0;
-          font-size: 15px;
+          margin: 4px 0;
         }
         
         .info-cliente strong {
@@ -1641,10 +1640,10 @@ function gerarHTMLImpressao() {
         }
         
         .secao-titulo {
-          font-size: 18px;
-          margin: 20px 0 15px 0;
-          padding-bottom: 8px;
-          border-bottom: 2px solid #ff5722;
+          font-size: 14px;
+          margin: 12px 0 8px 0;
+          padding-bottom: 5px;
+          border-bottom: 1px solid #ff5722;
           color: #ff5722;
           font-weight: 600;
         }
@@ -1652,23 +1651,20 @@ function gerarHTMLImpressao() {
         .itens-pedido {
           width: 100%;
           border-collapse: collapse;
-          margin-bottom: 30px;
-          box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-          border-radius: 8px;
-          overflow: hidden;
+          margin-bottom: 15px;
+          font-size: 11px;
         }
         
         .itens-pedido th {
           background-color: #ff5722;
           color: white;
-          padding: 12px 15px;
+          padding: 6px 8px;
           text-align: left;
           font-weight: 600;
-          font-size: 15px;
         }
         
         .itens-pedido td {
-          padding: 12px 15px;
+          padding: 6px 8px;
           border-bottom: 1px solid #eee;
           vertical-align: top;
         }
@@ -1681,25 +1677,20 @@ function gerarHTMLImpressao() {
           background-color: #f9f9f9;
         }
         
-        .itens-pedido tr:hover {
-          background-color: #f5f5f5;
-        }
-        
         .col-qtd {
           text-align: center;
-          width: 60px;
+          width: 30px;
           font-weight: 600;
-          font-size: 16px;
         }
         
         .col-preco {
-          width: 100px;
+          width: 60px;
           text-align: right;
           font-weight: 500;
         }
         
         .col-subtotal {
-          width: 120px;
+          width: 70px;
           text-align: right;
           font-weight: 600;
           color: #ff5722;
@@ -1707,85 +1698,84 @@ function gerarHTMLImpressao() {
         
         .item-nome {
           font-weight: 600;
-          font-size: 16px;
+          font-size: 12px;
           color: #333;
         }
         
         .adicionais {
-          margin-top: 6px;
-          padding: 8px;
+          margin-top: 4px;
+          padding: 5px;
           background-color: #fff9f2;
-          border-left: 3px solid #ff9800;
-          border-radius: 4px;
-          font-size: 14px;
+          border-left: 2px solid #ff9800;
+          border-radius: 3px;
+          font-size: 10px;
           color: #555;
         }
         
         .observacao {
-          margin-top: 6px;
-          padding: 8px;
+          margin-top: 4px;
+          padding: 5px;
           background-color: #f1f8e9;
-          border-left: 3px solid #8bc34a;
-          border-radius: 4px;
+          border-left: 2px solid #8bc34a;
+          border-radius: 3px;
           font-style: italic;
           color: #555;
-          font-size: 14px;
+          font-size: 10px;
         }
         
         .total-section {
-          margin-top: 20px;
+          margin-top: 12px;
           text-align: right;
-          padding: 15px;
+          padding: 8px;
           background-color: #f8f9fa;
-          border-radius: 8px;
+          border-radius: 4px;
         }
         
         .total-valor {
-          font-size: 24px;
+          font-size: 16px;
           font-weight: 700;
           color: #ff5722;
-          margin-top: 5px;
+          margin-top: 3px;
         }
         
         .metodo-pagamento {
-          margin-top: 5px;
+          margin-top: 3px;
           font-style: italic;
           color: #666;
+          font-size: 11px;
         }
         
         .rodape {
-          margin-top: 40px;
+          margin-top: 20px;
           text-align: center;
-          font-size: 14px;
+          font-size: 11px;
           color: #777;
-          padding-top: 15px;
+          padding-top: 8px;
           border-top: 1px dashed #ddd;
         }
         
         .agradecimento {
-          margin-top: 20px;
+          margin-top: 12px;
           text-align: center;
-          padding: 15px;
-          background-color: #f9f9f9;
-          border-radius: 8px;
+          padding: 8px;
           font-weight: 500;
           color: #333;
+          font-size: 12px;
         }
         
         .botoes-acao {
-          margin-top: 30px;
+          margin-top: 15px;
           text-align: center;
         }
         
         .btn {
-          padding: 10px 20px;
-          margin: 0 10px;
+          padding: 8px 15px;
+          margin: 0 5px;
           border: none;
-          border-radius: 5px;
-          font-size: 16px;
+          border-radius: 4px;
+          font-size: 12px;
           font-weight: 600;
           cursor: pointer;
-          transition: all 0.2s;
         }
         
         .btn-imprimir {
@@ -1798,12 +1788,17 @@ function gerarHTMLImpressao() {
           color: white;
         }
         
-        .btn:hover {
-          opacity: 0.9;
-          transform: translateY(-2px);
-        }
-        
         @media print {
+          @page {
+            size: 80mm 210mm;
+            margin: 0mm;
+          }
+          
+          html, body {
+            width: 80mm;
+            font-size: 10px;
+          }
+          
           .no-print {
             display: none;
           }
@@ -1813,8 +1808,9 @@ function gerarHTMLImpressao() {
           }
           
           .container {
+            width: 76mm;
             box-shadow: none;
-            padding: 0;
+            padding: 2mm;
           }
         }
       </style>
