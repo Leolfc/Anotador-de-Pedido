@@ -1573,66 +1573,63 @@ function gerarHTMLImpressao() {
           font-family: 'Poppins', sans-serif;
           margin: 0;
           padding: 0;
-          background-color: #f8f9fa;
+          background-color: white;
           color: #333;
           font-size: 12px;
         }
         
         .container {
           max-width: 80mm;
-          margin: 0 auto;
-          padding: 8px;
+          margin: 0;
+          padding: 0;
           background-color: white;
         }
         
         .cabecalho {
           text-align: center;
-          padding: 10px;
-          margin-bottom: 15px;
-          background: linear-gradient(45deg, #ff5722, #ff7043);
+          padding: 5px;
+          margin-bottom: 10px;
+          background: #ff5722;
           color: white;
-          border-radius: 4px;
         }
         
         .cabecalho h1 {
           margin: 0;
-          font-size: 18px;
-          letter-spacing: 1px;
+          font-size: 16px;
+          letter-spacing: 0;
           text-transform: uppercase;
         }
         
         .cabecalho p {
-          margin: 3px 0;
-          font-size: 12px;
+          margin: 2px 0;
+          font-size: 11px;
         }
         
         .cabecalho .num-pedido {
-          font-size: 15px;
+          font-size: 14px;
           font-weight: 700;
-          margin-top: 5px;
+          margin-top: 3px;
           color: #fff;
           background-color: rgba(0,0,0,0.2);
           display: inline-block;
-          padding: 3px 10px;
-          border-radius: 12px;
+          padding: 2px 8px;
+          border-radius: 10px;
         }
         
         .logotipo {
-          font-size: 24px;
-          margin-bottom: 5px;
+          font-size: 20px;
+          margin-bottom: 3px;
         }
         
         .info-cliente {
-          background-color: #f8f9fa;
-          border-left: 3px solid #ff5722;
-          padding: 8px;
-          margin-bottom: 15px;
-          border-radius: 3px;
+          border-left: 2px solid #ff5722;
+          padding: 5px;
+          margin-bottom: 10px;
           font-size: 11px;
         }
         
         .info-cliente p {
-          margin: 4px 0;
+          margin: 3px 0;
         }
         
         .info-cliente strong {
@@ -1640,9 +1637,9 @@ function gerarHTMLImpressao() {
         }
         
         .secao-titulo {
-          font-size: 14px;
-          margin: 12px 0 8px 0;
-          padding-bottom: 5px;
+          font-size: 13px;
+          margin: 10px 0 5px 0;
+          padding-bottom: 3px;
           border-bottom: 1px solid #ff5722;
           color: #ff5722;
           font-weight: 600;
@@ -1651,20 +1648,20 @@ function gerarHTMLImpressao() {
         .itens-pedido {
           width: 100%;
           border-collapse: collapse;
-          margin-bottom: 15px;
-          font-size: 11px;
+          margin-bottom: 10px;
+          font-size: 10px;
         }
         
         .itens-pedido th {
           background-color: #ff5722;
           color: white;
-          padding: 6px 8px;
+          padding: 5px;
           text-align: left;
           font-weight: 600;
         }
         
         .itens-pedido td {
-          padding: 6px 8px;
+          padding: 5px;
           border-bottom: 1px solid #eee;
           vertical-align: top;
         }
@@ -1679,18 +1676,18 @@ function gerarHTMLImpressao() {
         
         .col-qtd {
           text-align: center;
-          width: 30px;
+          width: 20px;
           font-weight: 600;
         }
         
         .col-preco {
-          width: 60px;
+          width: 50px;
           text-align: right;
           font-weight: 500;
         }
         
         .col-subtotal {
-          width: 70px;
+          width: 60px;
           text-align: right;
           font-weight: 600;
           color: #ff5722;
@@ -1698,69 +1695,66 @@ function gerarHTMLImpressao() {
         
         .item-nome {
           font-weight: 600;
-          font-size: 12px;
+          font-size: 11px;
           color: #333;
         }
         
         .adicionais {
-          margin-top: 4px;
-          padding: 5px;
+          margin-top: 3px;
+          padding: 3px;
           background-color: #fff9f2;
           border-left: 2px solid #ff9800;
-          border-radius: 3px;
-          font-size: 10px;
+          font-size: 9px;
           color: #555;
         }
         
         .observacao {
-          margin-top: 4px;
-          padding: 5px;
+          margin-top: 3px;
+          padding: 3px;
           background-color: #f1f8e9;
           border-left: 2px solid #8bc34a;
-          border-radius: 3px;
           font-style: italic;
           color: #555;
-          font-size: 10px;
+          font-size: 9px;
         }
         
         .total-section {
-          margin-top: 12px;
+          margin-top: 10px;
           text-align: right;
-          padding: 8px;
-          background-color: #f8f9fa;
-          border-radius: 4px;
+          padding: 5px;
+          border-top: 1px dashed #ddd;
         }
         
         .total-valor {
-          font-size: 16px;
+          font-size: 15px;
           font-weight: 700;
           color: #ff5722;
-          margin-top: 3px;
+          margin-top: 2px;
         }
         
         .metodo-pagamento {
-          margin-top: 3px;
+          margin-top: 2px;
           font-style: italic;
           color: #666;
-          font-size: 11px;
+          font-size: 10px;
         }
         
         .rodape {
-          margin-top: 20px;
+          margin-top: 15px;
           text-align: center;
-          font-size: 11px;
+          font-size: 10px;
           color: #777;
-          padding-top: 8px;
+          padding-top: 5px;
           border-top: 1px dashed #ddd;
         }
         
         .agradecimento {
-          margin-top: 12px;
+          margin-top: 10px;
           text-align: center;
-          padding: 8px;
+          padding: 5px;
           font-weight: 500;
           color: #333;
-          font-size: 12px;
+          font-size: 11px;
         }
         
         .botoes-acao {
@@ -1790,27 +1784,32 @@ function gerarHTMLImpressao() {
         
         @media print {
           @page {
-            size: 80mm 210mm;
-            margin: 0mm;
+            size: 80mm auto;
+            margin: 0;
           }
           
           html, body {
             width: 80mm;
-            font-size: 10px;
+            margin: 0;
+            padding: 0;
+            font-size: 9px;
+            background-color: #fff;
           }
           
           .no-print {
-            display: none;
-          }
-          
-          body {
-            background-color: white;
+            display: none !important;
           }
           
           .container {
             width: 76mm;
+            margin: 0;
+            padding: 0;
             box-shadow: none;
-            padding: 2mm;
+          }
+          
+          .cabecalho {
+            margin-top: 0;
+            padding-top: 0;
           }
         }
       </style>
@@ -1818,7 +1817,6 @@ function gerarHTMLImpressao() {
     <body>
       <div class="container">
         <div class="cabecalho">
-          <div class="logotipo">🚀</div>
           <h1>Space Burguer</h1>
           <p>${dataFormatada} • ${horaFormatada}</p>
           <div class="num-pedido">Pedido #${numeroPedido}</div>

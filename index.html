@@ -435,6 +435,37 @@
                                     <button type="button" class="btn-increase">+</button>
                                 </div>
                             </div>
+                            <div class="item" data-id="comboKids" data-nome="Combo Kids" data-valor="26.90" data-tipo="combo">
+                                <div class="item-info">
+                                    <span class="item-name">Combo Kids</span>
+                                    <span class="item-price">R$ 26,90</span>
+                                </div>
+                                <div class="item-desc">Pão de brioche, hambúrguer artesanal de 95g, queijo cheddar, tomate e molho da casa. Suco Kapo + fritas 100g.</div>
+                                <div class="item-actions">
+                                    <button type="button" class="btn-decrease">-</button>
+                                    <span class="item-qty">0</span>
+                                    <button type="button" class="btn-increase">+</button>
+                                </div>
+                            </div>
+                            <div class="item" data-id="comboCasal" data-nome="Combo Casal" data-valor="68.00" data-tipo="combo">
+                                <div class="item-info">
+                                    <span class="item-name">Combo Casal</span>
+                                    <span class="item-price">R$ 68,00</span>
+                                </div>
+                                <div class="item-desc">
+                                    <span style="color: #ff5722; font-weight: bold;">Space Classic:</span>
+                                    Pão de brioche, hambúrguer artesanal de 160g, queijo cheddar, tomate e molho da casa<br/>
+                                    <span style="color: #2196F3; font-weight: bold;">Space Salad:</span>
+                                    Pão de brioche, hambúrguer artesanal de 160g, queijo cheddar, alface americana, tomate e molho da casa<br/>
+                                    <span style="font-weight: bold;">+ 2 Fritas P + Coca 600ml</span>
+                                </div>
+                                <div class="item-actions">
+                                    <button type="button" class="btn-decrease">-</button>
+                                    <span class="item-qty">0</span>
+                                    <button type="button" class="btn-increase">+</button>
+                                </div>
+                            </div>
+                            
                         </div>
                     </section>
                     <section>
@@ -628,6 +659,21 @@
                             </div>
                         </div>
                         
+                        <h3 class="subcategoria">Refrigerantes 1L</h3>
+                        <div class="item-container">
+                            <div class="item" data-id="guaranaAntartica1L" data-nome="Guaraná Antarctica 1L" data-valor="10.00" data-tipo="bebida">
+                                <div class="item-info">
+                                    <span class="item-name">Guaraná Antarctica 1L</span>
+                                    <span class="item-price">R$ 8,00</span>
+                                </div>
+                                <div class="item-actions">
+                                    <button type="button" class="btn-decrease">-</button>
+                                    <span class="item-qty">0</span>
+                                    <button type="button" class="btn-increase">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <h3 class="subcategoria">Refrigerantes 2L</h3>
                         <div class="item-container">
                             <div class="item" data-id="cocaCola2L" data-nome="Coca-Cola Original 2L" data-valor="14.50" data-tipo="bebida">
@@ -708,6 +754,20 @@
             <polyline points="18 15 12 9 6 15"></polyline>
         </svg>
     </button>
+
+    <style>
+        @media print {
+            @page {
+                size: 80mm 210mm;
+                margin: 0mm;
+            }
+            
+            html, body {
+                width: 80mm;
+                font-size: 10px;
+            }
+        }
+    </style>
 
 </body>
 </html> 
