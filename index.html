@@ -747,6 +747,7 @@
             <circle cx="9" cy="19" r="2"></circle>
             <circle cx="17" cy="19" r="2"></circle>
         </svg>
+        <span id="cart-count-badge" class="cart-badge">0</span>
     </button>
     
     <button id="btn-voltar-topo" class="btn-flutuante" title="Voltar ao topo">
@@ -766,6 +767,34 @@
                 width: 80mm;
                 font-size: 10px;
             }
+        }
+        
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ff5722;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.3s, scale 0.3s;
+        }
+        
+        .cart-badge.animate {
+            animation: pulse 0.3s ease-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
         }
     </style>
 

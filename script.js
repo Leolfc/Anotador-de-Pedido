@@ -31,6 +31,12 @@ document.addEventListener("DOMContentLoaded", function () {
   // Verificar se o objeto adicionais está corretamente definido
   console.log("Adicionais disponíveis:", adicionais);
 
+  // Inicializar o badge do carrinho
+  const cartBadge = document.getElementById("cart-count-badge");
+  if (cartBadge) {
+    cartBadge.style.display = "none"; // Esconder inicialmente
+  }
+
   // Criar o modal de adicionais
   criarModalAdicionais();
 
@@ -1117,6 +1123,15 @@ function adicionarItemAoCarrinho(
   // Atualizar carrinho e total
   atualizarCarrinho();
 
+  // Atualizar o badge do carrinho (garantindo que ele seja animado)
+  const cartBadge = document.getElementById("cart-count-badge");
+  if (cartBadge) {
+    cartBadge.classList.remove("animate");
+    setTimeout(() => {
+      cartBadge.classList.add("animate");
+    }, 10);
+  }
+
   // Mostrar notificação de item adicionado
   mostrarNotificacao(`${nome} adicionado ao carrinho!`);
 }
@@ -1217,6 +1232,7 @@ function atualizarCarrinho() {
 
   const itensCarrinho = document.getElementById("itens-carrinho");
   const valorTotal = document.getElementById("valorTotal");
+  const cartBadge = document.getElementById("cart-count-badge");
 
   if (!itensCarrinho || !valorTotal) {
     console.error("Elementos do carrinho não encontrados");
@@ -1229,10 +1245,12 @@ function atualizarCarrinho() {
   // Calcular novo total
   let total = 0;
   let temItens = false;
+  let totalQuantidade = 0; // Contador para o total de itens
 
   for (const itemKey in carrinho.itens) {
     const item = carrinho.itens[itemKey];
     temItens = true;
+    totalQuantidade++; // Incrementa o contador de itens
 
     // Calcular subtotal do item
     const valorItem = item.valor;
@@ -1315,6 +1333,25 @@ function atualizarCarrinho() {
       btnRemover.addEventListener("click", function () {
         removerItemDoCarrinho(item.uniqueId);
       });
+    }
+  }
+
+  // Atualizar o badge do carrinho
+  if (cartBadge) {
+    // Atualizar a quantidade
+    cartBadge.textContent = totalQuantidade;
+
+    // Animar o badge para chamar a atenção
+    cartBadge.classList.remove("animate");
+    setTimeout(() => {
+      cartBadge.classList.add("animate");
+    }, 10);
+
+    // Esconder o badge se não houver itens
+    if (totalQuantidade === 0) {
+      cartBadge.style.display = "none";
+    } else {
+      cartBadge.style.display = "flex";
     }
   }
 
