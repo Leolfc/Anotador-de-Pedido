@@ -621,10 +621,10 @@
                                 </div>
                             </div>
                             <div class="item" data-id="sprite350" data-nome="Sprite 350ml" data-valor="6.00" data-tipo="bebida">
-                                <div class="item-info">
-                                    <span class="item-name">Sprite 350ml</span>
-                                    <span class="item-price">R$ 6,00</span>
-                                </div>
+                                    <div class="item-info">
+                                        <span class="item-name">Sprite 350ml</span>
+                                        <span class="item-price">R$ 6,00</span>
+                                    </div>
                                 <div class="item-actions">
                                     <button type="button" class="btn-decrease">-</button>
                                     <span class="item-qty">0</span>
@@ -759,13 +759,57 @@
     <style>
         @media print {
             @page {
-                size: 80mm 210mm;
-                margin: 0mm;
+                size: 80mm auto;
+                margin: 0;
             }
-            
             html, body {
                 width: 80mm;
-                font-size: 10px;
+                font-size: 13px;
+                margin: 0;
+                padding: 0;
+                background: #fff !important;
+            }
+            header, .theme-toggle, .search-container, .btn-flutuante, .no-print, .cart-buttons, #btn-ir-carrinho, #btn-voltar-topo {
+                display: none !important;
+            }
+            .container {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                box-shadow: none;
+            }
+            .menu-container, .cart-container {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                float: none;
+            }
+            .item-container, .item-info, .item-actions, .item-desc, .item {
+                page-break-inside: avoid;
+            }
+            main {
+                margin: 0;
+                padding: 0;
+            }
+            #resumoPedido {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            /* Garante que nome, endereço, itens e total fiquem visíveis */
+            #resumoPedido, #nomeCliente, #enderecoCliente, #itens-carrinho, .cart-total {
+                display: block !important;
+            }
+            .cart-total {
+                text-align: center !important;
+                font-size: 16px !important;
+                font-weight: bold !important;
+                margin-top: 10px !important;
+            }
+            /* Remove fundo colorido e bordas para impressão mais limpa */
+            .item-container, .item-info, .item-actions, .item-desc, .item {
+                background: none !important;
+                border: none !important;
             }
         }
         

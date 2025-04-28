@@ -1075,8 +1075,8 @@ function adicionarItem(event) {
   let quantidade = parseInt(qtySpan.textContent) + 1;
   qtySpan.textContent = quantidade;
 
-  // Se for hambúrguer, perguntar se deseja adicionar adicionais
-  if (tipo === "hamburguer") {
+  // Se for hambúrguer OU combo, perguntar se deseja adicionar adicionais
+  if (tipo === "hamburguer" || tipo === "combo") {
     // Mostrar a pergunta sobre adicionais dentro do item
     mostrarPerguntaAdicionais(itemDiv, id, nome, valor, tipo, observacao);
     return;
@@ -1551,434 +1551,122 @@ function configurarBotaoWhatsApp() {
   }
 }
 
-// Função para imprimir o pedido
+// Função para imprimir o pedido (itens organizados, adicionais e observação destacados)
 function imprimirPedido() {
-  // Verificar se há itens no carrinho
   if (Object.keys(carrinho.itens).length === 0) {
     mostrarNotificacao(
       "Adicione itens ao carrinho antes de imprimir o pedido."
     );
     return;
   }
-
-  // Verificar informações do cliente
   if (!carrinho.nomeCliente) {
     mostrarNotificacao("Por favor, informe o nome do cliente.");
     return;
   }
-
-  // Criar uma nova janela para impressão
   const janelaImpressao = window.open("", "", "width=800,height=600");
-
-  // Criar o conteúdo HTML da impressão
-  const conteudoHTML = gerarHTMLImpressao();
-
-  // Escrever o conteúdo na nova janela
-  janelaImpressao.document.write(conteudoHTML);
-
-  // Adicionar evento para fechar a janela após a impressão
-  janelaImpressao.document.close();
-  janelaImpressao.focus();
-
-  // Aguardar carregamento da página e então imprimir
-  janelaImpressao.onload = function () {
-    janelaImpressao.print();
-    // Opcionalmente, feche a janela após a impressão
-    // janelaImpressao.close();
-  };
-}
-
-// Gerar HTML para impressão do pedido
-function gerarHTMLImpressao() {
-  // Obter a data e hora atual
-  const dataHora = new Date();
-  const dataFormatada = dataHora.toLocaleDateString("pt-BR");
-  const horaFormatada = dataHora.toLocaleTimeString("pt-BR");
-  const numeroPedido = Math.floor(Math.random() * 9000) + 1000; // Gera número entre 1000-9999
-
-  // Iniciar o HTML com os estilos melhorados
   let html = `
     <!DOCTYPE html>
-    <html lang="pt-BR">
+    <html lang=\"pt-BR\">
     <head>
-      <meta charset="UTF-8">
-      <title>Pedido #${numeroPedido} - Space Burguer</title>
+      <meta charset=\"UTF-8\">
+      <title>Pedido - Space Burguer</title>
       <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        body {
-          font-family: 'Poppins', sans-serif;
-          margin: 0;
-          padding: 0;
-          background-color: white;
-          color: #333;
-          font-size: 12px;
-        }
-        
-        .container {
-          max-width: 80mm;
-          margin: 0;
-          padding: 0;
-          background-color: white;
-        }
-        
-        .cabecalho {
-          text-align: center;
-          padding: 5px;
-          margin-bottom: 10px;
-          background: #ff5722;
-          color: white;
-        }
-        
-        .cabecalho h1 {
-          margin: 0;
-          font-size: 16px;
-          letter-spacing: 0;
-          text-transform: uppercase;
-        }
-        
-        .cabecalho p {
-          margin: 2px 0;
-          font-size: 11px;
-        }
-        
-        .cabecalho .num-pedido {
-          font-size: 14px;
-          font-weight: 700;
-          margin-top: 3px;
-          color: #fff;
-          background-color: rgba(0,0,0,0.2);
-          display: inline-block;
-          padding: 2px 8px;
-          border-radius: 10px;
-        }
-        
-        .logotipo {
-          font-size: 20px;
-          margin-bottom: 3px;
-        }
-        
-        .info-cliente {
-          border-left: 2px solid #ff5722;
-          padding: 5px;
-          margin-bottom: 10px;
-          font-size: 11px;
-        }
-        
-        .info-cliente p {
-          margin: 3px 0;
-        }
-        
-        .info-cliente strong {
-          color: #ff5722;
-        }
-        
-        .secao-titulo {
-          font-size: 13px;
-          margin: 10px 0 5px 0;
-          padding-bottom: 3px;
-          border-bottom: 1px solid #ff5722;
-          color: #ff5722;
-          font-weight: 600;
-        }
-        
-        .itens-pedido {
-          width: 100%;
-          border-collapse: collapse;
-          margin-bottom: 10px;
-          font-size: 10px;
-        }
-        
-        .itens-pedido th {
-          background-color: #ff5722;
-          color: white;
-          padding: 5px;
-          text-align: left;
-          font-weight: 600;
-        }
-        
-        .itens-pedido td {
-          padding: 5px;
-          border-bottom: 1px solid #eee;
-          vertical-align: top;
-        }
-        
-        .itens-pedido tr:last-child td {
-          border-bottom: none;
-        }
-        
-        .itens-pedido tr:nth-child(even) {
-          background-color: #f9f9f9;
-        }
-        
-        .col-qtd {
-          text-align: center;
-          width: 20px;
-          font-weight: 600;
-        }
-        
-        .col-preco {
-          width: 50px;
-          text-align: right;
-          font-weight: 500;
-        }
-        
-        .col-subtotal {
-          width: 60px;
-          text-align: right;
-          font-weight: 600;
-          color: #ff5722;
-        }
-        
-        .item-nome {
-          font-weight: 600;
-          font-size: 11px;
-          color: #333;
-        }
-        
-        .adicionais {
-          margin-top: 3px;
-          padding: 3px;
-          background-color: #fff9f2;
-          border-left: 2px solid #ff9800;
-          font-size: 9px;
-          color: #555;
-        }
-        
-        .observacao {
-          margin-top: 3px;
-          padding: 3px;
-          background-color: #f1f8e9;
-          border-left: 2px solid #8bc34a;
-          font-style: italic;
-          color: #555;
-          font-size: 9px;
-        }
-        
-        .total-section {
-          margin-top: 10px;
-          text-align: right;
-          padding: 5px;
-          border-top: 1px dashed #ddd;
-        }
-        
-        .total-valor {
-          font-size: 15px;
-          font-weight: 700;
-          color: #ff5722;
-          margin-top: 2px;
-        }
-        
-        .metodo-pagamento {
-          margin-top: 2px;
-          font-style: italic;
-          color: #666;
-          font-size: 10px;
-        }
-        
-        .rodape {
-          margin-top: 15px;
-          text-align: center;
-          font-size: 10px;
-          color: #777;
-          padding-top: 5px;
-          border-top: 1px dashed #ddd;
-        }
-        
-        .agradecimento {
-          margin-top: 10px;
-          text-align: center;
-          padding: 5px;
-          font-weight: 500;
-          color: #333;
-          font-size: 11px;
-        }
-        
-        .botoes-acao {
-          margin-top: 15px;
-          text-align: center;
-        }
-        
-        .btn {
-          padding: 8px 15px;
-          margin: 0 5px;
-          border: none;
-          border-radius: 4px;
-          font-size: 12px;
-          font-weight: 600;
-          cursor: pointer;
-        }
-        
-        .btn-imprimir {
-          background-color: #4caf50;
-          color: white;
-        }
-        
-        .btn-fechar {
-          background-color: #f44336;
-          color: white;
-        }
-        
+        html, body { background: #fff; color: #222; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; font-size: 15px; }
+        h2 { color: #ff5722; margin: 10px 0 10px 0; }
+        .info { margin-bottom: 10px; }
+        .info strong { color: #ff5722; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 0; background: #fff; }
+        th, td { border: 1.5px solid #888; padding: 10px 8px; text-align: left; font-size: 15px; color: #222; background: #fff; vertical-align: top; }
+        th { background: #eee; color: #222; }
+        tr + tr td { border-top: 2.5px solid #ff5722; }
+        .item-nome { font-size: 17px; font-weight: bold; color: #222; margin-bottom: 4px; }
+        .adicionais-lista { margin: 4px 0 0 0; padding: 6px 10px; background: #fff8e1; color: #e65100; border-radius: 5px; font-size: 14px; font-weight: 500; display: inline-block; }
+        .obs-lista { margin: 4px 0 0 0; padding: 6px 10px; background: #e3f2fd; color: #1565c0; border-radius: 5px; font-size: 14px; font-weight: 500; display: inline-block; }
+        .obs-lista:before { content: '📝 '; }
+        .adicionais-lista:before { content: '➕ '; }
+        .total { font-size: 20px; font-weight: bold; color: #222; background: #fff; padding: 10px 0 0 0; text-align: right; border: none; margin: 0; }
+        .label { font-weight: bold; }
         @media print {
-          @page {
-            size: 80mm auto;
-            margin: 0;
-          }
-          
-          html, body {
-            width: 80mm;
-            margin: 0;
-            padding: 0;
-            font-size: 9px;
-            background-color: #fff;
-          }
-          
-          .no-print {
-            display: none !important;
-          }
-          
-          .container {
-            width: 76mm;
-            margin: 0;
-            padding: 0;
-            box-shadow: none;
-          }
-          
-          .cabecalho {
-            margin-top: 0;
-            padding-top: 0;
-          }
+          html, body { background: #fff !important; color: #222 !important; margin: 0 !important; padding: 0 !important; box-shadow: none !important; }
+          h2 { color: #222 !important; margin: 10px 0 10px 0 !important; }
+          table, th, td { background: #fff !important; color: #222 !important; border-color: #888 !important; }
+          tr + tr td { border-top: 2.5px solid #ff5722 !important; }
+          .total { color: #222 !important; background: #fff !important; border: none !important; margin: 0 !important; padding: 10px 0 0 0 !important; }
+          .info { margin-bottom: 10px !important; }
         }
       </style>
     </head>
     <body>
-      <div class="container">
-        <div class="cabecalho">
-          <h1>Space Burguer</h1>
-          <p>${dataFormatada} • ${horaFormatada}</p>
-          <div class="num-pedido">Pedido #${numeroPedido}</div>
-        </div>
-        
-        <div class="info-cliente">
-          <p><strong>Cliente:</strong> ${carrinho.nomeCliente}</p>
-          ${
-            carrinho.enderecoCliente
-              ? `<p><strong>Endereço:</strong> ${carrinho.enderecoCliente}</p>`
-              : ""
-          }
-          ${
-            carrinho.formaPagamento
-              ? `<p><strong>Forma de Pagamento:</strong> ${carrinho.formaPagamento}</p>`
-              : ""
-          }
-        </div>
-        
-        <div class="secao-titulo">Itens do pedido</div>
-        
-        <table class="itens-pedido">
-          <thead>
-            <tr>
-              <th class="col-qtd">Qtd</th>
-              <th>Item</th>
-              <th class="col-preco">Preço</th>
-              <th class="col-subtotal">Subtotal</th>
-            </tr>
-          </thead>
-          <tbody>
-  `;
-
-  // Adicionar cada item ao HTML
-  Object.values(carrinho.itens).forEach((item) => {
-    const valorUnitario = parseFloat(item.valor).toFixed(2).replace(".", ",");
-    const subtotal = (item.quantidade * item.valor)
-      .toFixed(2)
-      .replace(".", ",");
-
-    // Calcular valor dos adicionais se houver
-    let adicionaisHtml = "";
-    if (item.adicionais && item.adicionais.length > 0) {
-      // Criar um mapa para contar ocorrências de cada adicional
-      const adicionaisContagem = {};
-
-      item.adicionais.forEach((adicional) => {
-        if (!adicionaisContagem[adicional.id]) {
-          adicionaisContagem[adicional.id] = {
-            nome: adicional.nome,
-            preco: adicional.preco,
-            quantidade: 1,
-          };
-        } else {
-          adicionaisContagem[adicional.id].quantidade++;
+      <h2>Pedido Space Burguer</h2>
+      <div class=\"info\">
+        <div><span class=\"label\">Cliente:</span> ${carrinho.nomeCliente}</div>
+        ${
+          carrinho.enderecoCliente
+            ? `<div><span class=\"label\">Endereço:</span> ${carrinho.enderecoCliente}</div>`
+            : ""
         }
-      });
-
-      // Gerar HTML para adicionais
-      adicionaisHtml = `<div class="adicionais">
-        <strong>Adicionais:</strong><br>`;
-
-      for (const [id, info] of Object.entries(adicionaisContagem)) {
-        const precoAdicionalTotal = (info.preco * info.quantidade)
-          .toFixed(2)
-          .replace(".", ",");
-        adicionaisHtml += `• ${info.quantidade}x ${info.nome} <span style="float:right">R$ ${precoAdicionalTotal}</span><br>`;
-      }
-
-      adicionaisHtml += `</div>`;
-    }
-
-    html += `
-      <tr>
-        <td class="col-qtd">${item.quantidade}x</td>
-        <td>
-          <div class="item-nome">${item.nome}</div>
-          ${adicionaisHtml}
-          ${
-            item.observacoes
-              ? `<div class="observacao">
-                  <strong>Observação:</strong> ${item.observacoes}
-                </div>`
-              : ""
-          }
-        </td>
-        <td class="col-preco">R$ ${valorUnitario}</td>
-        <td class="col-subtotal">R$ ${subtotal}</td>
-      </tr>
-    `;
-  });
-
-  // Fechar a tabela e adicionar o total
-  const totalFormatado = carrinho.total.toFixed(2).replace(".", ",");
-
-  html += `
-        </tbody>
-      </table>
-      
-      <div class="total-section">
-        <div>Valor Total</div>
-        <div class="total-valor">R$ ${totalFormatado}</div>
         ${
           carrinho.formaPagamento
-            ? `<div class="metodo-pagamento">Pagamento via ${carrinho.formaPagamento}</div>`
+            ? `<div><span class=\"label\">Pagamento:</span> ${carrinho.formaPagamento}</div>`
             : ""
         }
       </div>
-      
-      <div class="agradecimento">
-        Space Burguer
-      </div>
-      
-      <div class="rodape">
-        Space Burguer
-      </div>
-      
-      <div class="botoes-acao no-print">
-        <button class="btn btn-imprimir" onclick="window.print()">Imprimir Pedido</button>
-        <button class="btn btn-fechar" onclick="window.close()">Fechar</button>
-      </div>
-    </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Qtd</th>
+            <th>Item</th>
+            <th>Preço</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${Object.values(carrinho.itens)
+            .map((item) => {
+              // Agrupar adicionais
+              let adicionais = "";
+              if (item.adicionais && item.adicionais.length > 0) {
+                const agrupados = {};
+                item.adicionais.forEach((ad) => {
+                  if (!agrupados[ad.nome]) agrupados[ad.nome] = 0;
+                  agrupados[ad.nome]++;
+                });
+                adicionais =
+                  `<div class=\"adicionais-lista\">` +
+                  Object.entries(agrupados)
+                    .map(([nome, qtd]) => `${qtd}x ${nome}`)
+                    .join(", ") +
+                  `</div>`;
+              }
+              let obs = item.observacoes
+                ? `<div class=\"obs-lista\">${item.observacoes}</div>`
+                : "";
+              let preco = (item.valor + (item.adicionaisTotal || 0))
+                .toFixed(2)
+                .replace(".", ",");
+              return `<tr>
+              <td>1</td>
+              <td>
+                <div class=\"item-nome\">${item.nome}</div>
+                ${adicionais}
+                ${obs}
+              </td>
+              <td><b>R$ ${preco}</b></td>
+            </tr>`;
+            })
+            .join("")}
+        </tbody>
+      </table>
+      <div class=\"total\">Total: R$ ${carrinho.total
+        .toFixed(2)
+        .replace(".", ",")}</div>
     </body>
     </html>
   `;
-
-  return html;
+  janelaImpressao.document.write(html);
+  janelaImpressao.document.close();
+  janelaImpressao.focus();
+  janelaImpressao.onload = function () {
+    janelaImpressao.print();
+  };
 }
