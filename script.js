@@ -1601,26 +1601,26 @@ function imprimirPedido() {
       <h2>Pedido Space Burguer</h2>
       <div class=\"info\">
         <div><span class=\"label\">Cliente:</span> ${carrinho.nomeCliente}</div>
-        ${
-          carrinho.enderecoCliente
-            ? `<div><span class=\"label\">Endereço:</span> ${carrinho.enderecoCliente}</div>`
-            : ""
-        }
-        ${
-          carrinho.formaPagamento
-            ? `<div><span class=\"label\">Pagamento:</span> ${carrinho.formaPagamento}</div>`
-            : ""
-        }
-      </div>
+          ${
+            carrinho.enderecoCliente
+              ? `<div><span class=\"label\">Endereço:</span> ${carrinho.enderecoCliente}</div>`
+              : ""
+          }
+          ${
+            carrinho.formaPagamento
+              ? `<div><span class=\"label\">Pagamento:</span> ${carrinho.formaPagamento}</div>`
+              : ""
+          }
+        </div>
       <table>
-        <thead>
-          <tr>
+          <thead>
+            <tr>
             <th>Qtd</th>
-            <th>Item</th>
+              <th>Item</th>
             <th>Preço</th>
-          </tr>
-        </thead>
-        <tbody>
+            </tr>
+          </thead>
+          <tbody>
           ${Object.values(carrinho.itens)
             .map((item) => {
               // Agrupar adicionais
@@ -1650,7 +1650,7 @@ function imprimirPedido() {
                 <div class=\"item-nome\">${item.nome}</div>
                 ${adicionais}
                 ${obs}
-              </td>
+        </td>
               <td><b>R$ ${preco}</b></td>
             </tr>`;
             })
