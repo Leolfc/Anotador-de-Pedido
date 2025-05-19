@@ -717,8 +717,11 @@ function mostrarPerguntaAdicionais(
     // Remover a pergunta
     perguntaDiv.remove();
 
-    // Adicionar o item diretamente ao carrinho sem adicionais, mas com a observação se houver
-    adicionarItemAoCarrinho(id, nome, valor, tipo, [], observacao);
+    // Limpar a observação do item
+    delete itemDiv.dataset.observacao;
+
+    // Adicionar o item diretamente ao carrinho sem adicionais e sem observação
+    adicionarItemAoCarrinho(id, nome, valor, tipo, [], "");
   });
 
   btnSim.addEventListener("click", function () {
