@@ -1811,7 +1811,7 @@ button {
 
 @media print {
   @page {
-    size: 80mm auto;
+    size: 80mm max-content;
     margin: 0;
   }
   html,
