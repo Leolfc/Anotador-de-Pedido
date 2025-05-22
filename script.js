@@ -1569,162 +1569,64 @@ function imprimirPedido() {
   const janelaImpressao = window.open("", "", "width=800,height=600");
   let html = `
     <!DOCTYPE html>
-    <html lang="pt-BR">
+    <html lang=\"pt-BR\">
     <head>
-      <meta charset="UTF-8">
+      <meta charset=\"UTF-8\">
       <title>Pedido - Space Burguer</title>
       <style>
-        @page {
-          size: A4;
-          margin: 1cm;
-        }
-        html, body { 
-          background: #fff; 
-          color: #222; 
-          margin: 0; 
-          padding: 0; 
-          font-family: Arial, sans-serif;
-        }
-        .cabecalho {
-          text-align: center;
-          margin-bottom: 20px;
-          padding-bottom: 10px;
-          border-bottom: 2px solid #ff5722;
-        }
-        .cabecalho h2 { 
-          color: #ff5722; 
-          margin: 0 0 10px 0;
-          font-size: 24px;
-        }
-        .info-cliente {
-          background: #f8f9fa;
-          padding: 15px;
-          border-radius: 8px;
-          margin-bottom: 20px;
-          border: 1px solid #dee2e6;
-        }
-        .info-cliente div {
-          margin: 8px 0;
-          font-size: 16px;
-        }
-        .info-cliente .label {
-          color: #ff5722;
-          font-weight: bold;
-          display: inline-block;
-          width: 100px;
-        }
-        table {
-          width: 100%;
-          border-collapse: collapse;
-          margin-bottom: 20px;
-          background: #fff;
-        }
-        th {
-          background: #ff5722;
-          color: white;
-          padding: 12px 8px;
-          text-align: left;
-          font-size: 16px;
-        }
-        td {
-          padding: 12px 8px;
-          border-bottom: 1px solid #dee2e6;
-          vertical-align: top;
-        }
-        .item-nome {
-          font-size: 16px;
-          font-weight: bold;
-          color: #222;
-          margin-bottom: 8px;
-        }
-        .adicionais-lista {
-          margin: 6px 0;
-          padding: 8px 12px;
-          background: #fff8e1;
-          color: #e65100;
-          border-radius: 6px;
-          font-size: 14px;
-          display: inline-block;
-        }
-        .obs-lista {
-          margin: 6px 0;
-          padding: 8px 12px;
-          background: #e3f2fd;
-          color: #1565c0;
-          border-radius: 6px;
-          font-size: 14px;
-          display: inline-block;
-        }
+        html, body { background: #fff; color: #222; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; font-size: 15px; }
+        h2 { color: #ff5722; margin: 10px 0 10px 0; }
+        .info { margin-bottom: 10px; }
+        .info strong { color: #ff5722; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 0; background: #fff; }
+        th, td { border: 1.5px solid #888; padding: 10px 8px; text-align: left; font-size: 15px; color: #222; background: #fff; vertical-align: top; }
+        th { background: #eee; color: #222; }
+        tr + tr td { border-top: 2.5px solid #ff5722; }
+        .item-nome { font-size: 17px; font-weight: bold; color: #222; margin-bottom: 4px; }
+        .adicionais-lista { margin: 4px 0 0 0; padding: 6px 10px; background: #fff8e1; color: #e65100; border-radius: 5px; font-size: 14px; font-weight: 500; display: inline-block; }
+        .obs-lista { margin: 4px 0 0 0; padding: 6px 10px; background: #e3f2fd; color: #1565c0; border-radius: 5px; font-size: 14px; font-weight: 500; display: inline-block; }
         .obs-lista:before { content: '📝 '; }
         .adicionais-lista:before { content: '➕ '; }
-        .total {
-          font-size: 20px;
-          font-weight: bold;
-          color: #222;
-          text-align: right;
-          padding: 15px;
-          background: #f8f9fa;
-          border-radius: 8px;
-          border: 1px solid #dee2e6;
-        }
+        .total { font-size: 20px; font-weight: bold; color: #222; background: #fff; padding: 10px 0 0 0; text-align: right; border: none; margin: 0; }
+        .label { font-weight: bold; }
         @media print {
-          body {
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-          }
-          .cabecalho {
-            border-bottom-color: #ff5722 !important;
-          }
-          .info-cliente {
-            background: #f8f9fa !important;
-            border-color: #dee2e6 !important;
-          }
-          th {
-            background: #ff5722 !important;
-            color: white !important;
-          }
-          .adicionais-lista {
-            background: #fff8e1 !important;
-            color: #e65100 !important;
-          }
-          .obs-lista {
-            background: #e3f2fd !important;
-            color: #1565c0 !important;
-          }
-          .total {
-            background: #f8f9fa !important;
-            border-color: #dee2e6 !important;
-          }
+          html, body { background: #fff !important; color: #222 !important; margin: 0 !important; padding: 0 !important; box-shadow: none !important; }
+          h2 { color: #222 !important; margin: 10px 0 10px 0 !important; }
+          table, th, td { background: #fff !important; color: #222 !important; border-color: #888 !important; }
+          tr + tr td { border-top: 2.5px solid #ff5722 !important; }
+          .total { color: #222 !important; background: #fff !important; border: none !important; margin: 0 !important; padding: 10px 0 0 0 !important; }
+          .info { margin-bottom: 10px !important; }
         }
       </style>
     </head>
     <body>
-      <div class="cabecalho">
-        <h2>Pedido Space Burguer</h2>
-        <div>Data: ${new Date().toLocaleDateString('pt-BR')}</div>
-      </div>
-      
-      <div class="info-cliente">
-        <div><span class="label">Cliente:</span> ${carrinho.nomeCliente}</div>
-        ${carrinho.enderecoCliente ? 
-          `<div><span class="label">Endereço:</span> ${carrinho.enderecoCliente}</div>` : 
-          ''}
-        ${carrinho.formaPagamento ? 
-          `<div><span class="label">Pagamento:</span> ${carrinho.formaPagamento}</div>` : 
-          ''}
-      </div>
-
+      <h2>Pedido Space Burguer</h2>
+      <div class=\"info\">
+        <div><span class=\"label\">Cliente:</span> ${carrinho.nomeCliente}</div>
+          ${
+            carrinho.enderecoCliente
+              ? `<div><span class=\"label\">Endereço:</span> ${carrinho.enderecoCliente}</div>`
+              : ""
+          }
+          ${
+            carrinho.formaPagamento
+              ? `<div><span class=\"label\">Pagamento:</span> ${carrinho.formaPagamento}</div>`
+              : ""
+          }
+        </div>
       <table>
-        <thead>
-          <tr>
+          <thead>
+            <tr>
             <th>Qtd</th>
-            <th>Item</th>
+              <th>Item</th>
             <th>Preço</th>
-          </tr>
-        </thead>
-        <tbody>
+            </tr>
+          </thead>
+          <tbody>
           ${Object.values(carrinho.itens)
             .map((item) => {
+              // Agrupar adicionais
               let adicionais = "";
               if (item.adicionais && item.adicionais.length > 0) {
                 const agrupados = {};
@@ -1733,35 +1635,34 @@ function imprimirPedido() {
                   agrupados[ad.nome]++;
                 });
                 adicionais =
-                  `<div class="adicionais-lista">` +
+                  `<div class=\"adicionais-lista\">` +
                   Object.entries(agrupados)
                     .map(([nome, qtd]) => `${qtd}x ${nome}`)
                     .join(", ") +
                   `</div>`;
               }
               let obs = item.observacoes
-                ? `<div class="obs-lista">${item.observacoes}</div>`
+                ? `<div class=\"obs-lista\">${item.observacoes}</div>`
                 : "";
               let preco = (item.valor + (item.adicionaisTotal || 0))
                 .toFixed(2)
                 .replace(".", ",");
               return `<tr>
-                <td>1</td>
-                <td>
-                  <div class="item-nome">${item.nome}</div>
-                  ${adicionais}
-                  ${obs}
-                </td>
-                <td><b>R$ ${preco}</b></td>
-              </tr>`;
+              <td>1</td>
+              <td>
+                <div class=\"item-nome\">${item.nome}</div>
+                ${adicionais}
+                ${obs}
+        </td>
+              <td><b>R$ ${preco}</b></td>
+            </tr>`;
             })
             .join("")}
         </tbody>
       </table>
-
-      <div class="total">
-        Total: R$ ${carrinho.total.toFixed(2).replace(".", ",")}
-      </div>
+      <div class=\"total\">Total: R$ ${carrinho.total
+        .toFixed(2)
+        .replace(".", ",")}</div>
     </body>
     </html>
   `;

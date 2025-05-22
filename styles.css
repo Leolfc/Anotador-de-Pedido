@@ -1808,3 +1808,110 @@ button {
   border-top-color: #ffccbc;
   text-shadow: none;
 }
+
+@media print {
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+  html,
+  body {
+    width: 80mm;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    background: #fff !important;
+  }
+  header,
+  .theme-toggle,
+  .search-container,
+  .btn-flutuante,
+  .no-print,
+  .cart-buttons,
+  #btn-ir-carrinho,
+  #btn-voltar-topo {
+    display: none !important;
+  }
+  .container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    box-shadow: none;
+  }
+  .menu-container,
+  .cart-container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    float: none;
+  }
+  .item-container,
+  .item-info,
+  .item-actions,
+  .item-desc,
+  .item {
+    page-break-inside: avoid;
+  }
+  main {
+    margin: 0;
+    padding: 0;
+  }
+  #resumoPedido {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  /* Garante que nome, endereço, itens e total fiquem visíveis */
+  #resumoPedido,
+  #nomeCliente,
+  #enderecoCliente,
+  #itens-carrinho,
+  .cart-total {
+    display: block !important;
+  }
+  .cart-total {
+    text-align: center !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    margin-top: 5px !important;
+    padding-top: 5px !important;
+  }
+  /* Remove fundo colorido e bordas para impressão mais limpa */
+  .item-container,
+  .item-info,
+  .item-actions,
+  .item-desc,
+  .item {
+    background: none !important;
+    border: none !important;
+  }
+  /* Ajustes adicionais para reduzir espaços */
+  .cliente-info {
+    margin-bottom: 5px !important;
+  }
+  #nomeCliente,
+  #enderecoCliente {
+    padding: 3px 5px !important;
+    margin-bottom: 3px !important;
+  }
+  #itens-carrinho {
+    margin-bottom: 5px !important;
+  }
+  .cart-item {
+    padding: 3px 0 !important;
+  }
+  .cart-item-name {
+    font-size: 11px !important;
+  }
+  .cart-item-price {
+    font-size: 11px !important;
+  }
+  .adicionais-list small {
+    font-size: 10px !important;
+    margin-top: 2px !important;
+  }
+  .observacoes-list .observacao {
+    font-size: 10px !important;
+    margin-top: 2px !important;
+  }
+}
