@@ -660,8 +660,7 @@
                         <select id="formaPagamento" class="forma-pagamento">
                             <option value="">Selecione a forma de pagamento</option>
                             <option value="Dinheiro">Dinheiro</option>
-                            <option value="Cartão de Crédito">Cartão de Crédito</option>
-                            <option value="Cartão de Débito">Cartão de Débito</option>
+                            <option value="Cartão de Crédito">Cartão</option>
                             <option value="PIX">PIX</option>
                         </select>
                     </div>
@@ -709,39 +708,39 @@
       /* Estilos para impressão - Mantidos do seu original, com ajustes */
       @media print {
         @page {
-          size: 80mm auto; /* Ajuste para impressora térmica */
-          margin: 3mm; /* Margem pequena para aproveitar o papel */
+          size: 58mm auto;
+          margin: 1mm;
         }
         html,
         body {
-          width: 100%; /* O @page define a largura do papel */
-          font-size: 10pt; /* Tamanho de fonte base para impressão */
+          width: 56mm;
+          font-size: 8pt;
           margin: 0;
           padding: 0;
           background: #fff !important;
-          color: #000 !important; /* Garante texto preto */
+          color: #000 !important;
         }
         header,
         .theme-toggle,
         .search-container,
         .btn-flutuante,
-        .no-print, /* Classe genérica para não imprimir */
-        .cart-buttons button#btnLimparCarrinho, /* Não imprimir botão de limpar */
-        .cart-buttons button#btnImprimirPedido, /* Não imprimir o próprio botão de imprimir */
+        .no-print,
+        .cart-buttons button#btnLimparCarrinho,
+        .cart-buttons button#btnImprimirPedido,
         #btn-ir-carrinho,
         #btn-voltar-topo,
-        .menu-container /* Esconde o menu de itens */ {
+        .menu-container {
           display: none !important;
         }
         .container {
-          display: block !important; /* Remove grid para impressão */
+          display: block !important;
           margin: 0;
           padding: 0;
-          width: 100%;
+          width: 56mm !important;
           box-shadow: none;
         }
         .cart-container, #resumoPedido {
-          width: 100% !important;
+          width: 56mm !important;
           margin: 0 !important;
           padding: 0 !important;
           float: none !important;
@@ -752,69 +751,106 @@
         main {
           margin: 0;
           padding: 0;
+          width: 56mm !important;
         }
-        /* Garante que nome, endereço, itens e total fiquem visíveis e formatados */
         #resumoPedido h2 {
-            text-align: center;
-            font-size: 14pt;
-            margin-bottom: 5mm;
-            border-bottom: 1px solid #000;
-            padding-bottom: 2mm;
+          text-align: center;
+          font-size: 12pt;
+          margin-bottom: 3mm;
+          border-bottom: 1px solid #000;
+          padding-bottom: 2mm;
         }
-        .cliente-info, .tipo-servico-container, #camposEntrega, #formaPagamento, .cart-total, #subtotal-info, #entrega-info-carrinho {
+        .cliente-info, .tipo-servico-container, #camposEntrega, #formaPagamento {
           display: block !important;
           margin-bottom: 2mm !important;
-          font-size: 9pt !important;
+          font-size: 8pt !important;
+          width: 56mm !important;
         }
-        #nomeCliente, #enderecoCliente, #bairroSelect, #formaPagamento{
-            border: none !important;
-            padding: 0 !important;
-            box-shadow: none !important;
-            background: #fff !important;
-            color: #000 !important;
-            width: auto !important; /* Para não ocupar 100% se não precisar */
+        #nomeCliente, #enderecoCliente, #bairroSelect, #formaPagamento {
+          border: none !important;
+          padding: 0 !important;
+          box-shadow: none !important;
+          background: #fff !important;
+          color: #000 !important;
+          width: 56mm !important;
         }
         #itens-carrinho {
-            margin-bottom: 3mm !important;
+          margin-bottom: 3mm !important;
+          width: 56mm !important;
         }
         .cart-item {
           page-break-inside: avoid;
           border-bottom: 1px dotted #555 !important;
-          padding: 2mm 0 !important;
+          padding: 1mm 0 !important;
           color: #000 !important;
+          width: 56mm !important;
+          display: flex !important;
+          justify-content: space-between !important;
+          align-items: flex-start !important;
         }
-         .cart-item-info {
-            color: #000 !important;
+        .cart-item-info {
+          color: #000 !important;
+          width: 34mm !important;
+          flex-shrink: 0 !important;
+          padding-right: 1mm !important;
         }
-        .item-nome-carrinho, .cart-item-price {
-            font-size: 9.5pt !important;
-            color: #000 !important;
+        .cart-item-actions {
+          width: 22mm !important;
+          text-align: right !important;
+          flex-shrink: 0 !important;
+          white-space: nowrap !important;
+          padding-left: 1mm !important;
+        }
+        .item-nome-carrinho {
+          font-size: 8pt !important;
+          color: #000 !important;
+          margin-bottom: 1mm !important;
+          display: block !important;
         }
         .adicionais-list-carrinho small, .observacoes-list-carrinho small {
-            font-size: 8pt !important;
-            color: #333 !important; /* Um cinza escuro para detalhes */
-            border-left: none !important;
-            padding-left: 5px !important;
+          font-size: 7pt !important;
+          color: #333 !important;
+          border-left: none !important;
+          padding-left: 2mm !important;
+          display: block !important;
+          margin-bottom: 1mm !important;
+          width: 34mm !important;
         }
         .cart-total {
-          text-align: right !important; /* Alinhado à direita para cupom */
-          font-size: 11pt !important;
+          text-align: right !important;
+          font-size: 9pt !important;
           font-weight: bold !important;
-          margin-top: 3mm !important;
+          margin-top: 2mm !important;
           padding-top: 2mm !important;
           border-top: 1px solid #000 !important;
+          width: 56mm !important;
+          white-space: nowrap !important;
         }
-         #subtotal-info, #entrega-info-carrinho {
-            text-align: right !important;
-            font-size: 9.5pt !important;
+        #subtotal-info, #entrega-info-carrinho {
+          text-align: right !important;
+          font-size: 8pt !important;
+          width: 56mm !important;
+          display: flex !important;
+          justify-content: space-between !important;
+          white-space: nowrap !important;
         }
-        #entrega-info-carrinho span:first-child, #subtotal-info span:first-child {
-            float: left; /* Para alinhar o label à esquerda e valor à direita */
+        #subtotal-info span, #entrega-info-carrinho span {
+          white-space: nowrap !important;
         }
-
-        /* Remove elementos interativos não necessários na impressão */
+        #valorTotal {
+          white-space: nowrap !important;
+          display: inline-block !important;
+          margin-left: 2mm !important;
+        }
+        .cart-item-price {
+          white-space: nowrap !important;
+          font-weight: bold !important;
+          color: #000 !important;
+          min-width: 20mm !important;
+          text-align: right !important;
+        }
         .btn-editar-item, .btn-remove-item, .item-actions, .adicional-selector, .item-observacao-placeholder {
-            display: none !important;
+          display: none !important;
         }
       }
 
