@@ -1811,12 +1811,12 @@ button {
 
 @media print {
   @page {
-    size: 80mm max-content;
+    size: 58mm max-content;
     margin: 0;
   }
   html,
   body {
-    width: 80mm;
+    width: 58mm;
     font-size: 12px;
     margin: 0;
     padding: 0;
