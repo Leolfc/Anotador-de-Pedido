@@ -30,10 +30,13 @@ const taxasDeEntrega = {
   "Residencial Pompeia II": 8.0,
   "Residencial Pompeia III": 8.0,
   "Parque Bela Vista": 6.0,
+  "Jardim Alves": 7.0,
+  "Jardim Castro": 8.0,
   "Jardim Europa": 7.0,
   "Jardim Canada": 7.0,
   "Jardim Panorama": 10.0,
   "Jardim Morada do Sol": 8.0,
+   "Papagaio": 8.0,
   "Outro Bairro (Consultar)": 0,
 };
 
