@@ -1,6 +1,7 @@
 // Preços dos adicionais (mantenha sua lista original)
 const adicionais = {
-  hamburguer160g: { nome: "Hambúrguer 160g", preco: 8.5 },
+  hamburguer160g: { nome: "Hambúrguer 160g", preco: 9.0 },
+  hamburguer95g: { nome: "Hambúrguer 95g", preco: 6.5 },
   picles: { nome: "Picles", preco: 7.0 },
   queijoCheddar: { nome: "Queijo Cheddar", preco: 4.0 },
   queijoMussarela: { nome: "Queijo Mussarela", preco: 3.0 },
@@ -9,7 +10,7 @@ const adicionais = {
   alfaceAmericana: { nome: "Alface Americana", preco: 2.0 },
   tomate: { nome: "Tomate", preco: 2.0 },
   cebolaRoxa: { nome: "Cebola Roxa", preco: 2.5 },
-  catupiry: { nome: "Catupiry", preco: 6.5 },
+  catupiry: { nome: "Catupiry", preco: 7.0 },
   doritos: { nome: "Doritos", preco: 5.0 },
 };
 
@@ -36,7 +37,7 @@ const taxasDeEntrega = {
   "Jardim Canada": 7.0,
   "Jardim Panorama": 10.0,
   "Jardim Morada do Sol": 8.0,
-   "Papagaio": 8.0,
+  "Papagaio": 8.0,
   "Outro Bairro (Consultar)": 0,
 };
 
@@ -1160,18 +1161,7 @@ function configurarBotoesFlutuantes() {
   }
 }
 
-// MODIFICADO: Função de impressão com layout de cupom e detalhes de entrega
-// COLE ESTA FUNÇÃO MODIFICADA NO LUGAR DA SUA FUNÇÃO imprimirPedido() EXISTENTE
-// NO ARQUIVO script.js QUE VOCÊ ME ENVIOU POR ÚLTIMO.
 
-// COLE ESTA FUNÇÃO MODIFICADA NO LUGAR DA SUA FUNÇÃO imprimirPedido() EXISTENTE
-// NO ARQUIVO script.js. O RESTANTE DO SEU SCRIPT.JS DEVE PERMANECER IGUAL.
-
-// COLE ESTA FUNÇÃO MODIFICADA NO LUGAR DA SUA FUNÇÃO imprimirPedido() EXISTENTE
-// NO ARQUIVO script.js. O RESTANTE DO SEU SCRIPT.JS DEVE PERMANECER IGUAL.
-
-// COLE ESTA FUNÇÃO MODIFICADA NO LUGAR DA SUA FUNÇÃO imprimirPedido() EXISTENTE
-// NO ARQUIVO script.js. O RESTANTE DO SEU SCRIPT.JS DEVE PERMANECER IGUAL.
 
 function imprimirPedido() {
   if (Object.keys(carrinho.itens).length === 0) {
@@ -1366,25 +1356,3 @@ function imprimirPedido() {
     alert("Não foi possível abrir a janela de impressão. Verifique se o bloqueador de pop-ups está desativado para este site.");
   }
 }
-// ===================================================================================
-// Certifique-se de que o restante do seu script.js está aqui, conforme a versão
-// completa que enviei anteriormente (com DOMContentLoaded, criarModalAdicionais,
-// atualizarCarrinho, configurarLogicaEntrega, edição de itens, etc.)
-// ===================================================================================
-
-// ===================================================================================
-// AQUI PARA BAIXO, MANTENHA TODAS AS OUTRAS FUNÇÕES DO SEU script.js ATUALIZADO:
-// criarModalAdicionais, adicionarEstruturaObservacaoCardapio, configurarPesquisa,
-// atualizarResumoAdicionais, mostrarPerguntaAdicionais, abrirModalAdicionais,
-// fecharModalAdicionais, confirmarAdicionais, editarItemDoCarrinho, adicionarItem,
-// adicionarItemAoCarrinho, removerItem, removerItemDoCarrinho, limparCarrinho,
-// atualizarCarrinho, mostrarNotificacao, configurarAlternadorTema,
-// configurarBotoesModal, configurarBotoesFlutuantes, etc.
-// ===================================================================================
-
-// Exemplo de como ficaria a estrutura (você já tem essas funções):
-/*
-function mostrarNotificacao(mensagem) { ... }
-function criarModalAdicionais() { ... }
-// ... e todas as outras funções ...
-*/
