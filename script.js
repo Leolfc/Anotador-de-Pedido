@@ -10,7 +10,7 @@ const adicionais = {
   alfaceAmericana: { nome: "Alface Americana", preco: 2.0 },
   tomate: { nome: "Tomate", preco: 2.0 },
   cebolaRoxa: { nome: "Cebola Roxa", preco: 2.5 },
-  catupiry: { nome: "Catupiry", preco: 7.0 },
+  catupiry: { nome: "Catupiry", preco: 8.0 },
   doritos: { nome: "Doritos", preco: 5.0 },
 };
 
@@ -37,7 +37,7 @@ const taxasDeEntrega = {
   "Jardim Canada": 7.0,
   "Jardim Panorama": 10.0,
   "Jardim Morada do Sol": 8.0,
-  "Papagaio": 8.0,
+  Papagaio: 8.0,
   "Outro Bairro (Consultar)": 0,
 };
 
@@ -598,6 +598,9 @@ function abrirModalAdicionais(
       ? carrinho.itemAtual.observacao
       : observacaoParaModal;
 
+  // Mantém o uniqueId se estiver editando um item existente
+  const uniqueId = carrinho.itemAtual && carrinho.itemAtual.uniqueId ? carrinho.itemAtual.uniqueId : null;
+
   carrinho.itemAtual = {
     itemDiv,
     id,
@@ -605,6 +608,7 @@ function abrirModalAdicionais(
     valor,
     tipo: itemDiv ? itemDiv.dataset.tipo : tipo,
     observacao: obsInicialModal,
+    uniqueId: uniqueId // Mantém o uniqueId do item sendo editado
   };
 
   const modalOverlay = document.querySelector(".adicionais-modal-overlay");
@@ -748,7 +752,7 @@ function editarItemDoCarrinho(uniqueId) {
     : "hamburguer";
 
   carrinho.itemAtual = {
-    itemDiv: itemOriginalCardapio, // Passa a referência ao item do cardápio
+    itemDiv: itemOriginalCardapio,
     id: itemNoCarrinho.id,
     nome: itemNoCarrinho.nome,
     valor: itemNoCarrinho.valor,
@@ -808,6 +812,11 @@ function adicionarItemAoCarrinho(
   adicionaisList = [],
   observacoes = ""
 ) {
+  // Se estiver editando um item existente, não adiciona um novo
+  if (carrinho.itemAtual && carrinho.itemAtual.uniqueId) {
+    return;
+  }
+
   carrinho.contador++;
   const itemUniqueKey = `item_pedido_${carrinho.contador}`;
   let adicionaisTotalValor = 0;
@@ -1161,8 +1170,6 @@ function configurarBotoesFlutuantes() {
   }
 }
 
-
-
 function imprimirPedido() {
   if (Object.keys(carrinho.itens).length === 0) {
     mostrarNotificacao("Adicione itens ao pedido antes de imprimir.");
@@ -1178,7 +1185,8 @@ function imprimirPedido() {
   if (carrinho.tipoServico === "entrega") {
     if (!carrinho.enderecoCliente) {
       mostrarNotificacao("Por favor, informe o endereço para entrega.");
-      const enderecoClienteTextarea = document.getElementById("enderecoCliente");
+      const enderecoClienteTextarea =
+        document.getElementById("enderecoCliente");
       if (enderecoClienteTextarea) enderecoClienteTextarea.focus();
       return;
     }
@@ -1189,10 +1197,13 @@ function imprimirPedido() {
       return;
     }
   }
-  
+
   const dataHora = new Date();
-  const dataFormatada = dataHora.toLocaleDateString('pt-BR');
-  const horaFormatada = dataHora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  const dataFormatada = dataHora.toLocaleDateString("pt-BR");
+  const horaFormatada = dataHora.toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   // Estilos CSS OTIMIZADOS para impressora térmica 58mm (largura efetiva ~48mm)
   // FOCO TOTAL EM NÃO CORTAR OS PREÇOS e tentar aumentar fonte da observação.
@@ -1298,8 +1309,8 @@ function imprimirPedido() {
         <tbody>`;
 
   let subtotalItensImpressao = 0;
-  Object.values(carrinho.itens).forEach(item => {
-    const valorItemComAdicionais = (item.valor + (item.adicionaisTotal || 0));
+  Object.values(carrinho.itens).forEach((item) => {
+    const valorItemComAdicionais = item.valor + (item.adicionaisTotal || 0);
     const subtotalLinha = valorItemComAdicionais * (item.quantidade || 1);
     subtotalItensImpressao += subtotalLinha;
     htmlImpressao += `
@@ -1309,38 +1320,50 @@ function imprimirPedido() {
               <span class="item-nome-print">${item.nome}</span>`;
     if (item.adicionais && item.adicionais.length > 0) {
       const contagemAd = {};
-      item.adicionais.forEach(ad => { contagemAd[ad.nome] = (contagemAd[ad.nome] || 0) + 1; });
+      item.adicionais.forEach((ad) => {
+        contagemAd[ad.nome] = (contagemAd[ad.nome] || 0) + 1;
+      });
       htmlImpressao += `<span class="detalhes-item-print ad">`;
-      htmlImpressao += Object.entries(contagemAd).map(([nome, qtd]) => `${qtd}x ${nome}`).join(', ');
+      htmlImpressao += Object.entries(contagemAd)
+        .map(([nome, qtd]) => `${qtd}x ${nome}`)
+        .join(", ");
       htmlImpressao += `</span>`;
     }
     if (item.observacoes) {
       htmlImpressao += `<span class="detalhes-item-print obs">${item.observacoes}</span>`;
     }
     htmlImpressao += `</td>
-            <td class="col-sub">${subtotalLinha.toFixed(2).replace(".", ",")}</td>
+            <td class="col-sub">${subtotalLinha
+              .toFixed(2)
+              .replace(".", ",")}</td>
           </tr>`;
   });
 
   htmlImpressao += `</tbody></table>`;
-  
+
   htmlImpressao += `<div class="resumo-financeiro">`;
-  htmlImpressao += `<div><span>Subtotal Itens:</span><span>R$ ${subtotalItensImpressao.toFixed(2).replace(".", ",")}</span></div>`;
+  htmlImpressao += `<div><span>Subtotal Itens:</span><span>R$ ${subtotalItensImpressao
+    .toFixed(2)
+    .replace(".", ",")}</span></div>`;
 
   if (carrinho.tipoServico === "entrega" && carrinho.bairroSelecionado) {
-    const taxaDisplay = carrinho.bairroSelecionado === "Outro Bairro (Consultar)" && carrinho.taxaEntrega === 0 
-                        ? "A Consultar" 
-                        : `R$ ${carrinho.taxaEntrega.toFixed(2).replace(".", ",")}`;
+    const taxaDisplay =
+      carrinho.bairroSelecionado === "Outro Bairro (Consultar)" &&
+      carrinho.taxaEntrega === 0
+        ? "A Consultar"
+        : `R$ ${carrinho.taxaEntrega.toFixed(2).replace(".", ",")}`;
     htmlImpressao += `<div><span>Taxa Entrega:</span><span>${taxaDisplay}</span></div>`;
   }
   htmlImpressao += `</div>`;
 
-  htmlImpressao += `<div class="total-geral">TOTAL: R$ ${carrinho.total.toFixed(2).replace(".", ",")}</div>
+  htmlImpressao += `<div class="total-geral">TOTAL: R$ ${carrinho.total
+    .toFixed(2)
+    .replace(".", ",")}</div>
       <div class="footer-impressao">Obrigado pela preferência!</div>
     </body></html>`;
 
-  const printWindow = window.open('', '_blank'); 
-  if(printWindow){
+  const printWindow = window.open("", "_blank");
+  if (printWindow) {
     printWindow.document.write(htmlImpressao);
     printWindow.document.close();
     printWindow.focus();
@@ -1351,8 +1374,10 @@ function imprimirPedido() {
         console.error("Erro ao tentar imprimir:", e);
         alert("Erro ao iniciar a impressão. Tente novamente.");
       }
-    }, 1000); 
+    }, 1000);
   } else {
-    alert("Não foi possível abrir a janela de impressão. Verifique se o bloqueador de pop-ups está desativado para este site.");
+    alert(
+      "Não foi possível abrir a janela de impressão. Verifique se o bloqueador de pop-ups está desativado para este site."
+    );
   }
 }
