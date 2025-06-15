@@ -1,4 +1,4 @@
-// Preços dos adicionais (mantenha sua lista original)
+//!Preços dos adicionais (mantenha sua lista original)
 const adicionais = {
   hamburguer160g: { nome: "Hambúrguer 160g", preco: 9.0 },
   hamburguer95g: { nome: "Hambúrguer 95g", preco: 6.5 },
@@ -16,6 +16,25 @@ const adicionais = {
 
 const taxasDeEntrega = {
   Centro: 7.0,
+  "Anita Moreira": 8.0,
+  "Centro": 7.0,
+  "Parque Bela Vista": 6.0,
+  "Nova Jacarezinho": 8.0,
+  "Vila Setti": 8.0,
+  "Vila São Pedro": 7.0,
+  "Vila Maria": 8.0,
+  "Vila Esperança": 8.0,
+  "Vila Rondon": 7.0,
+  "Residencial Pompeia I": 8.0,
+  "Residencial Pompeia II": 8.0,
+  "Residencial Pompeia III": 8.0,
+  "Jardim Miguel Afonso": 7.0,
+  "Jardim Alves": 7.0,
+  "Jardim Castro": 8.0,
+  "Jardim Europa": 7.0,
+  "Jardim Canada": 7.0,
+  "Jardim Panorama": 10.0,
+  "Jardim Morada do Sol": 8.0,
   "Dom Pedro Filipack": 7.0,
   "Bairro Aeroporto": 12.0,
   "Vila Leão": 10.0,
@@ -23,21 +42,7 @@ const taxasDeEntrega = {
   "Novo Aeroporto": 14.0,
   "Jardim São Luis 1": 8.0,
   "Jardim São Luis 2": 8.0,
-  "Nova Jacarezinho": 8.0,
-  "Vila Setti": 8.0,
-  "Vila São Pedro": 7.0,
-  "Vila Rondon": 7.0,
-  "Residencial Pompeia I": 8.0,
-  "Residencial Pompeia II": 8.0,
-  "Residencial Pompeia III": 8.0,
-  "Parque Bela Vista": 6.0,
-  "Jardim Alves": 7.0,
-  "Jardim Castro": 8.0,
-  "Jardim Europa": 7.0,
-  "Jardim Canada": 7.0,
-  "Jardim Panorama": 10.0,
-  "Jardim Morada do Sol": 8.0,
-  Papagaio: 8.0,
+  "Papagaio": 8.0,
   "Outro Bairro (Consultar)": 0,
 };
 
@@ -599,7 +604,10 @@ function abrirModalAdicionais(
       : observacaoParaModal;
 
   // Mantém o uniqueId se estiver editando um item existente
-  const uniqueId = carrinho.itemAtual && carrinho.itemAtual.uniqueId ? carrinho.itemAtual.uniqueId : null;
+  const uniqueId =
+    carrinho.itemAtual && carrinho.itemAtual.uniqueId
+      ? carrinho.itemAtual.uniqueId
+      : null;
 
   carrinho.itemAtual = {
     itemDiv,
@@ -608,7 +616,7 @@ function abrirModalAdicionais(
     valor,
     tipo: itemDiv ? itemDiv.dataset.tipo : tipo,
     observacao: obsInicialModal,
-    uniqueId: uniqueId // Mantém o uniqueId do item sendo editado
+    uniqueId: uniqueId, // Mantém o uniqueId do item sendo editado
   };
 
   const modalOverlay = document.querySelector(".adicionais-modal-overlay");
