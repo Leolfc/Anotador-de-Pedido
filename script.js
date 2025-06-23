@@ -15,9 +15,8 @@ const adicionais = {
 };
 
 const taxasDeEntrega = {
-  Centro: 7.0,
   "Anita Moreira": 8.0,
-  "Centro": 7.0,
+  "Centro": 6.0,
   "Parque Bela Vista": 6.0,
   "Nova Jacarezinho": 8.0,
   "Vila Setti": 8.0,
