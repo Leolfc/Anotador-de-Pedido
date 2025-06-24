@@ -1,6 +1,6 @@
 //!Preços dos adicionais (mantenha sua lista original)
 const adicionais = {
-  hamburguer160g: { nome: "Hambúrguer 160g", preco: 9.0 },
+   hamburguer160g: { nome: "Hambúrguer 160g", preco: 9.0 },
   hamburguer95g: { nome: "Hambúrguer 95g", preco: 6.5 },
   picles: { nome: "Picles", preco: 7.0 },
   queijoCheddar: { nome: "Queijo Cheddar", preco: 4.0 },
@@ -8,6 +8,8 @@ const adicionais = {
   bacon: { nome: "Bacon", preco: 8.0 },
   cebolaCaramelizada: { nome: "Cebola Caramelizada", preco: 7.0 },
   alfaceAmericana: { nome: "Alface Americana", preco: 2.0 },
+  ovoFrito: { nome: "Ovo Frito", preco: 3.0 },
+  salsicha: { nome: "Salsicha", preco: 2.0 },
   tomate: { nome: "Tomate", preco: 2.0 },
   cebolaRoxa: { nome: "Cebola Roxa", preco: 2.5 },
   catupiry: { nome: "Catupiry", preco: 8.0 },
@@ -24,6 +26,7 @@ const taxasDeEntrega = {
   "Vila São Pedro": 7.0,
   "Vila Maria": 8.0,
   "Vila Esperança": 8.0,
+  "Vila Rosa": 6.0,
   "Vila Rondon": 7.0,
   "Villa Aggeu": 8.0,
   "Residencial Pompeia I, II, III ": 8.0,
