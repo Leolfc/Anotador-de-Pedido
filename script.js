@@ -431,6 +431,8 @@ function criarModalAdicionais() {
     <textarea id="observacoes-pedido" placeholder="Ex: sem cebola, ponto da carne, etc." style="width:100%; min-height:60px; padding:8px; border:1px solid #ccc; border-radius:4px; font-family:inherit;"></textarea>
     <div class="opcoes-rapidas" style="margin-top:8px; display:flex; flex-wrap:wrap; gap:5px;">
         <button type="button" class="opcao-rapida" data-texto="Sem tomate">Sem tomate</button>
+        <button type="button" class="opcao-rapida" data-texto="Mussarela">Mussarela</button>
+        <button type="button" class="opcao-rapida" data-texto="Sem queijo">Sem queijo</button>
         <button type="button" class="opcao-rapida" data-texto="Sem cebola">Sem cebola</button>
         <button type="button" class="opcao-rapida" data-texto="Sem alface">Sem alface</button>
         <button type="button" class="opcao-rapida" data-texto="Bem passado">Bem passado</button>
