@@ -182,7 +182,7 @@ section {
 
 section h2 {
   color: #ff5722;
-  font-size: 1.3rem;
+  font-size: 1.8rem;
   border-bottom: 2px solid #ff5722;
   padding-bottom: 8px;
   margin-bottom: 15px;
@@ -215,12 +215,14 @@ section h2 {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+  
 }
 
 .item-name {
   font-weight: 600;
   flex: 1;
   margin-right: 10px;
+  font-size: 1.5rem;
 }
 
 .item-price {
