@@ -17,7 +17,7 @@ const adicionais = {
 };
 
 const taxasDeEntrega = {
-  "Anita Moreira": 8.0,
+"Anita Moreira": 8.0,
   "Centro": 6.0,
   "Parque Bela Vista": 6.0,
   "Nova Jacarezinho": 8.0,
@@ -26,9 +26,10 @@ const taxasDeEntrega = {
   "Vila São Pedro": 7.0,
   "Vila Maria": 8.0,
   "Vila Esperança": 8.0,
-  "Vila Rosa": 6.0,
   "Vila Rondon": 7.0,
+  "Vila Rosa": 6.0,
   "Villa Aggeu": 8.0,
+  "Vila Rural": 15.0,
   "Residencial Pompeia I, II, III ": 8.0,
   "Jardim Miguel Afonso": 7.0,
   "Jardim Scylla Peixoto": 8.0,
@@ -41,6 +42,7 @@ const taxasDeEntrega = {
   "Jardim Morada do Sol": 8.0,
   "Dom Pedro Filipack": 7.0,
   "Bairro Aeroporto": 12.0,
+  "Bairro Estação": 10.0,
   "Vila Leão": 10.0,
   "Parque dos Mirantes": 7.0,
   "Novo Aeroporto": 14.0,
