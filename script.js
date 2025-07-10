@@ -31,6 +31,7 @@ const taxasDeEntrega = {
   "Villa Aggeu": 8.0,
   "Vila Rural": 15.0,
   "Residencial Pompeia I, II, III ": 8.0,
+  "Jardim Alcantara": 8.0,
   "Jardim Miguel Afonso": 7.0,
   "Jardim Scylla Peixoto": 8.0,
   "Jardim Alves": 7.0,
