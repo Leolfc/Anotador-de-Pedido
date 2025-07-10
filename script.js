@@ -1,6 +1,6 @@
 //!Preços dos adicionais (mantenha sua lista original)
 const adicionais = {
-   hamburguer160g: { nome: "Hambúrguer 160g", preco: 9.0 },
+  hamburguer160g: { nome: "Hambúrguer 160g", preco: 9.0 },
   hamburguer95g: { nome: "Hambúrguer 95g", preco: 6.5 },
   picles: { nome: "Picles", preco: 7.0 },
   queijoCheddar: { nome: "Queijo Cheddar", preco: 4.0 },
@@ -17,8 +17,8 @@ const adicionais = {
 };
 
 const taxasDeEntrega = {
-"Anita Moreira": 8.0,
-  "Centro": 6.0,
+  "Anita Moreira": 8.0,
+  Centro: 6.0,
   "Parque Bela Vista": 6.0,
   "Nova Jacarezinho": 8.0,
   "Vila Setti": 8.0,
@@ -47,7 +47,7 @@ const taxasDeEntrega = {
   "Parque dos Mirantes": 7.0,
   "Novo Aeroporto": 14.0,
   "Jardim São Luis I, II": 8.0,
-  "Papagaio": 8.0,
+  Papagaio: 8.0,
   "Outro Bairro (Consultar)": 0,
 };
 
@@ -63,6 +63,39 @@ const carrinho = {
   bairroSelecionado: "",
   taxaEntrega: 0,
 };
+
+// Variável global para controlar a quantidade de maionese verde
+let qtdMaioneseVerde = 0;
+const precoMaioneseVerde = 0.5;
+
+// Função para atualizar a exibição da quantidade e o valor do carrinho
+function atualizarMaioneseVerde() {
+  const spanQtd = document.getElementById("qtdMaioneseVerde");
+  if (spanQtd) spanQtd.textContent = qtdMaioneseVerde;
+  atualizarCarrinho();
+}
+
+// Adiciona eventos aos botões de maionese verde após o DOM carregar
+function configurarMaioneseVerde() {
+  const btnMais = document.getElementById("btnMaisMaionese");
+  const btnMenos = document.getElementById("btnMenosMaionese");
+  if (btnMais) {
+    btnMais.addEventListener("click", function () {
+      if (qtdMaioneseVerde < 5) {
+        qtdMaioneseVerde++;
+        atualizarMaioneseVerde();
+      }
+    });
+  }
+  if (btnMenos) {
+    btnMenos.addEventListener("click", function () {
+      if (qtdMaioneseVerde > 0) {
+        qtdMaioneseVerde--;
+        atualizarMaioneseVerde();
+      }
+    });
+  }
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   console.log("Documento de Impressão de Pedidos Carregado!");
@@ -253,6 +286,7 @@ document.addEventListener("DOMContentLoaded", function () {
     btnImprimirPedido.addEventListener("click", imprimirPedido);
   }
   atualizarCarrinho();
+  configurarMaioneseVerde();
 });
 
 function adicionarEstruturaObservacaoCardapio() {
@@ -1057,6 +1091,14 @@ function atualizarCarrinho() {
     if (entregaInfoCarrinhoDiv) entregaInfoCarrinhoDiv.style.display = "none";
   }
 
+  // Adiciona o valor da maionese verde
+  if (
+    typeof qtdMaioneseVerde !== "undefined" &&
+    typeof precoMaioneseVerde !== "undefined"
+  ) {
+    totalFinalPedido += qtdMaioneseVerde * precoMaioneseVerde;
+  }
+
   if (carrinhoContadorBadge) {
     const numItensUnicos = Object.keys(carrinho.itens).length;
     carrinhoContadorBadge.textContent = numItensUnicos;
@@ -1078,7 +1120,9 @@ function atualizarCarrinho() {
       '<p class="empty-cart">Nenhum item no pedido</p>';
   }
   carrinho.total = totalFinalPedido;
-  valorTotalSpan.textContent = `R$ ${totalFinalPedido.toFixed(2)}`;
+  valorTotalSpan.textContent = `R$ ${totalFinalPedido
+    .toFixed(2)
+    .replace(".", ",")}`;
 
   localStorage.setItem("impressao_tipoServico", carrinho.tipoServico);
   if (carrinho.tipoServico === "entrega") {
@@ -1355,6 +1399,14 @@ function imprimirPedido() {
   });
 
   htmlImpressao += `</tbody></table>`;
+
+  // Adicional de maionese verde na impressão
+  if (typeof qtdMaioneseVerde !== "undefined" && qtdMaioneseVerde > 0) {
+    const valorMaionese = (qtdMaioneseVerde * precoMaioneseVerde)
+      .toFixed(2)
+      .replace(".", ",");
+    htmlImpressao += `<div style="font-size:8pt; margin-bottom:2mm;"><strong>Maionese verde:</strong> ${qtdMaioneseVerde}x (R$ ${valorMaionese})</div>`;
+  }
 
   htmlImpressao += `<div class="resumo-financeiro">`;
   htmlImpressao += `<div><span>Subtotal Itens:</span><span>R$ ${subtotalItensImpressao

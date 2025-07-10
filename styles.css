@@ -215,7 +215,6 @@ section h2 {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
-  
 }
 
 .item-name {
@@ -1923,106 +1922,112 @@ button {
 
 /* INÍCIO: Estilos para Opções de Entrega/Retirada e Campos de Endereço */
 .tipo-servico-container {
-    margin-bottom: 15px;
-    padding: 10px;
-    background-color: var(--card-bg); 
-    border: 1px solid var(--card-border);
-    border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
 }
 
-.tipo-servico-container > label { /* Label principal "Tipo de Serviço:" */
-    font-weight: 600;
-    margin-bottom: 8px;
-    display: block;
-    color: var(--text-color);
+.tipo-servico-container > label {
+  /* Label principal "Tipo de Serviço:" */
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+  color: var(--text-color);
 }
 
-.tipo-servico-container div { /* Container para cada radio + label */
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
+.tipo-servico-container div {
+  /* Container para cada radio + label */
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
 }
 
 .tipo-servico-container input[type="radio"] {
-    margin-right: 8px;
-    accent-color: var(--button-primary); 
-    transform: scale(1.1); 
+  margin-right: 8px;
+  accent-color: var(--button-primary);
+  transform: scale(1.1);
 }
 
-.tipo-servico-container label[for*="tipoServico"] { /* Labels "Entrega", "Retirada" */
-    font-weight: normal;
-    margin-bottom: 0; 
-    cursor: pointer;
-    font-size: 0.95rem;
-    color: var(--text-color);
+.tipo-servico-container label[for*="tipoServico"] {
+  /* Labels "Entrega", "Retirada" */
+  font-weight: normal;
+  margin-bottom: 0;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--text-color);
 }
 
-#camposEntrega { /* Div que agrupa textarea de endereço e select de bairro */
-    padding: 15px; 
-    border: 1px solid var(--card-border); 
-    border-radius: 8px;
-    margin-bottom: 15px;
-    background-color: var(--card-bg); 
-    animation: fadeIn 0.3s ease-in-out; 
+#camposEntrega {
+  /* Div que agrupa textarea de endereço e select de bairro */
+  padding: 15px;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background-color: var(--card-bg);
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 #camposEntrega textarea,
 #camposEntrega select {
-    margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
-#camposEntrega label[for="bairroSelect"] { /* Label "Bairro:" */
-    font-weight: 600;
-    color: var(--text-color);
-    font-size: 0.9rem;
-    display: block; /* Garante que o label fique acima do select */
-    margin-bottom: 3px;
+#camposEntrega label[for="bairroSelect"] {
+  /* Label "Bairro:" */
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  display: block; /* Garante que o label fique acima do select */
+  margin-bottom: 3px;
 }
-#bairroSelect.forma-pagamento { /* Garante que o select de bairro use o estilo base */
-    margin-top: 0; /* Remove margem superior se herdada */
+#bairroSelect.forma-pagamento {
+  /* Garante que o select de bairro use o estilo base */
+  margin-top: 0; /* Remove margem superior se herdada */
 }
 
-
-#taxaEntregaInfo { /* Para exibir "Taxa de Entrega: R$ X,XX" */
-    font-weight: 600;
-    color: var(--button-primary); 
-    min-height: 1.2em; 
-    margin-top: 8px; 
-    font-size: 0.95rem; 
+#taxaEntregaInfo {
+  /* Para exibir "Taxa de Entrega: R$ X,XX" */
+  font-weight: 600;
+  color: var(--button-primary);
+  min-height: 1.2em;
+  margin-top: 8px;
+  font-size: 0.95rem;
 }
 
 /* Exibição do subtotal e taxa de entrega no carrinho */
-.cart-subtotal, .cart-entrega-taxa {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.95rem;
-    padding: 5px 0;
-    color: var(--text-color);
+.cart-subtotal,
+.cart-entrega-taxa {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  padding: 5px 0;
+  color: var(--text-color);
 }
 .cart-entrega-taxa {
-    color: var(--button-primary); /* Destaque para a taxa */
-    font-weight: 500;
+  color: var(--button-primary); /* Destaque para a taxa */
+  font-weight: 500;
 }
 .dark-mode .cart-entrega-taxa {
-    color: #ff9800;
+  color: #ff9800;
 }
-
 
 /* Ajustes para modo escuro se necessário (baseado no que já tem) */
 .dark-mode .tipo-servico-container,
 .dark-mode #camposEntrega {
-    background-color: var(--card-bg); 
-    border-color: var(--input-border);
+  background-color: var(--card-bg);
+  border-color: var(--input-border);
 }
 
 .dark-mode .tipo-servico-container > label,
 .dark-mode .tipo-servico-container label[for*="tipoServico"],
 .dark-mode #camposEntrega label[for="bairroSelect"] {
-    color: var(--text-color);
+  color: var(--text-color);
 }
 
 .dark-mode #taxaEntregaInfo {
-    color: #ff9800; 
+  color: #ff9800;
 }
 /* FIM: Estilos para Opções de Entrega/Retirada */
 
@@ -2032,38 +2037,72 @@ button {
   border: none;
   color: var(--text-color);
   cursor: pointer;
-  padding: 6px; 
-  margin: 0 8px; 
-  border-radius: 50%; 
-  display: inline-flex; 
+  padding: 6px;
+  margin: 0 8px;
+  border-radius: 50%;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px; 
-  height: 30px; 
+  width: 30px;
+  height: 30px;
   transition: background-color 0.2s, color 0.2s;
 }
 .btn-editar-item:hover {
-  background-color: var(--item-hover); 
-  color: #ff5722; 
+  background-color: var(--item-hover);
+  color: #ff5722;
 }
 .btn-editar-item svg {
-  width: 16px; 
-  height: 16px; 
-  stroke: currentColor; 
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
 }
-.dark-mode .btn-editar-item { color: var(--text-color); }
-.dark-mode .btn-editar-item:hover { background-color: #2c2c2c; color: #ff8a65; }
+.dark-mode .btn-editar-item {
+  color: var(--text-color);
+}
+.dark-mode .btn-editar-item:hover {
+  background-color: #2c2c2c;
+  color: #ff8a65;
+}
 
 /* Ajustes visuais para o carrinho com adicionais/observações */
-.cart-item-info { flex-grow: 1; }
-.item-nome-carrinho { font-weight: 600; display: block; margin-bottom: 4px; }
-.adicionais-list-carrinho small, .observacoes-list-carrinho small {
-  display: block; font-size: 0.85em; color: #555; padding-left: 10px; position: relative; margin-top: 3px;
+.cart-item-info {
+  flex-grow: 1;
 }
-.adicionais-list-carrinho small::before { content: "+"; position: absolute; left: 0; color: #ff5722; font-weight: bold; }
-.observacoes-list-carrinho small::before { content: "Obs:"; position: absolute; left: 0; font-style: italic; color: #007bff; }
-.dark-mode .adicionais-list-carrinho small, .dark-mode .observacoes-list-carrinho small { color: #bbb; }
-.dark-mode .observacoes-list-carrinho small::before { color: #64b5f6; }
+.item-nome-carrinho {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+.adicionais-list-carrinho small,
+.observacoes-list-carrinho small {
+  display: block;
+  font-size: 0.85em;
+  color: #555;
+  padding-left: 10px;
+  position: relative;
+  margin-top: 3px;
+}
+.adicionais-list-carrinho small::before {
+  content: "+";
+  position: absolute;
+  left: 0;
+  color: #ff5722;
+  font-weight: bold;
+}
+.observacoes-list-carrinho small::before {
+  content: "Obs:";
+  position: absolute;
+  left: 0;
+  font-style: italic;
+  color: #007bff;
+}
+.dark-mode .adicionais-list-carrinho small,
+.dark-mode .observacoes-list-carrinho small {
+  color: #bbb;
+}
+.dark-mode .observacoes-list-carrinho small::before {
+  color: #64b5f6;
+}
 
 /* Estilos para o campo de observação do item no cardápio (se decidir reativar) */
 /* .item-observacao-wrapper { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--card-border); } */
@@ -2072,3 +2111,41 @@ button {
 /* .item-observacao textarea.observacao-texto { ... } */
 /* .item-observacao .opcoes-rapidas .opcao-rapida { ... } */
 /* .item-observacao .observacao-botoes button { ... } */
+
+.add-molho-verde {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+.add-molho-verde span {
+  font-weight: bold;
+}
+#btnMenosMaionese,
+#btnMaisMaionese {
+  width: 32px;
+  height: 32px;
+  font-size: 1.2em;
+  border: none;
+  background: #e0e0e0;
+  color: #388e3c;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+#btnMenosMaionese:hover,
+#btnMaisMaionese:hover {
+  background: #388e3c;
+  color: #fff;
+}
+#qtdMaioneseVerde {
+  min-width: 24px;
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+}
+.add-molho-verde .preco-maionese {
+  color: #388e3c;
+  font-size: 0.95em;
+  font-weight: bold;
+}
