@@ -168,6 +168,7 @@ main {
   top: 80px;
   height: fit-content;
   max-height: calc(100vh - 100px);
+  overflow-x: auto;
 }
 
 /* Seções de produtos */
