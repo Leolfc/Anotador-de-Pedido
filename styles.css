@@ -855,6 +855,7 @@ button#btnLimparCarrinho {
   .cart-container {
     position: static;
     margin-top: 20px;
+ 
   }
 
   h1 {
@@ -902,6 +903,7 @@ button#btnLimparCarrinho {
   .cart-container {
     padding: 12px;
     border-radius: 8px;
+ 
   }
 
   .item-container {
@@ -2148,4 +2150,19 @@ button {
   color: #388e3c;
   font-size: 0.95em;
   font-weight: bold;
+}
+
+@media (max-width: 576px) {
+  #itens-carrinho {
+    max-height: 260px; /* ajuste conforme necessário */
+    overflow-y: auto;
+    margin-bottom: 10px;
+  }
+  .cart-buttons {
+    position: sticky;
+    bottom: 0;
+    background: var(--container-bg);
+    z-index: 10;
+    padding-bottom: 10px;
+  }
 }
