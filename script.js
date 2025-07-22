@@ -1453,25 +1453,28 @@ function imprimirPedido() {
 }
 
 //!Logica para aparecer e desaparecer o modal de lanches
-const section = document.querySelector('#spaceModal')
 
-const idSpace = document.querySelector("#seta");
-const divModal = document.querySelector(".item-container"); //div
-const modalIcones = document.querySelector(".modalIcones"); //span
-const imgSeta = document.createElement("img"); //criando imagem dos icones de flecha
-imgSeta.src = "./img/setaBaixo.png";
-imgSeta.classList.add('setaCima')
- modalIcones.appendChild(imgSeta);
-modalIcones.addEventListener("click", () => {
-  if (divModal.style.display === "none") {
-    divModal.style.display = "grid";
-    imgSeta.src = "./img/setaBaixo.png";
+
+const modalIcones = document.querySelectorAll(".modalIcones"); //span
  
-  
-  } else {
-    divModal.style.display = "none";
-    imgSeta.src = "./img/setaCima.png";
-    
-  }
+modalIcones.forEach((icon) => {
+//div
+  const imgSeta = document.createElement("img"); //criando imagem dos icones de flecha
+  imgSeta.src = "./img/setaBaixo.png";
+  imgSeta.classList.add("setaCima");
+  icon.appendChild(imgSeta);
 
+
+  icon.addEventListener("click", () => {
+    const modalId = icon.dataset.target;
+    const modal = document.getElementById(modalId);
+
+    if (modal.style.display === "none") {
+      modal.style.display = "grid";
+      imgSeta.src = "./img/setaBaixo.png";
+    } else {
+      modal.style.display = "none";
+      imgSeta.src = "./img/setaCima.png";
+    }
+  });
 });
