@@ -1469,12 +1469,12 @@ modalIcones.forEach((icon) => {
     const modalId = icon.dataset.target;
     const modal = document.getElementById(modalId);
 
-    if (modal.style.display === "none") {
-      modal.style.display = "grid";
-      imgSeta.src = "./img/setaBaixo.png";
-    } else {
+    if (modal.style.display === "grid") {
       modal.style.display = "none";
-      imgSeta.src = "./img/setaCima.png";
+   imgSeta.src = "./img/setaBaixo.png"
+    } else {
+      modal.style.display = "grid";
+      imgSeta.src = "./img/setaCima.png"
     }
   });
 });

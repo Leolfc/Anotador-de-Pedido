@@ -2207,3 +2207,8 @@ box-shadow: 2px 2px 10px 5px rgb(245, 115, 115);
   width: 6%;
  }
 }
+
+
+.spaceModal{
+  display: none;
+}
