@@ -2193,7 +2193,7 @@ button {
   width: 5%;
 }
 .setaCima:hover{
-box-shadow: 2px 2px 10px 5px red;
+box-shadow: 2px 2px 10px 5px rgb(245, 115, 115);
 }
 /*tamanho para smarthphone*/
 @media (max-width: 650px) {
