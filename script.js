@@ -19,7 +19,7 @@ const adicionais = {
 
 const taxasDeEntrega = {
   "Anita Moreira": 8.0,
-  "Centro": 6.0,
+  Centro: 6.0,
   "Campo Belo": 8.0,
   "Parque Bela Vista": 6.0,
   "Nova Jacarezinho": 8.0,
@@ -50,7 +50,7 @@ const taxasDeEntrega = {
   "Parque dos Mirantes": 7.0,
   "Novo Aeroporto": 14.0,
   "Jardim São Luis I, II": 8.0,
-  "Papagaio": 8.0,
+  Papagaio: 8.0,
   "Outro Bairro (Consultar)": 0,
 };
 
@@ -1282,7 +1282,7 @@ function imprimirPedido() {
       margin: 1mm 1.5mm; 
     }
     body { 
-      font-size: 7pt; /* FONTE BASE - Ponto de partida */
+      font-size: 7pt; 
       line-height: 1.15; 
       width: 48mm; /* LARGURA DE IMPRESSÃO EFETIVA */
       background: #fff !important; 
@@ -1451,3 +1451,27 @@ function imprimirPedido() {
     );
   }
 }
+
+//!Logica para aparecer e desaparecer o modal de lanches
+const section = document.querySelector('#spaceModal')
+
+const idSpace = document.querySelector("#seta");
+const divModal = document.querySelector(".item-container"); //div
+const modalIcones = document.querySelector(".modalIcones"); //span
+const imgSeta = document.createElement("img"); //criando imagem dos icones de flecha
+imgSeta.src = "./img/setaBaixo.png";
+imgSeta.classList.add('setaCima')
+ modalIcones.appendChild(imgSeta);
+modalIcones.addEventListener("click", () => {
+  if (divModal.style.display === "none") {
+    divModal.style.display = "grid";
+    imgSeta.src = "./img/setaBaixo.png";
+ 
+  
+  } else {
+    divModal.style.display = "none";
+    imgSeta.src = "./img/setaCima.png";
+    
+  }
+
+});
