@@ -978,11 +978,11 @@ function limparCarrinho() {
 
     const inputNomeCliente = document.getElementById("nomeCliente");
     if (inputNomeCliente) {
-      inputNomeCliente.value = "";
+      inputNomeCliente.value = ""; // funcionalidade para limpar input que vai nome do cliente
     }
     const inputEndereço = document.getElementById("enderecoCliente");
     if (inputEndereço) {
-      inputEndereço.value = "";
+      inputEndereço.value = "";// funcionalidade para limpar input que vai endereço do cliente
     }
   }
 }
