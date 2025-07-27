@@ -951,6 +951,7 @@ function limparCarrinho() {
   if (Object.keys(carrinho.itens).length > 0) {
     carrinho.itens = {};
     carrinho.total = 0;
+   
 
     // Reseta campos de entrega
     carrinho.tipoServico = "entrega"; // Volta ao padrão
@@ -974,6 +975,15 @@ function limparCarrinho() {
       .forEach((span) => (span.textContent = "0"));
     mostrarNotificacao("Pedido limpo!");
     atualizarCarrinho();
+
+    const inputNomeCliente = document.getElementById("nomeCliente");
+    if (inputNomeCliente) {
+      inputNomeCliente.value = "";
+    }
+    const inputEndereço = document.getElementById("enderecoCliente");
+    if (inputEndereço) {
+      inputEndereço.value = "";
+    }
   }
 }
 
@@ -1454,16 +1464,14 @@ function imprimirPedido() {
 
 //!Logica para aparecer e desaparecer o modal de lanches
 
-
 const modalIcones = document.querySelectorAll(".modalIcones"); //span
- 
+
 modalIcones.forEach((icon) => {
-//div
+  //div
   const imgSeta = document.createElement("img"); //criando imagem dos icones de flecha
   imgSeta.src = "./img/setaBaixo.png";
   imgSeta.classList.add("setaCima");
   icon.appendChild(imgSeta);
-
 
   icon.addEventListener("click", () => {
     const modalId = icon.dataset.target;
@@ -1471,10 +1479,10 @@ modalIcones.forEach((icon) => {
 
     if (modal.style.display === "grid") {
       modal.style.display = "none";
-   imgSeta.src = "./img/setaBaixo.png"
+      imgSeta.src = "./img/setaBaixo.png";
     } else {
       modal.style.display = "grid";
-      imgSeta.src = "./img/setaCima.png"
+      imgSeta.src = "./img/setaCima.png";
     }
   });
 });
