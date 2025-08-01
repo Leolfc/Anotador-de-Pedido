@@ -164,12 +164,16 @@ main {
 }
 
 .cart-container {
-  position: sticky;
+  /* position: sticky;
   top: 80px;
   height: fit-content;
   max-height: calc(100vh - 100px);
-  overflow-x: auto;
+  overflow-x: auto; */
+   position: sticky;
+  top: 80px;
+  height: fit-content;
 }
+
 
 /* Seções de produtos */
 section {
@@ -903,6 +907,7 @@ button#btnLimparCarrinho {
   .cart-container {
     padding: 12px;
     border-radius: 8px;
+   
   }
 
   .item-container {
@@ -1862,6 +1867,7 @@ button {
     width: 100%;
     margin: 0;
     padding: 0;
+    
   }
   /* Garante que nome, endereço, itens e total fiquem visíveis */
   #resumoPedido,
