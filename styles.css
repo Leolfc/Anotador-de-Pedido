@@ -906,9 +906,7 @@ button#btnLimparCarrinho {
   .cart-container {
     padding: 12px;
     border-radius: 8px;
-   position: sticky;
-  top: 80px;
-  height: fit-content
+  
    
   }
 
