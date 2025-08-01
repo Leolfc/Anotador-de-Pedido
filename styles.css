@@ -2248,3 +2248,18 @@ html{
     transform: rotate(360deg);
   }
 }
+
+#welcomeMessage{
+  animation: acend 3s infinite
+}
+
+@keyframes acend {
+  0%{
+    opacity: 100%;
+    
+  }
+  100%{
+    opacity: 0%;
+  
+  }
+}
