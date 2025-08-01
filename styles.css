@@ -164,14 +164,13 @@ main {
 }
 
 .cart-container {
-  /* position: sticky;
+  position: sticky;
   top: 80px;
   height: fit-content;
   max-height: calc(100vh - 100px);
-  overflow-x: auto; */
-   position: sticky;
-  top: 80px;
-  height: fit-content;
+  overflow-x: auto;
+ 
+  
 }
 
 
@@ -907,6 +906,9 @@ button#btnLimparCarrinho {
   .cart-container {
     padding: 12px;
     border-radius: 8px;
+   position: sticky;
+  top: 80px;
+  height: fit-content
    
   }
 
