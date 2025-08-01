@@ -2212,3 +2212,33 @@ box-shadow: 2px 2px 10px 5px rgb(245, 115, 115);
 .spaceModal{
   display: none;
 }
+
+html{
+  animation: mostra 2s normal;
+}
+
+@keyframes mostra {
+  0%{
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  100%{
+    transform: translateX(0);
+    opacity: 1;
+  }
+ 50%{
+  transform: translateY(20px);
+ }
+}
+.girar{
+  animation: pular 3s infinite;
+}
+
+@keyframes pular {
+  0%{
+    transform:rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
