@@ -951,7 +951,6 @@ function limparCarrinho() {
   if (Object.keys(carrinho.itens).length > 0) {
     carrinho.itens = {};
     carrinho.total = 0;
-   
 
     // Reseta campos de entrega
     carrinho.tipoServico = "entrega"; // Volta ao padrão
@@ -982,7 +981,7 @@ function limparCarrinho() {
     }
     const inputEndereço = document.getElementById("enderecoCliente");
     if (inputEndereço) {
-      inputEndereço.value = "";// funcionalidade para limpar input que vai endereço do cliente
+      inputEndereço.value = ""; // funcionalidade para limpar input que vai endereço do cliente
     }
   }
 }
@@ -1341,6 +1340,7 @@ function imprimirPedido() {
     }
     .detalhes-item-print.obs::before { content: "Obs: "; }
     .detalhes-item-print.ad::before { content: "+Ad: "; font-style: italic; }
+    .detalhes-item-print.unit { display:block; font-size: 6.3pt; }
     
     .resumo-financeiro { margin-top: 1mm; padding-top: 1mm; border-top: 0.5px dashed #333; }
     .resumo-financeiro div { display: flex; justify-content: space-between; font-size: 7.5pt; margin-bottom: 0.5mm; } 
@@ -1412,19 +1412,17 @@ function imprimirPedido() {
   });
 
   htmlImpressao += `</tbody></table>`;
-
-  // Adicional de maionese verde na impressão
-  if (typeof qtdMaioneseVerde !== "undefined" && qtdMaioneseVerde > 0) {
-    const valorMaionese = (qtdMaioneseVerde * precoMaioneseVerde)
-      .toFixed(2)
-      .replace(".", ",");
-    htmlImpressao += `<div style="font-size:8pt; margin-bottom:2mm;"><strong>Maionese verde:</strong> ${qtdMaioneseVerde}x (R$ ${valorMaionese})</div>`;
-  }
-
   htmlImpressao += `<div class="resumo-financeiro">`;
   htmlImpressao += `<div><span>Subtotal Itens:</span><span>R$ ${subtotalItensImpressao
     .toFixed(2)
     .replace(".", ",")}</span></div>`;
+  // Maionese verde dentro do resumo financeiro
+  if (typeof qtdMaioneseVerde !== "undefined" && qtdMaioneseVerde > 0) {
+    const valorMaionese = (qtdMaioneseVerde * precoMaioneseVerde)
+      .toFixed(2)
+      .replace(".", ",");
+    htmlImpressao += `<div><span>Maionese verde:</span><span>${qtdMaioneseVerde}x (R$ ${valorMaionese})</span></div>`;
+  }
 
   if (carrinho.tipoServico === "entrega" && carrinho.bairroSelecionado) {
     const taxaDisplay =
@@ -1486,5 +1484,3 @@ modalIcones.forEach((icon) => {
     }
   });
 });
-
-
