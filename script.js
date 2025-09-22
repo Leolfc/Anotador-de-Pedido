@@ -1,7 +1,7 @@
 //!Preços dos adicionais (mantenha sua lista original)
 const adicionais = {
-  hamburguer160g: { nome: "Hambúrguer 160g", preco: 9.0 },
-  hamburguer95g: { nome: "Hambúrguer 95g", preco: 6.5 },
+  hamburguer160g: { nome: "Hambúrguer 160g", preco: 10.0 },
+  hamburguer95g: { nome: "Hambúrguer 95g", preco: 7.0 },
   picles: { nome: "Picles", preco: 7.0 },
   queijoCheddar: { nome: "Queijo Cheddar", preco: 4.0 },
   queijoMussarela: { nome: "Queijo Mussarela", preco: 3.0 },
@@ -48,6 +48,7 @@ const taxasDeEntrega = {
   "Bairro Estação": 10.0,
   "Vila Leão": 10.0,
   "Parque dos Mirantes": 7.0,
+  "Parque Alvorada": 7.0,
   "Novo Aeroporto": 14.0,
   "Jardim São Luis I, II": 8.0,
   Papagaio: 8.0,
