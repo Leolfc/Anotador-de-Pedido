@@ -72,7 +72,7 @@ const carrinho = {
 
 // Variável global para controlar a quantidade de maionese verde
 let qtdMaioneseVerde = 0;
-const precoMaioneseVerde = 0.5;
+const precoMaioneseVerde = 0.75;
 
 // Função para atualizar a exibição da quantidade e o valor do carrinho
 function atualizarMaioneseVerde() {
