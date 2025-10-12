@@ -4,7 +4,7 @@ const adicionais = {
   hamburguer95g: { nome: "Hambúrguer 95g", preco: 7.0 },
   picles: { nome: "Picles", preco: 7.0 },
   queijoCheddar: { nome: "Queijo Cheddar", preco: 4.0 },
-  queijoMussarela: { nome: "Queijo Mussarela", preco: 3.0 },
+  queijoMuçarela: { nome: "Queijo Muçarela", preco: 3.0 },
   molhocheese: { nome: "Molho American Cheese", preco: 5.0 },
   bacon: { nome: "Bacon", preco: 8.0 },
   cebolaCaramelizada: { nome: "Cebola Caramelizada", preco: 7.0 },
@@ -471,7 +471,8 @@ function criarModalAdicionais() {
     <textarea id="observacoes-pedido" placeholder="Ex: sem cebola, ponto da carne, etc." style="width:100%; min-height:60px; padding:8px; border:1px solid #ccc; border-radius:4px; font-family:inherit;"></textarea>
     <div class="opcoes-rapidas" style="margin-top:8px; display:flex; flex-wrap:wrap; gap:5px;">
         <button type="button" class="opcao-rapida" data-texto="Sem tomate">Sem tomate</button>
-        <button type="button" class="opcao-rapida" data-texto="Mussarela">Mussarela</button>
+        <button type="button" class="opcao-rapida" data-texto="Trocar cheddar por muçarela">Trocar cheddar por muçarela</button>
+        <button type="button" class="opcao-rapida" data-texto="Muçarela">Muçarela</button>
         <button type="button" class="opcao-rapida" data-texto="Sem queijo">Sem queijo</button>
         <button type="button" class="opcao-rapida" data-texto="Sem cebola">Sem cebola</button>
         <button type="button" class="opcao-rapida" data-texto="Sem alface">Sem alface</button>
