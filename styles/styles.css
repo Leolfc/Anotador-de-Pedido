@@ -220,13 +220,14 @@ section h2 {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+
 }
 
 .item-name {
   font-weight: 600;
   flex: 1;
   margin-right: 10px;
-  font-size: 1.9rem;
+  font-size: 1.8rem;
 }
 
 .item-price {
@@ -234,6 +235,7 @@ section h2 {
   font-weight: 700;
   white-space: nowrap;
   font-size: 1.2rem;
+ 
 }
 
 /* Botões de adicionar/remover */
