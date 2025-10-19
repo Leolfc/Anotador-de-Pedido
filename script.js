@@ -49,6 +49,7 @@ const taxasDeEntrega = {
   "Bairro Aeroporto": 12.0,
   "Bairro Estação": 10.0,
   "Vila Leão": 10.0,
+  "Parque dos Estudantes": 8.0,
   "Parque dos Mirantes": 7.0,
   "Parque Alvorada": 7.0,
   "Novo Aeroporto": 14.0,
