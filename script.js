@@ -53,7 +53,8 @@ const taxasDeEntrega = {
   "Parque dos Mirantes": 7.0,
   "Parque Alvorada": 7.0,
   "Novo Aeroporto": 14.0,
-  "Jardim São Luis I, II": 8.0,
+  "Jardim São Luis I": 8.0,
+  "Jardim São Luis II": 8.0,
   Papagaio: 8.0,
   "Outro Bairro (Consultar)": 0,
 };
