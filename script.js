@@ -29,7 +29,7 @@ const taxasDeEntrega = {
   "Vila Maria": 8.0,
   "Vila Esperança": 8.0,
   "Vila Rondon": 7.0,
-  "Vila Rosa": 6.0,
+  "Vila Rosa": 7.0,
   "Villa Aggeu": 8.0,
   "Vila Rural": 15.0,
   "Residencial Pompeia I": 8.0,
@@ -71,6 +71,8 @@ const carrinho = {
   bairroSelecionado: "",
   taxaEntrega: 0,
 };
+
+
 
 // Variável global para controlar a quantidade de maionese verde
 let qtdMaioneseVerde = 0;
@@ -209,9 +211,12 @@ document.addEventListener("DOMContentLoaded", function () {
     bairroSelect.addEventListener("change", atualizarTaxaSelecionada);
 
   const nomeClienteInput = document.getElementById("nomeCliente");
+
+ 
   if (nomeClienteInput) {
     nomeClienteInput.addEventListener("input", function () {
       carrinho.nomeCliente = this.value.trim();
+      this.value = this.value.toUpperCase()
       localStorage.setItem("impressao_nomeCliente", carrinho.nomeCliente);
     });
     const nomeSalvo = localStorage.getItem("impressao_nomeCliente");
@@ -219,11 +224,14 @@ document.addEventListener("DOMContentLoaded", function () {
       nomeClienteInput.value = nomeSalvo;
       carrinho.nomeCliente = nomeSalvo;
     }
+    
   }
 
   if (enderecoClienteTextarea) {
     enderecoClienteTextarea.addEventListener("input", function () {
       carrinho.enderecoCliente = this.value.trim();
+     this.value = this.value.toUpperCase()
+      
       localStorage.setItem(
         "impressao_enderecoCliente",
         carrinho.enderecoCliente
@@ -467,6 +475,7 @@ function criarModalAdicionais() {
     adicionaisList.appendChild(adicionalItem);
   }
   const observacoesDiv = document.createElement("div");
+ 
   observacoesDiv.className = "observacoes-container";
   observacoesDiv.innerHTML = `
     <h4 style="margin-top:15px; margin-bottom:5px;">Observações do Item</h4>
@@ -482,7 +491,15 @@ function criarModalAdicionais() {
         <button type="button" class="opcao-rapida" data-texto="Ao ponto">Ao ponto</button>
     </div>
   `;
+  const caixa = observacoesDiv.querySelector('#observacoes-pedido');
+   caixa.addEventListener('input',()=>{
+    caixa.value = caixa.value.toUpperCase()
+   })
+
+
   adicionaisContainer.appendChild(observacoesDiv);
+ 
+
 
   observacoesDiv.querySelectorAll(".opcao-rapida").forEach((opcao) => {
     opcao.addEventListener("click", function () {
@@ -987,7 +1004,8 @@ function limparCarrinho() {
     }
     const inputEndereço = document.getElementById("enderecoCliente");
     if (inputEndereço) {
-      inputEndereço.value = ""; // funcionalidade para limpar input que vai endereço do cliente
+      inputEndereço.value = "";
+       // funcionalidade para limpar input que vai endereço do cliente
     }
   }
 }
@@ -1490,3 +1508,4 @@ modalIcones.forEach((icon) => {
     }
   });
 });
+
