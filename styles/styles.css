@@ -1149,6 +1149,28 @@ button#btnLimparCarrinho {
     font-size: 0.8rem;
   }
 }
+/* Botão Personalizar Injetado */
+.btn-personalizar{
+  display: block;
+  width: 80%;
+  /* Espaço para ficar abaixo */
+  padding: 8px 0;
+  background-color: transparent;
+  border: 1px solid #ff5722;
+  color: #ffffff;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  margin:20px auto;
+}
+
+.btn-personalizar-direto:hover {
+  background-color: #ff5722;
+  color: white;
+}
 
 /* Campo de observações */
 .observacoes-container {

@@ -86,6 +86,11 @@ function atualizarMaioneseVerde() {
   atualizarCarrinho();
 }
 
+  
+  // Selecionar todos os itens da tela
+  
+
+  // --- FIM DO CÓDIGO NOVO ---
 // Adiciona eventos aos botões de maionese verde após o DOM carregar
 function configurarMaioneseVerde() {
   const btnMais = document.getElementById("btnMaisMaionese");
@@ -108,6 +113,8 @@ function configurarMaioneseVerde() {
   }
 }
 
+    
+
 document.addEventListener("DOMContentLoaded", function () {
   console.log("Documento de Impressão de Pedidos Carregado!");
 
@@ -119,6 +126,41 @@ document.addEventListener("DOMContentLoaded", function () {
     botao.textContent = "Adicionar";
     botao.addEventListener("click", adicionarItem);
   });
+ 
+     const todosItens = document.querySelectorAll('.item');
+
+  todosItens.forEach(item => {
+    // Pega o tipo do lanche (hamburguer, combo, bebida, etc)
+    const tipo = item.dataset.tipo;
+
+    // Só adiciona o botão se for Hamburguer ou Combo
+    if (tipo === 'hamburguer' || tipo === 'combo') {
+      
+      // 1. Cria o botão via JS
+      const btnPerso = document.createElement('button');
+      btnPerso.textContent = "Personalizar";
+      btnPerso.classList.add('btn-personalizar'); 
+      btnPerso.type = "button";
+
+      // 2. Adiciona a função de clicar
+      btnPerso.addEventListener("click", function() {
+        // Pega os dados do item atual
+        const id = item.dataset.id;
+        const nome = item.dataset.nome;
+        const valor = parseFloat(item.dataset.valor);
+        
+        // Abre o modal direto (sem perguntar sim/não)
+        abrirModalAdicionais(item, id, nome, valor, tipo, "");
+      });
+
+      // 3. Insere o botão DEPOIS da div .item-actions (para ficar embaixo)
+      const divAcoes = item.querySelector('.item-actions');
+      if (divAcoes) {
+        divAcoes.insertAdjacentElement('afterend', btnPerso);
+      }
+    }
+  });
+
 
   const botoesRemover = document.querySelectorAll(".btn-decrease");
   botoesRemover.forEach((botao) => {
@@ -417,6 +459,7 @@ function criarModalAdicionais() {
   const adicionaisList = document.createElement("div");
   adicionaisList.className = "adicionais-list-select";
   adicionaisContainer.appendChild(adicionaisList);
+
   for (const [key, adicional] of Object.entries(adicionais)) {
     const adicionalItem = document.createElement("div");
     adicionalItem.className = "adicional-item";
@@ -438,10 +481,12 @@ function criarModalAdicionais() {
     const quantidadeControle = document.createElement("div");
     quantidadeControle.className = "quantidade-controle";
     const btnDecrease = document.createElement("button");
+     
     btnDecrease.type = "button";
     btnDecrease.className = "btn-decrease-adicional";
     btnDecrease.textContent = "-";
     btnDecrease.dataset.id = key;
+    
     btnDecrease.addEventListener("click", function () {
       const qtySpan = this.parentElement.querySelector(
         `.adicional-qty[data-id="${key}"]`
@@ -458,7 +503,10 @@ function criarModalAdicionais() {
     qtySpan.dataset.id = key;
     qtySpan.textContent = "0";
     quantidadeControle.appendChild(qtySpan);
+    
+
     const btnIncrease = document.createElement("button");
+
     btnIncrease.type = "button";
     btnIncrease.className = "btn-increase-adicional";
     btnIncrease.textContent = "+";
@@ -616,47 +664,6 @@ function atualizarResumoAdicionais() {
   }
 }
 
-function mostrarPerguntaAdicionais(
-  itemDiv,
-  id,
-  nome,
-  valor,
-  tipo,
-  observacaoParaModal = ""
-) {
-  if (tipo !== "hamburguer" && tipo !== "combo") {
-    adicionarItemAoCarrinho(id, nome, valor, tipo, [], observacaoParaModal);
-    return;
-  }
-  const perguntaAnterior = itemDiv.querySelector(".pergunta-adicionais");
-  if (perguntaAnterior) perguntaAnterior.remove();
-
-  let perguntaTexto =
-    tipo === "combo" ? "Personalizar combo?" : "Adicionais ou observação?";
-  let btnNaoTexto = tipo === "combo" ? "Não personalizar" : "Adicionar direto";
-  let btnSimTexto = tipo === "combo" ? "Sim, personalizar" : "Configurar item";
-
-  const perguntaDiv = document.createElement("div");
-  perguntaDiv.className = "pergunta-adicionais";
-  perguntaDiv.innerHTML = `<p>${perguntaTexto}</p><div class="pergunta-botoes"><button type="button" class="btn-nao">${btnNaoTexto}</button><button type="button" class="btn-sim">${btnSimTexto}</button></div>`;
-  const itemActions = itemDiv.querySelector(".item-actions");
-  itemActions.insertAdjacentElement("afterend", perguntaDiv);
-
-  perguntaDiv.querySelector(".btn-nao").addEventListener("click", function () {
-    perguntaDiv.remove();
-    adicionarItemAoCarrinho(id, nome, valor, tipo, [], observacaoParaModal);
-  });
-  perguntaDiv.querySelector(".btn-sim").addEventListener("click", function () {
-    perguntaDiv.remove();
-    abrirModalAdicionais(itemDiv, id, nome, valor, tipo, observacaoParaModal);
-  });
-
-  if (window.innerWidth <= 768) {
-    setTimeout(() => {
-      perguntaDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }, 100);
-  }
-}
 
 function abrirModalAdicionais(
   itemDiv,
@@ -860,15 +867,6 @@ function adicionarItem(event) {
   qtySpan.textContent = parseInt(qtySpan.textContent) + 1;
 
   if (tipo === "hamburguer" || tipo === "combo") {
-    mostrarPerguntaAdicionais(
-      itemDiv,
-      id,
-      nome,
-      valor,
-      tipo,
-      observacaoInicialParaModal
-    );
-  } else {
     adicionarItemAoCarrinho(
       id,
       nome,
@@ -1078,7 +1076,9 @@ function atualizarCarrinho() {
         ${observacoesHtml}
       </div>
       <div class="cart-item-actions">
+      
         <button type="button" class="btn-editar-item" data-item-id="${
+     
           item.uniqueId
         }" title="Editar item">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
