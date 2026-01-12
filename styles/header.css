@@ -1,0 +1,89 @@
+
+/* Estilos do cabeçalho */
+header {
+  background-color: var(--header-bg);
+  color: var(--header-text);
+  padding: 15px 10px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+h1 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+/* Estilos para campo de pesquisa */
+.search-container {
+  padding: 15px;
+  margin: 0 auto;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+}
+
+.search-box {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  outline: 2px solid black;
+}
+
+.search-box:focus-within {
+  box-shadow: 0 4px 12px rgba(255, 87, 34, 0.2);
+}
+
+#pesquisaInput {
+  flex: 1;
+  border: 2px solid #eee;
+  border-right: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  outline: none;
+  border-radius: 50px 0 0 50px;
+  transition: all 0.3s ease;
+}
+
+#pesquisaInput:focus {
+  border-color: #ff5722;
+}
+
+#btnPesquisar {
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  padding: 0 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+#btnPesquisar:hover {
+  background-color: #e64a19;
+}
+
+.search-results {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.destaque {
+  background-color: rgba(255, 87, 34, 0.15);
+  border-left: 3px solid #ff5722;
+  border-radius: 3px;
+  transform: scale(1.02);
+  transition: all 0.3s ease;
+}

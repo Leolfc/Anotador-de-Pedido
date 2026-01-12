@@ -1,5 +1,5 @@
 @import url("imgStyles.css");
-
+@import url('header.css');
 /* Reset e estilos básicos */
 * {
   box-sizing: border-box;
@@ -46,101 +46,13 @@
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+   font-family: "Bungee", sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
   overflow-x: hidden;
   padding-bottom: 80px; /* Espaço para notificações */
   transition: background-color 0.3s, color 0.3s;
-}
-
-/* Estilos do cabeçalho */
-header {
-  background-color: var(--header-bg);
-  color: var(--header-text);
-  padding: 15px 10px;
-  text-align: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-h1 {
-  margin: 0;
-  font-weight: 700;
-  font-size: 2rem;
-}
-
-/* Estilos para campo de pesquisa */
-.search-container {
-  padding: 15px;
-  margin: 0 auto;
-  max-width: 1200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
- 
-}
-
-.search-box {
-  display: flex;
-  width: 100%;
-  max-width: 600px;
-  border-radius: 50px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  outline: 2px solid black;
-}
-
-.search-box:focus-within {
-  box-shadow: 0 4px 12px rgba(255, 87, 34, 0.2);
-}
-
-#pesquisaInput {
-  flex: 1;
-  border: 2px solid #eee;
-  border-right: none;
-  padding: 12px 20px;
-  font-size: 1rem;
-  outline: none;
-  border-radius: 50px 0 0 50px;
-  transition: all 0.3s ease;
-}
-
-#pesquisaInput:focus {
-  border-color: #ff5722;
-}
-
-#btnPesquisar {
-  background-color: #ff5722;
-  color: white;
-  border: none;
-  padding: 0 20px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s ease;
-}
-
-#btnPesquisar:hover {
-  background-color: #e64a19;
-}
-
-.search-results {
-  margin-top: 10px;
-  font-size: 0.9rem;
-  color: #666;
-}
-
-.destaque {
-  background-color: rgba(255, 87, 34, 0.15);
-  border-left: 3px solid #ff5722;
-  border-radius: 3px;
-  transform: scale(1.02);
-  transition: all 0.3s ease;
+  
 }
 
 /* Container principal */
@@ -228,7 +140,7 @@ section h2 {
   font-weight: 600;
   flex: 1;
   margin-right: 10px;
-  font-size: 1.8rem;
+  font-size: 1.3rem;
 }
 
 .item-price {
@@ -245,6 +157,7 @@ section h2 {
   align-items: center;
   gap: 12px;
   margin-top: 15px;
+  justify-content: center;
 }
 
 .btn-decrease,
@@ -1162,16 +1075,22 @@ button#btnLimparCarrinho {
   font-weight: 600;
   cursor: pointer;
   text-transform: uppercase;
+
   font-size: 0.85rem;
   transition: all 0.2s ease;
   margin:20px auto;
 }
 
-.btn-personalizar-direto:hover {
+.btn-personalizar:hover {
   background-color: #ff5722;
   color: white;
 }
-
+@media screen and (max-width: 576px) {
+  .btn-personalizar{
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+}
 /* Campo de observações */
 .observacoes-container {
   margin: 15px 0;
@@ -1747,6 +1666,7 @@ button {
     font-size: 1rem;
     padding: 6px 10px;
   }
+ 
 }
 
 /* Estilos dark mode para botões de adicionais e quantidade */
@@ -2248,23 +2168,6 @@ box-shadow: 2px 2px 10px 5px rgb(245, 115, 115);
   display: none;
 }
 
-html{
-  animation: mostra 2s normal;
-}
-
-@keyframes mostra {
-  0%{
-    transform: translateX(-30px);
-    opacity: 0;
-  }
-  100%{
-    transform: translateX(0);
-    opacity: 1;
-  }
- 50%{
-  transform: translateY(20px);
- }
-}
 .girar{
   animation: pular 3s infinite;
 }
